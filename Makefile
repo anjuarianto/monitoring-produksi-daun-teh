@@ -46,3 +46,13 @@ dev:
 .PHONY: watch
 watch:
 	$(sail) npm run dev 
+
+
+.PHONY: clear
+clear:
+	$(sail) php artisan view:clear
+	$(sail) php artisan view:cache
+	$(sail) php artisan route:clear
+	$(sail) php artisan route:cache
+	$(sail) php artisan config:clear
+	$(sail) php artisan config:cache
