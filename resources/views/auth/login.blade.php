@@ -10,26 +10,34 @@
                         height="36" alt=""></a>
             </div>
             <h2 class="h2 text-center mb-4">Masukan Akun Anda</h2>
-            <form action="./" method="get" autocomplete="off" novalidate>
+            <form method="POST" action="{{route('login')}}">
+                @csrf
                 <div class="mb-3">
                     <label class="form-label">Alamat Email</label>
-                    <input type="email" class="form-control" placeholder="Masukkan email..." autocomplete="off">
+                    <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" placeholder="Masukkan email..." autocomplete="off" required>
+                    @error('email')
+                    <div class="invalid-feedback">{{$message}}</div>
+                    @enderror
                 </div>
+                    
                 <div class="mb-2">
                     <label class="form-label">
                         Password
-
                     </label>
-                    <div class="input-group input-group-flat">
-                        <input type="password" id="password" name="password" class="form-control"
-                            placeholder="Masukkan password..." autocomplete="off">
+                    <div class="input-group">
+                        <input type="password" id="password" name="password" class="form-control @error('password') is-invalid @enderror"
+                            placeholder="Masukkan password..." autocomplete="off" required>
                         <span class="input-group-text">
                             <button type="button" class="link-secondary" id="button-show-password" tabindex="-1"
                                 title="Show password">
                                 <i id="icon-show-password" class="fas fa-eye"></i>
                             </button>
                         </span>
+                        @error('password')
+                    <div class="invalid-feedback">{{$message}}</div>
+                    @enderror
                     </div>
+                    
                 </div>
                 <div class="mb-2">
                     <div class="d-flex justify-content-between">

@@ -27,7 +27,8 @@
 
 @section('content')
 <div class="container container-tight py-4">
-    <form class="card card-md" action="./" method="get" autocomplete="off" novalidate>
+    <form class="card card-md" action="{{route('register')}}" method="POST">
+        @csrf
         <div class="card-body">
             <div class="text-center mb-4">
                 <a href="." class="navbar-brand navbar-brand-autodark"><img style="width:150px" src="./static/logo.svg"
@@ -65,12 +66,16 @@
                 <label class="form-label">Golongan</label>
                 <select type="email" class="form-control" required>
                     <option value="" disabled selected>--Pilih Golongan--</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
                 </select>
             </div>
             <div class="mb-3">
                 <label class="form-label">Tempat Lahir</label>
                 <select type="email" class="form-control" required>
-                    <option value="" disabled selected>--Pilih Golongan--</option>
+                    <option value="" disabled selected>--Pilih Tempat Lahir--</option>
+                    <option value="Jakarta">Jakarta</option>
                 </select>
             </div>
             <div class="mb-3">
