@@ -27,90 +27,142 @@
 
 @section('content')
 <div class="container container-tight py-4">
-    <form class="card card-md" action="{{route('register')}}" method="POST">
+    <form class="card card-md" action="{{ route('register') }}" method="POST">
         @csrf
         <div class="card-body">
             <div class="text-center mb-4">
-                <a href="." class="navbar-brand navbar-brand-autodark"><img style="width:150px" src="./static/logo.svg"
+                <a href="." class="navbar-brand navbar-brand-autodark"><img style="width:150px" src="./static/logo.jpg"
                         height="36" alt=""></a>
             </div>
             <h2 class="card-title text-center mb-4">Daftar sebagai karyawan</h2>
             <div class="mb-3">
                 <label class="form-label">Nama</label>
-                <input type="text" class="form-control" placeholder="Masukkan nama..." required>
+                <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+                    placeholder="Masukkan nama..." required>
             </div>
+            @error('nama')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
             <div class="mb-3">
                 <label class="form-label">Email</label>
-                <input type="email" class="form-control" placeholder="Masukkan email..." required>
+                <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
+                    placeholder="Masukkan email..." required>
+                @error('email')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
             <div class="mb-3">
                 <label class="form-label">Password</label>
-                <div class="input-group input-group-flat">
-                    <input type="password" class="form-control" placeholder="Masukkan password..." autocomplete="off">
+                <div class="input-group">
+                    <input type="password" name="password" id="password"
+                        class="form-control @error('password') is-invalid @enderror" placeholder="Masukkan password..."
+                        autocomplete="off">
                     <span class="input-group-text">
-                        <a href="#" class="link-secondary" title="Show password" data-bs-toggle="tooltip">
-                            <!-- Download SVG icon from http://tabler-icons.io/i/eye -->
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
-                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
-                                <path
-                                    d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
-                            </svg>
-                        </a>
+                        <button type="button" class="link-secondary" id="button-show-password" tabindex="-1"
+                            title="Show password">
+                            <i id="icon-show-password" class="fas fa-eye"></i>
+                        </button>
                     </span>
+                    @error('password')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
+
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Password Confirmation</label>
+                <div class="input-group">
+                    <input type="password" name="password_confirmation"
+                        class="form-control @error('password_confirmation') is-invalid @enderror"
+                        placeholder="Masukkan password confirmation..." autocomplete="off">
+                    <span class="input-group-text">
+                        <button type="button" class="link-secondary" id="button-show-confirmation" tabindex="-1"
+                            title="Show password">
+                            <i id="icon-show-password" class="fas fa-eye"></i>
+                        </button>
+                    </span>
+                    @error('password_confirmation')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
             </div>
             <div class="mb-3">
                 <label class="form-label">Golongan</label>
-                <select type="email" class="form-control" required>
+                <select name="golongan" id="golongan" class="form-control @error('golongan') is-invalid @enderror"
+                    required>
                     <option value="" disabled selected>--Pilih Golongan--</option>
                     <option value="A">A</option>
                     <option value="B">B</option>
                     <option value="C">C</option>
                 </select>
+                @error('golongan')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
             <div class="mb-3">
                 <label class="form-label">Tempat Lahir</label>
-                <select type="email" class="form-control" required>
+                <select name="tempat_lahir" id="tempat-lahir"
+                    class="form-control @error('tempat_lahir') is-invalid @enderror" required>
                     <option value="" disabled selected>--Pilih Tempat Lahir--</option>
                     <option value="Jakarta">Jakarta</option>
                 </select>
+                @error('tempat_lahir')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
             <div class="mb-3">
                 <label class="form-label">Tanggal Lahir</label>
                 <div class="row g-2">
                     <div class="col-3">
-                        <select name="user[day]" class="form-select">
+                        <select name="tanggal" class="form-select @error('tanggal') is-invalid @enderror">
                             @foreach(General::getListTanggal() as $item)
                                 <option value="{{ $item }}">{{ $item }}</option>
                             @endforeach
                         </select>
+                        @error('tanggal')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="col-5">
-                        <select name="user[month]" class="form-select select2">
+                        <select name="bulan" class="form-select select2 @error('bulan') is-invalid @enderror">
                             @foreach(General::getListBulan() as $key => $item)
                                 <option value="{{ $key }}">{{ $item }}</option>
                             @endforeach
                         </select>
+                        @error('bulan')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="col-4">
-                        <select name="user[year]" id="list-tahun" class="form-select">
+                        <select name="tahun" id="list-tahun" class="form-select @error('tahun') is-invalid @enderror">
                             @foreach(General::getListTahun() as $item)
                                 <option value="{{ $item }}">{{ $item }}</option>
                             @endforeach
                         </select>
+                        @error('tahun')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
             </div>
             <div class="mb-3">
                 <label class="form-label">No. Handphone</label>
-                <input type="text" class="form-control" placeholder="Masukkan no. handphone..." required>
+                <input type="text" name="no_handphone" id="no-handphone"
+                    class="form-control @error('no_handphone') is-invalid @enderror"
+                    placeholder="Masukkan no. handphone..." required>
+                @error('no_handphone')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
             <div class="mb-3">
                 <label class="form-label">Alamat</label>
-                <textarea name="" id="" class="form-control" cols="30" rows="2" placeholder="Masukkan alamat..."></textarea>
+                <textarea name="alamat" id="alamat" maxlength="255"
+                    class="form-control @error('alamat') is-invalid @enderror" cols="30" rows="2"
+                    placeholder="Masukkan alamat..."></textarea>
+                @error('alamat')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
             <div class="form-footer">
                 <button type="submit" class="btn btn-primary w-100">Create new account</button>
@@ -118,7 +170,7 @@
         </div>
     </form>
     <div class="text-center text-muted mt-3">
-        Sudah punya akun? <a href="{{route('login')}}" tabindex="-1">Login</a>
+        Sudah punya akun? <a href="{{ route('login') }}" tabindex="-1">Login</a>
     </div>
 </div>
 @endsection
@@ -126,8 +178,29 @@
 
 @section('js')
 <script type="module">
+
     $(document).ready(function() {
-        $('#list-tahun').select2()
+        $('#list-tahun').select2();
+
+        $('#button-show-password, #button-show-confirmation').on('click', function(element) {
+            var input = $(this).parent().prev();
+            var iconShowPassword =  $(this).children();
+            console.log(iconShowPassword)
+
+            if (input.attr("type") == 'password') {
+                input.attr("type", "text");
+                iconShowPassword.removeClass();
+                iconShowPassword.addClass("fas fa-eye-slash");
+            } else {
+                input.attr("type", "password");
+                iconShowPassword.removeClass();
+                iconShowPassword.addClass("fas fa-eye");
+            }
+        });
+
+        let buttonShowPassword = document.getElementById('button-show-password');
+
     })
 </script>
+
 @endsection

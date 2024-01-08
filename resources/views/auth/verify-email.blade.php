@@ -1,31 +1,45 @@
-<x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-        {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
-    </div>
+@extends('auth.app')
 
-    @if (session('status') == 'verification-link-sent')
-        <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
-            {{ __('A new verification link has been sent to the email address you provided during registration.') }}
-        </div>
-    @endif
-
-    <div class="mt-4 flex items-center justify-between">
-        <form method="POST" action="{{ route('verification.send') }}">
-            @csrf
-
-            <div>
-                <x-primary-button>
-                    {{ __('Resend Verification Email') }}
-                </x-primary-button>
+@section('content')
+<div class="container container-tight py-4">
+    <div class="card card-md">
+        <div class="card-body">
+            <div class="text-center mb-4">
+                <a href="." class="navbar-brand navbar-brand-autodark"><img style="width:150px" src="./static/logo.jpg"
+                        height="36" alt=""></a>
             </div>
-        </form>
-
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-
-            <button type="submit" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
-                {{ __('Log Out') }}
-            </button>
-        </form>
+            <h2 class="card-title text-center mb-4">Verifikasi email sebelum lanjut</h2>
+            <p>Akun anda sudah terdaftar, silahkan verifikasi ke email terlebih dahulu untuk dapat melanjutkan ke dalam aplikasi. <br>Tekan tombol kirim ulang link jika tidak menerima email</p>
+            @if (session('status') == 'verification-link-sent')
+            <div class="alert alert-success" role="alert">
+                <div class="d-flex">
+                  <div>
+                    <!-- Download SVG icon from http://tabler-icons.io/i/check -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M5 12l5 5l10 -10"></path></svg>
+                  </div>
+                  <div>
+                    Link verifikasi sudah di kirim ke email anda, silahkan klik link yang telah dikirim
+                  </div>
+                </div>
+              </div>
+            @endif
+            <div class="form-footer">
+                <div class="row">
+                    <div class="col-md-8">
+                        <form action="{{ route('verification.send') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-primary w-100">Kirim ulang link verifikasi</button>
+                        </form>
+                    </div>
+                    <div class="col-md-4">
+                        <form action="{{route('logout')}}" method="POST">
+                            @csrf
+                            <button class="btn btn-outline-secondary w-100">Logout</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</x-guest-layout>
+</div>
+@endsection

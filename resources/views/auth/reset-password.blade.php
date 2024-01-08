@@ -1,39 +1,99 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('password.store') }}">
-        @csrf
+@extends('auth.app')
 
-        <!-- Password Reset Token -->
-        <input type="hidden" name="token" value="{{ $request->route('token') }}">
-
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+@section('content')
+<div class="container container-tight py-4">
+    <div class="card card-md">
+        <div class="card-body">
+            <div class="text-center mb-4">
+                <a href="." class="navbar-brand navbar-brand-autodark"><img style="width:150px" src="{{URL::to('/static/logo.svg')}}"
+                        height="36" alt=""></a>
+            </div>
+            <h2 class="card-title text-center mb-4">Reset Password</h2>
+            <form method="POST" action="{{ route('password.store') }}">
+                @csrf
+        
+                <!-- Password Reset Token -->
+                <input type="hidden" name="token" value="{{ $request->route('token') }}">
+        
+                <!-- Email Address -->
+                <div class="mb-3">
+                    <label class="form-label">Alamat Email</label>
+                    <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{$request->email}}"
+                        placeholder="Masukkan email..." autocomplete="off" required readonly>
+                    @error('email')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+        
+                <!-- Password -->
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <div class="input-group">
+                        <input type="password" name="password" id="password" class="form-control @error('password') is-invalid @enderror" placeholder="Masukkan password..." autocomplete="off">
+                        <span class="input-group-text">
+                            <button type="button" class="link-secondary" id="button-show-password" tabindex="-1"
+                                title="Show password">
+                                <i id="icon-show-password" class="fas fa-eye"></i>
+                            </button>
+                        </span>
+                        @error('password')
+                        <div class="invalid-feedback">{{$message}}</div>
+                        @enderror
+                    </div>
+                   
+                </div>
+        
+                <!-- Confirm Password -->
+                <div class="mb-3">
+                    <label class="form-label">Password Confirmation</label>
+                    <div class="input-group">
+                        <input type="password" name="password_confirmation" class="form-control @error('password_confirmation') is-invalid @enderror" placeholder="Masukkan password confirmation..." autocomplete="off">
+                        <span class="input-group-text">
+                            <button type="button" class="link-secondary" id="button-show-confirmation" tabindex="-1"
+                                title="Show password">
+                                <i id="icon-show-password" class="fas fa-eye"></i>
+                            </button>
+                        </span>
+                        @error('password_confirmation')
+                        <div class="invalid-feedback">{{$message}}</div>
+                        @enderror
+                    </div>
+                </div>
+        
+                <div class="form-footer">
+                    <button type="submit" class="btn btn-primary w-100">Reset Password</button>
+                </div>
+            </form>
         </div>
+    </div>
+</div>
+@endsection
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+@section('js')
+<script type="module">
+    
+    $(document).ready(function() {
+        $('#list-tahun').select2();
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+        $('#button-show-password, #button-show-confirmation').on('click', function(element) {
+            var input = $(this).parent().prev();
+            var iconShowPassword =  $(this).children();
+            console.log(iconShowPassword)
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                                type="password"
-                                name="password_confirmation" required autocomplete="new-password" />
+            if (input.attr("type") == 'password') {
+                input.attr("type", "text");
+                iconShowPassword.removeClass();
+                iconShowPassword.addClass("fas fa-eye-slash");
+            } else {
+                input.attr("type", "password");
+                iconShowPassword.removeClass();
+                iconShowPassword.addClass("fas fa-eye");
+            }
+        });
 
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
+        let buttonShowPassword = document.getElementById('button-show-password');
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Reset Password') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+    })
+</script>
+
+@endsection
