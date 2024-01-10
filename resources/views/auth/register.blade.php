@@ -22,12 +22,19 @@
         height: 34px !important;
     }
 
+
+    .btn-show-password {
+        padding: 0;
+        border: none;
+        background: none;
+    }
+
 </style>
 @endsection
 
 @section('content')
 <div class="container container-tight py-4">
-    <form class="card card-md" action="{{ route('register') }}" method="POST">
+    <form class="card card-md" action="{{ route('register') }}" method="POST" novalidate>
         @csrf
         <div class="card-body">
             <div class="text-center mb-4">
@@ -37,7 +44,7 @@
             <h2 class="card-title text-center mb-4">Daftar sebagai karyawan</h2>
             <div class="mb-3">
                 <label class="form-label">Nama</label>
-                <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+                <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{old('name')}}"
                     placeholder="Masukkan nama..." required>
             </div>
             @error('nama')
@@ -45,7 +52,7 @@
             @enderror
             <div class="mb-3">
                 <label class="form-label">Email</label>
-                <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
+                <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{old('email')}}"
                     placeholder="Masukkan email..." required>
                 @error('email')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -58,7 +65,7 @@
                         class="form-control @error('password') is-invalid @enderror" placeholder="Masukkan password..."
                         autocomplete="off">
                     <span class="input-group-text">
-                        <button type="button" class="link-secondary" id="button-show-password" tabindex="-1"
+                        <button type="button" class="link-secondary btn-show-password" id="button-show-password" tabindex="-1"
                             title="Show password">
                             <i id="icon-show-password" class="fas fa-eye"></i>
                         </button>
@@ -67,7 +74,6 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
-
             </div>
             <div class="mb-3">
                 <label class="form-label">Password Confirmation</label>
@@ -76,7 +82,7 @@
                         class="form-control @error('password_confirmation') is-invalid @enderror"
                         placeholder="Masukkan password confirmation..." autocomplete="off">
                     <span class="input-group-text">
-                        <button type="button" class="link-secondary" id="button-show-confirmation" tabindex="-1"
+                        <button type="button" class="link-secondary btn-show-password" id="button-show-confirmation" tabindex="-1"
                             title="Show password">
                             <i id="icon-show-password" class="fas fa-eye"></i>
                         </button>
@@ -92,7 +98,7 @@
                 <select name="golongan" id="golongan" class="form-control @error('golongan') is-invalid @enderror"
                     required>
                     <option value="" disabled selected>--Pilih Golongan--</option>
-                    <option value="A">A</option>
+                    <option value="A" {{old('golongan') == 'A' ?  'selected' : ''}}>A</option>
                     <option value="B">B</option>
                     <option value="C">C</option>
                 </select>
