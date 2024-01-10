@@ -1,5 +1,16 @@
 @extends('auth.app')
 
+
+@section('css')
+<style>
+    .btn-show-password {
+        padding: 0;
+        border: none;
+        background: none;
+    }
+</style>
+@endsection
+
 @section('content')
 
 <div class="container container-tight py-4">
@@ -10,7 +21,7 @@
                         height="36" alt=""></a>
             </div>
             <h2 class="h2 text-center mb-4">Masukan Akun Anda</h2>
-            <form method="POST" action="{{ route('login') }}">
+            <form method="POST" action="{{ route('login') }}" novalidate>
                 @csrf
                 <div class="mb-3">
                     <label class="form-label">Alamat Email</label>
@@ -30,7 +41,7 @@
                             class="form-control @error('password') is-invalid @enderror"
                             placeholder="Masukkan password..." autocomplete="off" required>
                         <span class="input-group-text">
-                            <button type="button" class="link-secondary" id="button-show-password" tabindex="-1"
+                            <button type="button" class="link-secondary btn-show-password" id="button-show-password" tabindex="-1"
                                 title="Show password">
                                 <i id="icon-show-password" class="fas fa-eye"></i>
                             </button>
