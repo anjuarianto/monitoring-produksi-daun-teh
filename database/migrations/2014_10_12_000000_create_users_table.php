@@ -3,6 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use DB;
 
 return new class extends Migration
@@ -27,17 +29,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        DB::table('users')->insert([
-            'name' => 'Super Admin',
-            'email' => 'superadmin@mail.com',
-            'email_verified_at' => date('Y-m-d H:i:s'),
-            'password' => password_hash('superadmin', PASSWORD_DEFAULT),
-            'golongan' => 00,
-            'tempat_lahir' => 'JAKARTA',
-            'tanggal_lahir' => date('Y-m-d H:i:s'),
-            'no_handphone' => 0000,
-            'alamat' => 'Indonesia'
-        ]);
     }
 
     /**

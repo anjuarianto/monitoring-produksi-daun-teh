@@ -27,7 +27,11 @@
           </a>
           <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
             <a href="./settings.html" class="dropdown-item">Profile</a>
-            <a href="./sign-in.html" class="dropdown-item">Logout</a>
+            <form action="{{route('logout')}}" method="POST">
+                @csrf
+                <button type="submit" class="dropdown-item">Logout</button>
+            </form>
+            
           </div>
         </div>
       </div>

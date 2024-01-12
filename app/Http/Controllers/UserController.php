@@ -5,15 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use Auth;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
-     */
+    */
     public function index()
     {
-        return view('user.index');
+        $users = User::get();
+        return view('users.index', compact('users'));
     }
 
     /**
