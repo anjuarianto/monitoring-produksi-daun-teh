@@ -7,11 +7,10 @@ $data_page = [
     'sub_title' => 'Daftar User',
     'create_button' => [
         'is_enabled' => TRUE,
-        'caption' => 'Buat User Baru',
-        'redirect' => route('user.create')
+        'caption' => 'Buat User',
+        'redirect' => route('users.create')
     ]
 ];
-
 @endphp
 
 @section('content')
@@ -24,34 +23,41 @@ $data_page = [
                         <tr>
                             <th>Nama</th>
                             <th>Email</th>
+                            <th>Role</th>
                             <th>Golongan</th>
                             <th>No. Handphone</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($users as $user)
                         <tr>
-                            
-                            <td>Anju Arianto</td>
-                            <td>anjuarianto@gmail.com</td>
-                            <td>1 C</td>
-                            <td>081299126614</td>
+                            <td>{{$user->name}}</td>
+                            <td>{{$user->email}}</td>
+                            <td>
+                                @foreach ($user->getRoleNames() as $roleName)
+                                <span class="badge bg-blue text-blue-fg">{{$roleName}}</span>
+                                @endforeach
+                            </td>
+                            <td>{{$user->golongan}}</td>
+                            <td>{{$user->no_handphone}}</td>
                             <td>
                                 <div class="dropdown" id="myDropdown">
-                                    <button class="btn dropdown-toggle align-text-top" data-bs-toggle="dropdown">
+                                    <button class="btn btn-sm dropdown-toggle align-text-top" data-bs-toggle="dropdown">
                                       Actions
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end">
                                       <a class="dropdown-item" href="#">
-                                        Action
+                                        Edit
                                       </a>
                                       <a class="dropdown-item" href="#">
-                                        Another action
+                                        Delete
                                       </a>
                                     </div>
                                   </div>
                             </td>
                         </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

@@ -217,7 +217,31 @@
                         </span>
                     </a>
                 </li>
-            </ul>
+
+                {{-- User Management Menu --}}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#navbar-help" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false">
+                        <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/lifebuoy -->
+                            <i class="fas fa-user"></i>
+                        </span>
+                        <span class="nav-link-title">
+                            User Management
+                        </span>
+                    </a>
+
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{{route('users.index')}}">
+                            Users
+                        </a>
+                        <a class="dropdown-item" href="{{route('roles.index')}}">
+                            Roles
+                        </a>
+                        <a class="dropdown-item" href="{{route('permissions.index')}}">
+                            Permissions
+                        </a>
+                    </div>
+                </li>
+            </ul>            
         </div>
     </div>
 </aside>
