@@ -40,8 +40,9 @@ class PermissionsController extends Controller
      */
     public function store(Request $request)
     {   
+
         $request->validate([
-            'name' => 'required|unique:users,name'
+            'name' => 'required|unique:permissions,name'
         ]);
 
         Permission::create($request->only('name'));
@@ -79,7 +80,7 @@ class PermissionsController extends Controller
         $permission->update($request->only('name'));
 
         return redirect()->route('permissions.index')
-            ->withSuccess(__('Permission updated successfully.'));
+            ->withSuccess(__('Data berhasil diubah'));
     }
 
     /**
@@ -93,6 +94,6 @@ class PermissionsController extends Controller
         $permission->delete();
 
         return redirect()->route('permissions.index')
-            ->withSuccess(__('Permission deleted successfully.'));
+            ->withSuccess(__('Data berhasil dihapus'));
     }
 }

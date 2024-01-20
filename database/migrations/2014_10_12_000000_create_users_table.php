@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->string('golongan');
+            $table->string('jenis_karyawan');
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
             $table->string('no_handphone');

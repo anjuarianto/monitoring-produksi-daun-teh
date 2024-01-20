@@ -6,7 +6,7 @@
         </button>
         <h1 class="navbar-brand navbar-brand-autodark">
             <a href=".">
-                <img style="width:110px; height: 55px" src="./static/logo.jpg" width="110"
+                <img style="width:110px; height: 55px" src="{{URL::to('/static/logo.jpg')}}" width="110"
                     height="32" alt="Tabler">
             </a>
         </h1>
@@ -218,7 +218,65 @@
                     </a>
                 </li>
 
+                
+                {{-- Laporan --}}
+                @can('laporan-list')
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('laporan.index')}}">
+                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                            <i class="fas fa-archive"></i>
+                        </span>
+                        <span class="nav-link-title">
+                            Laporan
+                        </span>
+                    </a>
+                </li>
+                @endcan
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('laporan.index')}}">
+                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                            <i class="fas fa-clock"></i>
+                        </span>
+                        <span class="nav-link-title">
+                            Absen Karyawan
+                        </span>
+                    </a>
+                </li>
+
+                {{-- Master Menu --}}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#navbar-help" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false">
+                        <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/lifebuoy -->
+                            <i class="fa-solid fa-layer-group"></i>
+                        </span>
+                        <span class="nav-link-title">
+                            Master
+                        </span>
+                    </a>
+
+
+                    <div class="dropdown-menu">
+                        @can('golongan-list')
+                        <a class="dropdown-item" href="{{route('golongan.index')}}">
+                            Golongan
+                        </a>
+                        @endcan
+                        @can('blok-list')
+                        <a class="dropdown-item" href="{{route('blok.index')}}">
+                            Blok
+                        </a>
+                        @endcan
+                        @can('karyawan-list')
+                        <a class="dropdown-item" href="{{route('karyawan.index')}}">
+                            Karyawan
+                        </a>
+                        @endcan
+                    </div>
+                </li>
+
                 {{-- User Management Menu --}}
+                @role('Admin')
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#navbar-help" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false">
                         <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/lifebuoy -->
@@ -241,6 +299,9 @@
                         </a>
                     </div>
                 </li>
+                @endrole
+
+              
             </ul>            
         </div>
     </div>

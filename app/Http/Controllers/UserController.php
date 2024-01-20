@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Golongan;
+use Spatie\Permission\Models\Role;
 use App\Models\User;
 use Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -23,7 +26,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $golongans = Golongan::get();
+        $roles = Role::get();
+        return view('users.create', compact('golongans', 'roles'));
     }
 
     /**
@@ -31,7 +36,22 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        //
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'golongan' => $request->golongan,
+            'tempat_lahir' => $request->tempat_lahir,
+            'tanggal_lahir' => $request->tahun.'-'.$request->bulan.'-'.$request->tanggal,
+            'no_handphone' => $request->no_handphone,
+            'alamat' => $request->alamat
+        ]);
+
+        $role = Role::find($request->role);
+
+        $user->assignRole($role->name);
+
+        return redirect()->route('users.index')->withSuccess('Data berhasil ditambah');
     }
 
     /**
@@ -47,7 +67,9 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        $roles = Role::get();
+        $golongans = Golongan::get();
+        return view('users.edit', compact('user', 'golongans', 'roles'));
     }
 
     /**
@@ -55,7 +77,24 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        
+        $user->update([
+            'name' => $request->name,
+            'password' => Hash::make($request->password),
+            'golongan' => $request->golongan,
+            'tempat_lahir' => $request->tempat_lahir,
+            'tanggal_lahir' => $request->tahun.'-'.$request->bulan.'-'.$request->tanggal,
+            'no_handphone' => $request->no_handphone,
+            'alamat' => $request->alamat
+        ]);
+
+        $user->roles()->detach();
+
+        $role = Role::find($request->role);
+
+        $user->assignRole([$role->id]);
+
+        return redirect()->route('users.index')->withSuccess('Data berhasil diubah');
     }
 
     /**
@@ -63,6 +102,9 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        return redirect()->route('users.index')
+            ->withSuccess(__('Data berhasil dihapus'));
     }
 }

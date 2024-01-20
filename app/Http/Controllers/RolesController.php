@@ -52,6 +52,7 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $this->validate($request, [
             'name' => 'required|unique:roles,name',
             'permission' => 'required',
@@ -61,7 +62,7 @@ class RolesController extends Controller
         $role->syncPermissions($request->get('permission'));
     
         return redirect()->route('roles.index')
-                        ->with('success','Role created successfully');
+                        ->with('success','Data berhasil ditambah');
     }
 
     /**
@@ -89,7 +90,7 @@ class RolesController extends Controller
         $role = $role;
         $rolePermissions = $role->permissions->pluck('name')->toArray();
         $permissions = Permission::get();
-    
+        
         return view('roles.edit', compact('role', 'rolePermissions', 'permissions'));
     }
     
@@ -112,7 +113,7 @@ class RolesController extends Controller
         $role->syncPermissions($request->get('permission'));
     
         return redirect()->route('roles.index')
-                        ->with('success','Role updated successfully');
+                        ->with('success','Data berhasil diubah');
     }
 
     /**
@@ -126,6 +127,6 @@ class RolesController extends Controller
         $role->delete();
 
         return redirect()->route('roles.index')
-                        ->with('success','Role deleted successfully');
+                        ->with('success','Data berhasil dihapus');
     }
 }

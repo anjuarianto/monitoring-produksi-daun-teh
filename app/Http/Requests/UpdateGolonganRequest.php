@@ -3,10 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules;
-use App\Models\User;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
 
-class UpdateUserRequest extends FormRequest
+class UpdateGolonganRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +24,9 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'golongan' => ['required'],
-            'tempat_lahir' => ['required'],
-            'tanggal' => ['required'],
-            'bulan' => ['required'],
-            'tahun' => ['required'],
-            'no_handphone' => ['required'],
-            'alamat' => ['required', 'max:255']
+            'name' => 'required|unique:golongan,name,'.$this->golongan->id
         ];
+        
+        
     }
 }

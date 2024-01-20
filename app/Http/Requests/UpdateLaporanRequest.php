@@ -3,17 +3,15 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules;
-use App\Models\User;
 
-class UpdateUserRequest extends FormRequest
+class UpdateLaporanRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -24,14 +22,7 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'golongan' => ['required'],
-            'tempat_lahir' => ['required'],
-            'tanggal' => ['required'],
-            'bulan' => ['required'],
-            'tahun' => ['required'],
-            'no_handphone' => ['required'],
-            'alamat' => ['required', 'max:255']
+            //
         ];
     }
 }
