@@ -4,6 +4,10 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\PermissionsController;
+use App\Http\Controllers\GolonganController;
+use App\Http\Controllers\BlokController;
+use App\Http\Controllers\KaryawanController;
+use App\Http\Controllers\LaporanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,9 +29,27 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::resource('users', UserController::class);
-    Route::resource('roles', RolesController::class);
-    Route::resource('permissions', PermissionsController::class);
+
+    
+    Route::resource('laporan', LaporanController::class);
+    
+    Route::group(['prefix' => 'karyawan', 'as' => 'karyawan.'], function() {
+        Route::get('/', [KaryawanController::class, 'index'])->name('index');
+        Route::get('/show/{karyawan}', [KaryawanController::class, 'show'])->name('show');
+        Route::get('/edit/{karyawan}', [KaryawanController::class, 'edit'])->name('edit');
+        Route::put('/update/{karyawan}', [KaryawanController::class, 'update'])->name('update');
+    });
+
+    Route::resource('golongan', GolonganController::class);
+    Route::resource('blok', BlokController::class);
+
+    Route::middleware(['role:Admin'])->group(function() {
+        Route::resource('users', UserController::class);
+        Route::resource('roles', RolesController::class);
+        Route::resource('permissions', PermissionsController::class);
+        
+    });
+    
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

@@ -3,12 +3,12 @@
 
 @php
 $data_page = [
-    'title' => 'Permissions',
-    'sub_title' => 'Daftar Permission',
+    'title' => 'Blok',
+    'sub_title' => 'Daftar Blok',
     'create_button' => [
         'is_enabled' => TRUE,
-        'caption' => 'Buat Permission',
-        'redirect' => route('permissions.create')
+        'caption' => 'Buat Blok',
+        'redirect' => route('blok.create')
     ]
 ];
 @endphp
@@ -38,25 +38,26 @@ $data_page = [
                     <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Guard Name</th>
+                            <th>Luas Areal</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($permissions as $permission)
+                        @if (count($bloks) > 0)
+                        @foreach ($bloks as $blok)
                         <tr>
-                            <td>{{$permission->name}}</td>
-                            <td>{{$permission->guard_name}}</td>
+                            <td>{{$blok->name}}</td>
+                            <td>{{$blok->luas_areal}} Ha</td>
                             <td class="text-end">
                                 <div class="dropdown" id="myDropdown">
                                     <button class="btn btn-sm dropdown-toggle align-text-top" data-bs-toggle="dropdown">
                                       Actions
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end">
-                                      <a class="dropdown-item" href="{{route('permissions.edit', $permission->id)}}">
+                                      <a class="dropdown-item" href="{{route('blok.edit', $blok->id)}}">
                                         Edit
                                       </a>
-                                      <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-delete" data-bs-action-url="{{route('permissions.destroy', $permission->id)}}">
+                                      <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-delete" data-bs-action-url="{{route('blok.destroy', $blok->id)}}">
                                         Delete
                                       </button>
                                     </div>
@@ -64,6 +65,11 @@ $data_page = [
                             </td>
                         </tr>
                         @endforeach
+                        @else
+                        <tr class="text-center">
+                          <td colspan="2"> Tidak ada data</td>
+                        </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>
@@ -75,7 +81,7 @@ $data_page = [
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-body">
-          <div class="modal-title">Delete Permission</div>
+          <div class="modal-title">Delete Blok</div>
           <div>Apakah anda yakin ingin menghapus data ini?</div>
         </div>
         <div class="modal-footer">
@@ -106,7 +112,7 @@ $data_page = [
 
     const modalDelete = document.getElementById('modal-delete');
     if (modalDelete) {
-        modalDelete.addEventListener('show.bs.modal', event => {
+      modalDelete.addEventListener('show.bs.modal', event => {
 
         const button = event.relatedTarget;
         
@@ -116,7 +122,7 @@ $data_page = [
         const modalForm = modalDelete.querySelector('form')
 
         modalForm.action = actionUrl;
-    });
+      });
     }
 
 </script>

@@ -23,6 +23,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'golongan',
+        'jenis_karyawan',
         'tempat_lahir',
         'tanggal_lahir',
         'no_handphone',
@@ -48,4 +49,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
 }

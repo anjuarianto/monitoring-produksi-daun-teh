@@ -2,13 +2,18 @@
 @extends('layouts.app')
 
 @php
+use App\Models\General;
+
+$filter_bulan = app('request')->input('filter-bulan') ? app('request')->input('filter-bulan') : date('m');
+$filter_tahun = app('request')->input('filter-tahun') ? app('request')->input('filter-tahun') : date('Y');
+
 $data_page = [
-    'title' => 'Permissions',
-    'sub_title' => 'Daftar Permission',
+    'title' => 'Laporan',
+    'sub_title' => 'Daftar Laporan',
     'create_button' => [
         'is_enabled' => TRUE,
-        'caption' => 'Buat Permission',
-        'redirect' => route('permissions.create')
+        'caption' => 'Buat Laporan',
+        'redirect' => route('laporan.create')
     ]
 ];
 @endphp
@@ -32,31 +37,62 @@ $data_page = [
   </div>
 @endif
     <div class="card">
+      <div class="card-header justify-content-between align-items-center" >
+        <h3 class="m-0">Tabel Laporan - {{$filter_bulan}}/{{$filter_tahun}}</h3>
+        <div>
+          <form action="{{route('laporan.index')}}" method="get">
+            <div class="row m-0">
+              <div class="row m-0 col-md-10">
+                <label class="col-md-2 col-form-label">Bulan</label>
+                <div class="col-md-4">
+                  <select class="form-select" name="filter-bulan">
+                    @foreach (General::getListBulan() as $key => $bulan)
+                    <option value="{{$key}}" {{$key == $filter_bulan ? 'selected' : ''}}>{{$bulan}}</option>
+                    @endforeach
+                  </select>
+                </div>
+                <label class="col-md-2 col-form-label">Tahun</label>
+                <div class="col-md-4">
+                  <select class="form-select" name="filter-tahun">
+                    @for ($i = (int) date('Y'); $i > (int) date('Y') - 3; $i--)
+                    <option value="{{$i}}" {{$i == $filter_tahun ? 'selected' : ''}}>{{$i}}</option>
+                    @endfor
+                  </select>
+                </div>
+              </div>
+              <div class="row m-0 col-md-2">
+                <button type="submit" class="btn btn-primary">Select</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Guard Name</th>
+                            <th>Tanggal</th>
+                            <th>Nama Petugas</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($permissions as $permission)
+                        @if (count($laporans) > 0)
+                        @foreach ($laporans as $laporan)
                         <tr>
-                            <td>{{$permission->name}}</td>
-                            <td>{{$permission->guard_name}}</td>
+                            <td>{{$laporan->tanggal}}</td>
+                            <td>{{$laporan->petugas_id}}</td>
                             <td class="text-end">
                                 <div class="dropdown" id="myDropdown">
                                     <button class="btn btn-sm dropdown-toggle align-text-top" data-bs-toggle="dropdown">
                                       Actions
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end">
-                                      <a class="dropdown-item" href="{{route('permissions.edit', $permission->id)}}">
+                                      <a class="dropdown-item" href="{{route('laporan.edit', $laporan->id)}}">
                                         Edit
                                       </a>
-                                      <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-delete" data-bs-action-url="{{route('permissions.destroy', $permission->id)}}">
+                                      <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-delete" data-bs-action-url="{{route('laporan.destroy', $laporan->id)}}">
                                         Delete
                                       </button>
                                     </div>
@@ -64,6 +100,11 @@ $data_page = [
                             </td>
                         </tr>
                         @endforeach
+                        @else
+                        <tr class="text-center">
+                          <td colspan="2"> Tidak ada data</td>
+                        </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>
@@ -75,7 +116,7 @@ $data_page = [
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-body">
-          <div class="modal-title">Delete Permission</div>
+          <div class="modal-title">Delete Laporan</div>
           <div>Apakah anda yakin ingin menghapus data ini?</div>
         </div>
         <div class="modal-footer">
@@ -106,7 +147,7 @@ $data_page = [
 
     const modalDelete = document.getElementById('modal-delete');
     if (modalDelete) {
-        modalDelete.addEventListener('show.bs.modal', event => {
+      modalDelete.addEventListener('show.bs.modal', event => {
 
         const button = event.relatedTarget;
         
@@ -116,7 +157,7 @@ $data_page = [
         const modalForm = modalDelete.querySelector('form')
 
         modalForm.action = actionUrl;
-    });
+      });
     }
 
 </script>

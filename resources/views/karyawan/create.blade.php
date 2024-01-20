@@ -1,49 +1,31 @@
-@extends('auth.app')
+@extends('layouts.app')
 
 @php
-    use App\Models\General;
+use App\Models\General;
+
+$data_page = [
+    'title' => 'Users',
+    'sub_title' => 'Buat Users',
+    'create_button' => [
+        'is_enabled' => FALSE,
+    ]
+];
 @endphp
 
-@section('css')
-<style>
-    .select2-selection {
-        border-color: #dadfe5 !important;
-    }
-
-    .select2-selection__rendered {
-        line-height: 31px !important;
-    }
-
-    .select2-container .select2-selection--single {
-        height: 35px !important;
-    }
-
-    .select2-selection__arrow {
-        height: 34px !important;
-    }
-
-
-</style>
-@endsection
-
 @section('content')
-<div class="container container-tight py-4">
-    <form class="card card-md" action="{{ route('register') }}" method="POST" novalidate>
-        @csrf
-        <div class="card-body">
-            <div class="text-center mb-4">
-                <a href="." class="navbar-brand navbar-brand-autodark"><img style="width:150px" src="./static/logo.jpg"
-                        height="36" alt=""></a>
-            </div>
-            <h2 class="card-title text-center mb-4">Daftar sebagai karyawan</h2>
+<div class="card">
+    <div class="card-body">
+        <form action="{{route('users.store')}}" method="post" novalidate>
+            @csrf
             <div class="mb-3">
                 <label class="form-label">Nama</label>
                 <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{old('name')}}"
                     placeholder="Masukkan nama..." required>
-                @error('nama')
+                @error('name')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
+            
             <div class="mb-3">
                 <label class="form-label">Email</label>
                 <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{old('email')}}"
@@ -85,16 +67,19 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
-
+    
             </div>
+
+
             <div class="mb-3">
                 <label class="form-label">Golongan</label>
                 <select name="golongan" id="golongan" class="form-control @error('golongan') is-invalid @enderror"
                     required>
                     <option value="" disabled selected>--Pilih Golongan--</option>
-                    <option value="A" {{old('golongan') == 'A' ?  'selected' : ''}}>A</option>
-                    <option value="B" {{old('golongan') == 'B' ?  'selected' : ''}}>B</option>
-                    <option value="C" {{old('golongan') == 'C' ?  'selected' : ''}}>C</option>
+                    @foreach ($golongans as $golongan)
+                    <option value="{{$golongan->id}}" {{old('golongan') == $golongan->id ?  'selected' : ''}}>{{$golongan->name}}</option>
+                    @endforeach
+                   
                 </select>
                 @error('golongan')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -105,7 +90,7 @@
                 <select name="tempat_lahir" id="tempat-lahir"
                     class="form-control @error('tempat_lahir') is-invalid @enderror" required>
                     <option value="" disabled selected>--Pilih Tempat Lahir--</option>
-                    <option value="Jakarta">Jakarta</option>
+                    <option value="Jakarta" {{old('tempat_lahir') ? 'selected':''}}>Jakarta</option>
                 </select>
                 @error('tempat_lahir')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -165,42 +150,10 @@
                 @enderror
             </div>
             <div class="form-footer">
-                <button type="submit" class="btn btn-primary w-100">Create new account</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a href="{{route('users.index')}}" class="btn btn-secondary">Back</a>
             </div>
-        </div>
-    </form>
-    <div class="text-center text-muted mt-3">
-        Sudah punya akun? <a href="{{ route('login') }}" tabindex="-1">Login</a>
+        </form>
     </div>
 </div>
-@endsection
-
-
-@section('js')
-<script type="module">
-
-    $(document).ready(function() {
-        $('#list-tahun').select2();
-
-        $('#button-show-password, #button-show-confirmation').on('click', function(element) {
-            var input = $(this).parent().prev();
-            var iconShowPassword =  $(this).children();
-            console.log(iconShowPassword)
-
-            if (input.attr("type") == 'password') {
-                input.attr("type", "text");
-                iconShowPassword.removeClass();
-                iconShowPassword.addClass("fas fa-eye-slash");
-            } else {
-                input.attr("type", "password");
-                iconShowPassword.removeClass();
-                iconShowPassword.addClass("fas fa-eye");
-            }
-        });
-
-        let buttonShowPassword = document.getElementById('button-show-password');
-
-    })
-</script>
-
 @endsection

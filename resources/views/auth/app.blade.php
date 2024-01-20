@@ -25,6 +25,12 @@
       body {
       	font-feature-settings: "cv03", "cv04", "cv11";
       }
+
+      .btn-show-password {
+        padding: 0;
+        border: none;
+        background: none;
+    }
     </style>
     @yield('css')
   </head>

@@ -3,12 +3,10 @@
 
 @php
 $data_page = [
-    'title' => 'Permissions',
-    'sub_title' => 'Daftar Permission',
+    'title' => 'Karyawan',
+    'sub_title' => 'Daftar Karyawan',
     'create_button' => [
-        'is_enabled' => TRUE,
-        'caption' => 'Buat Permission',
-        'redirect' => route('permissions.create')
+        'is_enabled' => FALSE,
     ]
 ];
 @endphp
@@ -37,28 +35,34 @@ $data_page = [
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Guard Name</th>
+                            <th>Nama</th>
+                            <th>Email</th>
+                            <th>Golongan</th>
+                            <th>Jenis Karyawan</th>
+                            <th>No. Handphone</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($permissions as $permission)
+                        @foreach ($karyawans as $karyawan)
                         <tr>
-                            <td>{{$permission->name}}</td>
-                            <td>{{$permission->guard_name}}</td>
-                            <td class="text-end">
+                            <td>{{$karyawan->name}}</td>
+                            <td>{{$karyawan->email}}</td>
+                            <td>{{$karyawan->golongan}}</td>
+                            <td>{{$karyawan->jenis_karyawan}}</td>
+                            <td>{{$karyawan->no_handphone}}</td>
+                            <td>
                                 <div class="dropdown" id="myDropdown">
                                     <button class="btn btn-sm dropdown-toggle align-text-top" data-bs-toggle="dropdown">
                                       Actions
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end">
-                                      <a class="dropdown-item" href="{{route('permissions.edit', $permission->id)}}">
+                                      <a class="dropdown-item" href="{{route('karyawan.show', $karyawan->id)}}">
+                                        View
+                                      </a>
+                                      <a class="dropdown-item" href="{{route('karyawan.edit', $karyawan->id)}}">
                                         Edit
                                       </a>
-                                      <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-delete" data-bs-action-url="{{route('permissions.destroy', $permission->id)}}">
-                                        Delete
-                                      </button>
                                     </div>
                                   </div>
                             </td>
@@ -71,29 +75,10 @@ $data_page = [
     </div>
 </div>
 
-<div class="modal modal-blur fade" id="modal-delete" tabindex="-1" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-body">
-          <div class="modal-title">Delete Permission</div>
-          <div>Apakah anda yakin ingin menghapus data ini?</div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-link link-secondary me-auto" data-bs-dismiss="modal">Kembali</button>
-          <form method="POST">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Ya, Hapus data</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
 @endsection
 
 @section('js')
 <script>
-    
     const myDropdown = document.getElementById('myDropdown');
     
     myDropdown.addEventListener('show.bs.dropdown', event => {
@@ -102,7 +87,7 @@ $data_page = [
 
     myDropdown.addEventListener('hide.bs.dropdown', event => {
         $('.table-responsive').css( "overflow", "auto" );
-    });
+    })
 
     const modalDelete = document.getElementById('modal-delete');
     if (modalDelete) {
@@ -118,6 +103,5 @@ $data_page = [
         modalForm.action = actionUrl;
     });
     }
-
 </script>
 @endsection

@@ -3,12 +3,12 @@
 
 @php
 $data_page = [
-    'title' => 'Permissions',
-    'sub_title' => 'Daftar Permission',
+    'title' => 'Roles',
+    'sub_title' => 'Daftar Roles',
     'create_button' => [
         'is_enabled' => TRUE,
-        'caption' => 'Buat Permission',
-        'redirect' => route('permissions.create')
+        'caption' => 'Buat Roles',
+        'redirect' => route('roles.create')
     ]
 ];
 @endphp
@@ -31,6 +31,7 @@ $data_page = [
     </div>
   </div>
 @endif
+
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
@@ -38,25 +39,23 @@ $data_page = [
                     <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Guard Name</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($permissions as $permission)
+                        @foreach ($roles as $role)
                         <tr>
-                            <td>{{$permission->name}}</td>
-                            <td>{{$permission->guard_name}}</td>
+                            <td>{{$role->name}}</td>
                             <td class="text-end">
                                 <div class="dropdown" id="myDropdown">
                                     <button class="btn btn-sm dropdown-toggle align-text-top" data-bs-toggle="dropdown">
                                       Actions
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end">
-                                      <a class="dropdown-item" href="{{route('permissions.edit', $permission->id)}}">
+                                      <a class="dropdown-item" href="{{route('roles.edit', $role->id)}}">
                                         Edit
                                       </a>
-                                      <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-delete" data-bs-action-url="{{route('permissions.destroy', $permission->id)}}">
+                                      <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-delete" data-bs-action-url="{{route('roles.destroy', $role->id)}}">
                                         Delete
                                       </button>
                                     </div>
@@ -89,6 +88,7 @@ $data_page = [
       </div>
     </div>
   </div>
+</div>
 @endsection
 
 @section('js')
