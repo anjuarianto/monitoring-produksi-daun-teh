@@ -74,6 +74,7 @@ $data_page = [
                         <tr>
                             <th>Tanggal</th>
                             <th>Nama Petugas</th>
+                            <th>Total timbangan</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -82,6 +83,7 @@ $data_page = [
                         @foreach ($laporans as $laporan)
                         <tr>
                             <td>{{$laporan->tanggal}}</td>
+                            <td>{{$laporan->kerani_timbang->name}}</td>
                             <td>{{$laporan->petugas_id}}</td>
                             <td class="text-end">
                                 <div class="dropdown" id="myDropdown">
@@ -89,6 +91,9 @@ $data_page = [
                                       Actions
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end">
+                                      <a class="dropdown-item" href="{{route('laporan.show', $laporan->id)}}">
+                                        View
+                                      </a>
                                       <a class="dropdown-item" href="{{route('laporan.edit', $laporan->id)}}">
                                         Edit
                                       </a>
@@ -102,7 +107,7 @@ $data_page = [
                         @endforeach
                         @else
                         <tr class="text-center">
-                          <td colspan="2"> Tidak ada data</td>
+                          <td colspan="4"> Tidak ada data</td>
                         </tr>
                         @endif
                     </tbody>
