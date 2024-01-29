@@ -8,6 +8,7 @@ use App\Http\Controllers\GolonganController;
 use App\Http\Controllers\BlokController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\TimbanganController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +33,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     
     Route::resource('laporan', LaporanController::class);
+    
+    Route::get('/laporan/timbangan/{timbangan}', [TimbanganController::class, 'show'])->name('timbangan.view');
+    Route::get('/laporan/timbangan/{timbangan}/edit', [TimbanganController::class, 'edit'])->name('timbangan.edit');
+    Route::put('/laporan/timbangan/{timbangan}', [TimbanganController::class, 'update'])->name('timbangan.update');
     
     Route::group(['prefix' => 'karyawan', 'as' => 'karyawan.'], function() {
         Route::get('/', [KaryawanController::class, 'index'])->name('index');

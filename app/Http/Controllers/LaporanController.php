@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreLaporanRequest;
 use App\Http\Requests\UpdateLaporanRequest;
 use App\Models\Laporan;
+use App\Models\Timbangan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Auth;
@@ -19,7 +20,8 @@ class LaporanController extends Controller
         $filter_bulan = $request->get('filter-bulan') ? $request->get('filter-bulan') : date('m');
         $filter_tahun = $request->get('filter-tahun') ? $request->get('filter-tahun') : date('Y');
 
-        $laporans = Laporan::whereMonth('tanggal', '=', $filter_bulan)
+        $laporans = Laporan::with('kerani_timbang')
+                            ->whereMonth('tanggal', '=', $filter_bulan)
                             ->whereYear('tanggal', '=', $filter_tahun)
                             ->get();
 
@@ -45,6 +47,7 @@ class LaporanController extends Controller
             'petugas_id' => Auth::user()->id
         ]);
 
+
         return redirect()->route('laporan.index')->withSuccess('Laporan berhasil dibuat');
     }
 
@@ -53,7 +56,9 @@ class LaporanController extends Controller
      */
     public function show(Laporan $laporan)
     {
-        //
+        $users = User::get();
+        $timbangans = Timbangan::getDataTimbangan($laporan->id);
+        return view('laporan.show', compact('laporan', 'users', 'timbangans'));
     }
 
     /**
@@ -61,7 +66,9 @@ class LaporanController extends Controller
      */
     public function edit(Laporan $laporan)
     {
-        //
+        $timbangans = Timbangan::getDataTimbangan($laporan->id);
+        $users = User::get();
+        return view('laporan.edit', compact('laporan', 'users', 'timbangans'));
     }
 
     /**
