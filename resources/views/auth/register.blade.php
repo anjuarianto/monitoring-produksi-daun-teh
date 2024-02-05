@@ -105,6 +105,18 @@
                 @enderror
             </div>
 
+            <div class="mb-3 d-none" id="section-jenis-karyawan">
+                <label class="form-label">Jenis Karyawan</label>
+                <select name="jenis_karyawan" id="jenis_karyawan" class="form-control @error('jenis_karyawan') is-invalid @enderror"
+                    required>
+                    <option value="" disabled selected>--Pilih Jenis Karyawan--</option>
+                    <option value="Karyawan Harian Tetap">Karyawan Harian Tetap</option>
+                    <option value="Karyawan Harian Lepas">Karyawan Harian Lepas</option>
+                </select>
+                @error('jenis_karyawan')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
 
             <div class="mb-3">
                 <label class="form-label">Golongan</label>
@@ -216,6 +228,19 @@
                 iconShowPassword.addClass("fas fa-eye");
             }
         });
+
+        function onChangeKaryawan() {
+            $('#role').val() == 'Karyawan' 
+                ? $('#section-jenis-karyawan').removeClass('d-none')
+                : $('#section-jenis-karyawan').addClass('d-none');
+        }
+
+        onChangeKaryawan();
+
+        $('#role').on('change', function() {
+            onChangeKaryawan();
+
+        })
 
         let buttonShowPassword = document.getElementById('button-show-password');
 
