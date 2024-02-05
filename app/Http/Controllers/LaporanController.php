@@ -34,6 +34,7 @@ class LaporanController extends Controller
     public function create()
     {
         $users = User::get();
+
         return view('laporan.create', compact('users'));
     }
 
@@ -42,11 +43,19 @@ class LaporanController extends Controller
      */
     public function store(StoreLaporanRequest $request)
     {
-        Laporan::create([
+        $laporan = Laporan::create([
             'tanggal' => $request->tanggal,
             'petugas_id' => Auth::user()->id
         ]);
 
+
+        for ($i=1; $i <= 3; $i++) { 
+            Timbangan::create([
+                'laporan_id' => $laporan->id,
+                'order' => $i,
+                'waktu' => date('Y-m-d H:i:s')
+            ]);
+        }
 
         return redirect()->route('laporan.index')->withSuccess('Laporan berhasil dibuat');
     }

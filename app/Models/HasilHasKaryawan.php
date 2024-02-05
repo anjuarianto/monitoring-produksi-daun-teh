@@ -12,5 +12,7 @@ class HasilHasKaryawan extends Pivot
 
     protected $table = 'hasil_has_karyawan';
 
-    protected $fillable = ['timbangan_id', 'user_id'];
+    protected $fillable = ['hasil_id', 'user_id'];
+
+    public $timestamps = false;
 }

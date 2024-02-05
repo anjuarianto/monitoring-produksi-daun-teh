@@ -22,7 +22,10 @@
         height: 34px !important;
     }
 
-
+    .logo-icon {
+        width: 150px;
+        height: auto;
+    }
 </style>
 @endsection
 
@@ -32,7 +35,7 @@
         @csrf
         <div class="card-body">
             <div class="text-center mb-4">
-                <a href="." class="navbar-brand navbar-brand-autodark"><img style="width:150px" src="./static/logo.jpg"
+                <a href="." class="navbar-brand navbar-brand-autodark"><img class="logo-icon" src="./static/logo.jpg"
                         height="36" alt=""></a>
             </div>
             <h2 class="card-title text-center mb-4">Daftar sebagai karyawan</h2>
@@ -87,14 +90,30 @@
                 </div>
 
             </div>
+
+            <div class="mb-3">
+                <label class="form-label">Role</label>
+                <select name="role" id="role" class="form-control @error('role') is-invalid @enderror"
+                    required>
+                    <option value="" disabled selected>--Pilih Role--</option>
+                    @foreach ($roles as $role)
+                    <option value="{{$role->name}}" {{old('role') == $role->name ? 'selected' : ''}}>{{$role->name}}</option>
+                    @endforeach
+                </select>
+                @error('role')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+
             <div class="mb-3">
                 <label class="form-label">Golongan</label>
                 <select name="golongan" id="golongan" class="form-control @error('golongan') is-invalid @enderror"
                     required>
                     <option value="" disabled selected>--Pilih Golongan--</option>
-                    <option value="A" {{old('golongan') == 'A' ?  'selected' : ''}}>A</option>
-                    <option value="B" {{old('golongan') == 'B' ?  'selected' : ''}}>B</option>
-                    <option value="C" {{old('golongan') == 'C' ?  'selected' : ''}}>C</option>
+                    @foreach ($golongans as $golongan)
+                    <option value="{{$golongan->id}}" {{old('golongan') == $golongan->id ? 'selected' : ''}}>{{$golongan->name}}</option>
+                    @endforeach
                 </select>
                 @error('golongan')
                     <div class="invalid-feedback">{{ $message }}</div>

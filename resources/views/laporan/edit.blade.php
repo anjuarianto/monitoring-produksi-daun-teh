@@ -5,7 +5,7 @@ $data_page = [
     'title' => 'Laporan',
     'sub_title' => 'Edit Laporan',
     'create_button' => [
-        'is_enabled' => FALSE,
+        'is_enabled' => FALSE
     ]
 ];
 @endphp

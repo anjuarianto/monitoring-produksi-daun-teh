@@ -11,7 +11,7 @@ class Hasil extends Model
 
     protected $table = 'hasil';
 
-    protected $fillable = ['timbangan_id', 'jumlah', 'luas_areal', 'blok'];
+    protected $fillable = ['timbangan_id', 'jumlah', 'luas_areal', 'blok_id'];
 
     public function karyawan() {
         return $this->belongsToMany(User::class, 'hasil_has_karyawan', 'hasil_id', 'user_id',);

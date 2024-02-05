@@ -18,8 +18,4 @@ class Laporan extends Model
     public function kerani_timbang() {
         return $this->belongsTo(User::class, 'petugas_id', 'id');
     }
-
-    // public function timbangan() {
-    //     return $this->hasMany(Timbangan::class, '');
-    // }
 }

@@ -8,6 +8,11 @@
         border: none;
         background: none;
     }
+
+    .logo-icon {
+        width: 150px;
+        height: auto;
+    }
 </style>
 @endsection
 
@@ -17,7 +22,7 @@
     <div class="card card-md">
         <div class="card-body">
             <div class="text-center mb-4">
-                <a href="." class="navbar-brand navbar-brand-autodark"><img style="width: 150px" src="./static/logo.jpg"
+                <a href="." class="navbar-brand navbar-brand-autodark"><img style="width: 150px; height:auto;" src="./static/logo.jpg"
                         height="36" alt=""></a>
             </div>
             <h2 class="h2 text-center mb-4">Masukan Akun Anda</h2>

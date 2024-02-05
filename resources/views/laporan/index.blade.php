@@ -82,7 +82,7 @@ $data_page = [
                         @if (count($laporans) > 0)
                         @foreach ($laporans as $laporan)
                         <tr>
-                            <td>{{$laporan->tanggal}}</td>
+                            <td>{{date('Y-m-d', strtotime($laporan->tanggal))}}</td>
                             <td>{{$laporan->kerani_timbang->name}}</td>
                             <td>{{$laporan->petugas_id}}</td>
                             <td class="text-end">

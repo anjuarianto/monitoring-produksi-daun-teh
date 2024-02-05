@@ -21,7 +21,7 @@
         'resources/tabler/dist/css/tabler-vendors.min.css',
         'resources/tabler/dist/css/demo.min.css',
         'resources/tabler/dist/js/tabler.min.js',
-        'resources/tabler/dist/js/demo.min.js',
+        // 'resources/tabler/dist/js/demo.min.js',
         'resources/tabler/dist/js/demo-theme.min.js'
         ])
 

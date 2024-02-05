@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Golongan;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -12,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Spatie\Permission\Contracts\Role;
+use Spatie\Permission\Models\Role as ModelsRole;
 
 class RegisteredUserController extends Controller
 {
@@ -20,7 +23,9 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        $golongans = Golongan::get();
+        $roles = ModelsRole::where('name', '!=', 'Admin')->get();
+        return view('auth.register', compact('golongans', 'roles'));
     }
 
     /**
@@ -35,6 +40,7 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'golongan' => ['required'],
+            'role' => ['required'],
             'tempat_lahir' => ['required'],
             'tanggal' => ['required'],
             'bulan' => ['required'],
@@ -55,6 +61,8 @@ class RegisteredUserController extends Controller
             'no_handphone' => $request->no_handphone,
             'alamat' => $request->alamat
         ]);
+
+        $user->assignRole([$request->role]);
 
         event(new Registered($user));
 

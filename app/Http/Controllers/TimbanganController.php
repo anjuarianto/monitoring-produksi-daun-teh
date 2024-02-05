@@ -43,6 +43,7 @@ class TimbanganController extends Controller
         $hasils = Hasil::where('timbangan_id', $timbangan->id)->get();
         $bloks = Blok::get();
         $karyawans = User::role('karyawan')->get();
+
         return view('laporan.timbangan.view', compact('timbangan', 'hasils', 'bloks', 'karyawans'));
     }
 
@@ -54,7 +55,8 @@ class TimbanganController extends Controller
         $karyawans = User::role('Karyawan')->get();
         $bloks = Blok::get();
         $hasils = Hasil::with('karyawan')->where('timbangan_id', $timbangan->id)->get();
-        return view('laporan.timbangan.index', compact('timbangan', 'bloks', 'karyawans', 'hasils'));   
+
+        return view('laporan.timbangan.edit', compact('timbangan', 'bloks', 'karyawans', 'hasils'));   
     }
 
     /**
@@ -62,17 +64,40 @@ class TimbanganController extends Controller
      */
     public function update(Request $request, Timbangan $timbangan)
     {
-        dd($request->all());
-        $hasils = Hasil::where('timbangan_id', $timbangan->id)->get();
-
-
         // Remove old record by timbangan id
         Hasil::where('timbangan_id', $timbangan->id)->delete();
+        
+        // set blok
+        if(!$request->blok_id) {
+            return redirect()->back()->withErrors('Data tidak boleh kosong');
+        }
 
-        // foreach ($ as $key => $hasil) {
-        //     Hasil::where()
-        // }
+        if(!$request->karyawan_id) {
+            return redirect()->back()->withErrors('Data karyawan tidak boleh kosong');
+        }
+        foreach ($request->karyawan_id as $key => $value) {
+            
+        }
 
+
+        foreach($request->blok_id as $key => $blok) {
+
+            $hasil = Hasil::create([
+                'timbangan_id' => $timbangan->id,
+                'blok_id' => $request->blok_id[$key],
+                'jumlah' => $request->jumlah[$key],
+                'luas_areal' => $request->luas_areal[$key]
+            ]);
+
+            foreach ($request->karyawan_id[$key] as $key => $karyawan) {
+                HasilHasKaryawan::create([
+                    'hasil_id' => $hasil->id,
+                    'user_id' => $karyawan
+                ]);
+            }
+        }
+        
+        return redirect()->route('laporan.edit', $timbangan->laporan_id)->withSuccess('Data berhasil diubah');
 
     }
 

@@ -50,5 +50,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed',
     ];
 
+    public function golongan() {
+        return $this->belongsTo(Golongan::class, 'golongan_id', 'id');
+    }
 
 }

@@ -55,7 +55,7 @@ $data_page = [
                                 <span class="badge bg-blue text-blue-fg">{{$roleName}}</span>
                                 @endforeach
                             </td>
-                            <td>{{$user->golongan}}</td>
+                            <td>{{$user->golongan->name}}</td>
                             <td>{{$user->no_handphone}}</td>
                             <td>
                                 <div class="dropdown" id="myDropdown">
