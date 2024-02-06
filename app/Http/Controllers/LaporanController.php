@@ -20,10 +20,7 @@ class LaporanController extends Controller
         $filter_bulan = $request->get('filter-bulan') ? $request->get('filter-bulan') : date('m');
         $filter_tahun = $request->get('filter-tahun') ? $request->get('filter-tahun') : date('Y');
 
-        $laporans = Laporan::with('kerani_timbang')
-                            ->whereMonth('tanggal', '=', $filter_bulan)
-                            ->whereYear('tanggal', '=', $filter_tahun)
-                            ->get();
+        $laporans = Laporan::getDataLaporan();
 
         return view('laporan.index', compact('laporans'));
     }

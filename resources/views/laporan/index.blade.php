@@ -38,7 +38,7 @@ $data_page = [
 @endif
     <div class="card">
       <div class="card-header justify-content-between align-items-center" >
-        <h3 class="m-0">Tabel Laporan - {{$filter_bulan}}/{{$filter_tahun}}</h3>
+        <h3 class="m-0">Tabel Laporan - {{General::setBulanToString($filter_bulan)}}, {{$filter_bulan}}/{{$filter_tahun}}</h3>
         <div>
           <form action="{{route('laporan.index')}}" method="get">
             <div class="row m-0">
@@ -74,7 +74,9 @@ $data_page = [
                         <tr>
                             <th>Tanggal</th>
                             <th>Nama Petugas</th>
-                            <th>Total timbangan</th>
+                            <th>Total Timbangan</th>
+                            <th>Total Blok</th>
+                            <th>Total Karyawan</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -82,9 +84,17 @@ $data_page = [
                         @if (count($laporans) > 0)
                         @foreach ($laporans as $laporan)
                         <tr>
-                            <td>{{date('Y-m-d', strtotime($laporan->tanggal))}}</td>
-                            <td>{{$laporan->kerani_timbang->name}}</td>
-                            <td>{{$laporan->petugas_id}}</td>
+                            <td>
+                              {{
+                                General::setTanggaltoString(date('N', strtotime($laporan->tanggal)))
+                                .', ' 
+                                .date('d-m-Y', strtotime($laporan->tanggal))
+                              }}
+                            </td>
+                            <td>{{$laporan->petugas_name}}</td>
+                            <td>{{$laporan->total_timbangan}} Kg</td>
+                            <td>{{$laporan->total_blok}} Blok</td>
+                            <td>{{$laporan->total_karyawan}} Orang</td>
                             <td class="text-end">
                                 <div class="dropdown" id="myDropdown">
                                     <button class="btn btn-sm dropdown-toggle align-text-top" data-bs-toggle="dropdown">

@@ -20,6 +20,7 @@ class Timbangan extends Model
     }
 
     public static function getDataTimbangan($laporan_id) {
+        
 
         return DB::table((new self())->table.' as t')
                         ->select(
@@ -27,12 +28,12 @@ class Timbangan extends Model
                                     IF(SUM(h.jumlah) IS NULL, 0, SUM(h.jumlah)) AS total_timbangan, 
                                     IF(SUM(h.luas_areal) IS NULL, 0, SUM(h.luas_areal)) AS total_luas,
                                     COUNT(user_id) AS total_karyawan,
-                                    (SELECT COUNT(*) from hasil WHERE id = hhk.hasil_id) as total_blok"
+                                    (SELECT COUNT(*) from hasil as hasil_select WHERE hasil_select.timbangan_id = t.id) as total_blok"
                         ))
                         ->leftJoin('hasil as h', 'h.timbangan_id', '=', 't.id')
                         ->leftJoin('hasil_has_karyawan as hhk', 'h.id', '=', 'hhk.hasil_id')
                         ->where('t.laporan_id', $laporan_id)
-                        ->groupBy('t.id', 'hasil_id')
+                        ->groupBy('t.id')
                         ->get();
     }
 }
