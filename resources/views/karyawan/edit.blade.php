@@ -27,8 +27,8 @@
         <div class="mb-3">
             <label class="form-label">Jenis Karyawan</label>
             <select class="form-control" name="jenis_karyawan" id="jenis-karyawan">
-                <option value="Karyawan harian tetap" {{$user->jenis_karyawan == 'Karyawan harian tetap' ? '' : ''}}>Karyawan harian tetap</option>
-                <option value="Karyawan harian lepas" {{$user->jenis_karyawan == 'Karyawan harian lepas' ? '' : ''}}>Karyawan harian lepas</option>
+                <option value="Karyawan Harian Tetap" {{$user->jenis_karyawan == 'Karyawan Harian Tetap' ? '' : ''}}>Karyawan Harian Tetap</option>
+                <option value="Karyawan Harian Lepas" {{$user->jenis_karyawan == 'Karyawan Harian Lepas' ? '' : ''}}>Karyawan Harian Lepas</option>
             </select>
         </div>
 

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Hasil extends Model
 {
@@ -23,6 +24,20 @@ class Hasil extends Model
 
     public function mandor() {
         return $this->belongsTo(User::class, 'mandor_id', 'id');
+    }
+
+    public static function getJumlahKemarin() {
+
+        return DB::table('laporan as l')
+                        ->select(
+                            DB::raw("IFNULL(SUM(h.jumlah), 0) as jumlah_kemarin, l.tanggal"
+                        ))
+                        ->leftJoin('timbangan as t', 't.laporan_id', '=', 'l.id')
+                        ->leftJoin('hasil as h', 'h.timbangan_id', '=', 't.id')
+                        ->groupBy('l.tanggal')
+                        ->where('l.tanggal', date('Y-m-d',strtotime("-1 days")))
+                        ->first();
+
     }
 
 }
