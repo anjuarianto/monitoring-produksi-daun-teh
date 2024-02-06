@@ -10,6 +10,7 @@ use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\TimbanganController;
 use Illuminate\Support\Facades\Route;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,12 +26,10 @@ Route::get('/', function () {
     return redirect('/login');
 })->name('home');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
+    Route::get('/dashboard', [Dashboard::class, 'index'])->name('dashboard');
     
     Route::resource('laporan', LaporanController::class);
     

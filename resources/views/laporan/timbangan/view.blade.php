@@ -54,6 +54,7 @@
                                 <th width="20%">Nama Blok</th>
                                 <th width="20%">Luas Areal Dipetik (ha)</th>
                                 <th>Jumlah Timbangan (kg)</th>
+                                <th>Mandor</th>
                                 <th>Karyawan</th>
                             </tr>
                         </thead>
@@ -67,6 +68,9 @@
                                     {{$hasil->luas_areal}}
                                 <td style="vertical-align: middle;">
                                     {{$hasil->jumlah}}
+                                </td>
+                                <td style="vertical-align: middle">
+                                    {{$hasil->mandor->name}}
                                 </td>
                                 <td>
                                     <ul style="margin: 0;">

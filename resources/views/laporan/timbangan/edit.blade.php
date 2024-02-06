@@ -12,6 +12,26 @@
     ];
 @endphp
 
+@section('css')
+<style>
+  .select2-selection {
+        border-color: #dadfe5 !important;
+    }
+
+    .select2-selection__rendered {
+        line-height: 31px !important;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 35px !important;
+    }
+
+    .select2-selection__arrow {
+        height: 34px !important;
+    }
+</style>
+@endsection
+
 @section('content')
 @if($errors->any())
     <div class="alert alert-danger" role="alert">
@@ -90,11 +110,12 @@
                     <table class="table mb-0" id="table-hasil">
                         <thead>
                             <tr>
-                                <th width="20%">Nama Blok</th>
-                                <th width="20%">Luas Areal Dipetik (ha)</th>
-                                <th>Jumlah Timbangan (kg)</th>
+                                <th width="15%">Nama Blok</th>
+                                <th width="15%">Luas Areal Dipetik (ha)</th>
+                                <th width="15%">Jumlah Timbangan (kg)</th>
+                                <th>Mandor</th>
                                 <th>Karyawan</th>
-                                <th></th>
+                                <th width="5%"></th>
                             </tr>
                         </thead>
                         <tbody id="body-table">
@@ -116,6 +137,15 @@
                                     <td>
                                         <input type="text" name="jumlah[{{$hasil->id}}]" value="{{ $hasil->jumlah }}"
                                             class="form-control">
+                                    </td>
+                                    <td>
+                                        <select name="mandor_id[{{$hasil->id}}]" id="" class="form-select select-karyawan">
+                                            @foreach($mandors as $mandor)
+                                                <option value="{{ $mandor->id }}"
+                                                    {{ in_array($mandor->id, $hasil->mandor->pluck('id')->toArray()) ? 'selected' : '' }}>
+                                                    {{ $mandor->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </td>
                                     <td>
                                         <select name="karyawan_id[{{$hasil->id}}][]" id="" class="form-select select-karyawan"
@@ -160,6 +190,13 @@
             <input type="text" class="form-control jumlah" required>
         </td>
         <td>
+            <select class="form-select select2 mandor_id" style="width: 100%" required>
+                @foreach($mandors as $mandor)
+                    <option value="{{ $mandor->id }}">{{ $mandor->name }}</option>
+                @endforeach
+            </select>
+        </td>
+        <td>
             <select class="form-select select2 karyawan_id" style="width: 100%" multiple="multiple" required>
                 @foreach($karyawans as $karyawan)
                     <option value="{{ $karyawan->id }}">{{ $karyawan->name }}</option>
@@ -196,6 +233,7 @@
             cloneItem.find('.blok').attr({name : "blok_id[" + createId + "]"});
             cloneItem.find('.luas_areal').attr({name : "luas_areal[" + createId + "]"});
             cloneItem.find('.jumlah').attr({name : "jumlah[" + createId + "]"});
+            cloneItem.find('.mandor_id').attr({name : "mandor_id[" + createId + "]"});
             cloneItem.find('.karyawan_id').attr({name : "karyawan_id[" + createId + "][]"});
             cloneItem.closest('tr').appendTo('#body-table');
 

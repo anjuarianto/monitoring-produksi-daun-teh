@@ -17,9 +17,11 @@ return new class extends Migration
             $table->integer('jumlah');
             $table->integer('luas_areal');
             $table->unsignedBigInteger('blok_id');
+            $table->unsignedBigInteger('mandor_id');
             $table->timestamps();
             $table->foreign('timbangan_id')->references('id')->on('timbangan');
             $table->foreign('blok_id')->references('id')->on('blok');
+            $table->foreign('mandor_id')->references('id')->on('users');
         });
     }
 

@@ -48,7 +48,7 @@ $data_page = [
                         <tr>
                             <td>{{$karyawan->name}}</td>
                             <td>{{$karyawan->email}}</td>
-                            <td>{{$karyawan->golongan}}</td>
+                            <td>{{$karyawan->golongan->name}}</td>
                             <td>{{$karyawan->jenis_karyawan}}</td>
                             <td>{{$karyawan->no_handphone}}</td>
                             <td>

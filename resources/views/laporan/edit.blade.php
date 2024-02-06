@@ -72,9 +72,6 @@ $data_page = [
                                     <a class="dropdown-item" href="{{route('timbangan.edit', $timbangan->id)}}">
                                         Edit
                                     </a>
-                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-delete" data-bs-action-url="{{route('laporan.destroy', $laporan->id)}}">
-                                        Delete
-                                    </button>
                                     </div>
                                   </div>
                             </td>

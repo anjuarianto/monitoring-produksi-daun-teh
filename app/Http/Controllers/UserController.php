@@ -41,7 +41,7 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'golongan' => $request->golongan,
+            'golongan_id' => $request->golongan,
             'tempat_lahir' => $request->tempat_lahir,
             'tanggal_lahir' => $request->tahun.'-'.$request->bulan.'-'.$request->tanggal,
             'no_handphone' => $request->no_handphone,

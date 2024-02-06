@@ -37,11 +37,12 @@
             <select name="golongan" id="golongan" class="form-control" disabled>
                 @foreach($golongans as $golongan)
                     <option value="{{ $golongan->id }}"
-                        {{ $user->golongan == $golongan->id ?  'selected' : '' }}>
+                        {{ $user->golongan->id == $golongan->id ?  'selected' : '' }}>
                         {{ $golongan->name }}</option>
                 @endforeach
             </select>
         </div>
+        
         <div class="mb-3">
             <div class="row">
                 <div class="col-md-6">

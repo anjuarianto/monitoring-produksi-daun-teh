@@ -27,12 +27,12 @@ class Timbangan extends Model
                                     IF(SUM(h.jumlah) IS NULL, 0, SUM(h.jumlah)) AS total_timbangan, 
                                     IF(SUM(h.luas_areal) IS NULL, 0, SUM(h.luas_areal)) AS total_luas,
                                     COUNT(user_id) AS total_karyawan,
-                                    IF (COUNT(h.id) > 0, COUNT(h.id), 0) AS total_blok"
+                                    (SELECT COUNT(*) from hasil WHERE id = hhk.hasil_id) as total_blok"
                         ))
                         ->leftJoin('hasil as h', 'h.timbangan_id', '=', 't.id')
                         ->leftJoin('hasil_has_karyawan as hhk', 'h.id', '=', 'hhk.hasil_id')
                         ->where('t.laporan_id', $laporan_id)
-                        ->groupBy('t.id')
+                        ->groupBy('t.id', 'hasil_id')
                         ->get();
     }
 }

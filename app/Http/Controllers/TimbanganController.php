@@ -53,10 +53,11 @@ class TimbanganController extends Controller
     public function edit(Timbangan $timbangan)
     {
         $karyawans = User::role('Karyawan')->get();
+        $mandors = User::role('Mandor')->get();
         $bloks = Blok::get();
         $hasils = Hasil::with('karyawan')->where('timbangan_id', $timbangan->id)->get();
 
-        return view('laporan.timbangan.edit', compact('timbangan', 'bloks', 'karyawans', 'hasils'));   
+        return view('laporan.timbangan.edit', compact('timbangan', 'bloks', 'karyawans', 'hasils', 'mandors'));   
     }
 
     /**
@@ -75,9 +76,6 @@ class TimbanganController extends Controller
         if(!$request->karyawan_id) {
             return redirect()->back()->withErrors('Data karyawan tidak boleh kosong');
         }
-        foreach ($request->karyawan_id as $key => $value) {
-            
-        }
 
 
         foreach($request->blok_id as $key => $blok) {
@@ -85,6 +83,7 @@ class TimbanganController extends Controller
             $hasil = Hasil::create([
                 'timbangan_id' => $timbangan->id,
                 'blok_id' => $request->blok_id[$key],
+                'mandor_id' => $request->mandor_id[$key],
                 'jumlah' => $request->jumlah[$key],
                 'luas_areal' => $request->luas_areal[$key]
             ]);
