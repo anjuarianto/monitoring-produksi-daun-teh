@@ -6,7 +6,7 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/css/app.css',
-                'resources/js/app.js',
+                // 'resources/js/app.js',
                 'resources/tabler/dist/css/tabler.min.css',
                 'resources/tabler/dist/css/tabler-flags.min.css',
                 'resources/tabler/dist/css/tabler-payments.min.css',

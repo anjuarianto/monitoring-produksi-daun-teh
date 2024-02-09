@@ -12,11 +12,21 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['role:Admin']);
+    }
+
     /**
      * Display a listing of the resource.
     */
     public function index()
     {
+        if(!Auth::user()->can('user-list')) {
+            return abort(403);
+        }
+        
         $users = User::with('golongan')->get();
         
         return view('users.index', compact('users'));
@@ -27,6 +37,10 @@ class UserController extends Controller
      */
     public function create()
     {
+        if(!Auth::user()->can('user-create')) {
+            return abort(403);
+        }
+
         $golongans = Golongan::get();
         $roles = Role::get();
         return view('users.create', compact('golongans', 'roles'));
@@ -37,6 +51,10 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
+        if(!Auth::user()->can('user-create')) {
+            return abort(403);
+        }
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -60,7 +78,11 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        if(!Auth::user()->can('user-list')) {
+            return abort(403);
+        }
+
+        return view('users.show', compact('user'));
     }
 
     /**
@@ -68,6 +90,10 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        if(!Auth::user()->can('user-edit')) {
+            return abort(403);
+        }
+
         $roles = Role::get();
         $golongans = Golongan::get();
         return view('users.edit', compact('user', 'golongans', 'roles'));
@@ -78,6 +104,9 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
+        if(!Auth::user()->can('user-edit')) {
+            return abort(403);
+        }
         
         $user->update([
             'name' => $request->name,
@@ -103,6 +132,10 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        if(!Auth::user()->can('user-delete')) {
+            return abort(403);
+        }
+
         $user->delete();
 
         return redirect()->route('users.index')

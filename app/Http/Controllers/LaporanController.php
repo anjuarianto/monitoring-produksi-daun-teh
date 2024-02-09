@@ -17,10 +17,15 @@ class LaporanController extends Controller
      */
     public function index(Request $request)
     {
-        $filter_bulan = $request->get('filter-bulan') ? $request->get('filter-bulan') : date('m');
-        $filter_tahun = $request->get('filter-tahun') ? $request->get('filter-tahun') : date('Y');
+        $filter_bulan = $request->get('filter-bulan') 
+            ? $request->get('filter-bulan') 
+            : date('m');
+        
+        $filter_tahun = $request->get('filter-tahun') 
+            ? $request->get('filter-tahun') 
+            : date('Y');
 
-        $laporans = Laporan::getDataLaporan();
+        $laporans = Laporan::getDataLaporan($filter_bulan, $filter_tahun);
 
         return view('laporan.index', compact('laporans'));
     }

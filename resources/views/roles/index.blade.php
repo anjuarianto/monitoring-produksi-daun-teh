@@ -6,7 +6,7 @@ $data_page = [
     'title' => 'Roles',
     'sub_title' => 'Daftar Roles',
     'create_button' => [
-        'is_enabled' => TRUE,
+        'is_enabled' => auth()->user()->can('role-list') ? TRUE : FALSE,
         'caption' => 'Buat Roles',
         'redirect' => route('roles.create')
     ]
@@ -52,12 +52,17 @@ $data_page = [
                                       Actions
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end">
+                                      @if (auth()->user()->can('role-edit'))
                                       <a class="dropdown-item" href="{{route('roles.edit', $role->id)}}">
                                         Edit
                                       </a>
+                                      @endif
+
+                                      @if (auth()->user()->can('role-delete'))
                                       <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-delete" data-bs-action-url="{{route('roles.destroy', $role->id)}}">
                                         Delete
                                       </button>
+                                      @endif
                                     </div>
                                   </div>
                             </td>

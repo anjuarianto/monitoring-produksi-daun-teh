@@ -19,7 +19,7 @@ class Laporan extends Model
         return $this->belongsTo(User::class, 'petugas_id', 'id');
     }
 
-    public static function getDataLaporan() {
+    public static function getDataLaporan($filter_bulan, $filter_tahun) {
         $sql = "SELECT 
                     l.id, 
                     l.tanggal, 
@@ -46,8 +46,10 @@ class Laporan extends Model
                     GROUP BY h.timbangan_id 
                 ) AS tn ON tn.laporan_id = l.id
                 LEFT JOIN users petugas_user ON petugas_user.id = l.petugas_id 
+                WHERE MONTH(l.tanggal) = ? AND YEAR(l.tanggal) = ?
                 GROUP BY l.id
                 ORDER BY l.tanggal";
-        return DB::select($sql);
+        
+        return DB::select($sql, array($filter_bulan, $filter_tahun));
     }
 }

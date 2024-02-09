@@ -46,13 +46,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('golongan', GolonganController::class);
     Route::resource('blok', BlokController::class);
-
-    Route::middleware(['role:Admin'])->group(function() {
-        Route::resource('users', UserController::class);
-        Route::resource('roles', RolesController::class);
-        Route::resource('permissions', PermissionsController::class);
-        
-    });
+    Route::resource('users', UserController::class);
+    Route::resource('roles', RolesController::class);
+    Route::resource('permissions', PermissionsController::class);
     
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

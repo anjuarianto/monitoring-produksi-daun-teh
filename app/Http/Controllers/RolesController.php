@@ -28,6 +28,10 @@ class RolesController extends Controller
      */
     public function index(Request $request)
     {   
+        if(!auth()->user()->can('role-list')) {
+            return abort(403);
+        }
+
         $roles = Role::orderBy('id','DESC')->paginate(5);
         return view('roles.index',compact('roles'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
@@ -40,6 +44,10 @@ class RolesController extends Controller
      */
     public function create()
     {
+        if(!auth()->user()->can('role-create')) {
+            return abort(403);
+        }
+
         $permissions = Permission::get();
         return view('roles.create', compact('permissions'));
     }
@@ -52,7 +60,10 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
+        if(!auth()->user()->can('role-create')) {
+            return abort(403);
+        }
+
         $this->validate($request, [
             'name' => 'required|unique:roles,name',
             'permission' => 'required',
@@ -73,6 +84,10 @@ class RolesController extends Controller
      */
     public function show(Role $role)
     {
+        if(!auth()->user()->can('role-list')) {
+            return abort(403);
+        }
+
         $role = $role;
         $rolePermissions = $role->permissions;
     
@@ -87,6 +102,10 @@ class RolesController extends Controller
      */
     public function edit(Role $role)
     {
+        if(!auth()->user()->can('role-edit')) {
+            return abort(403);
+        }
+
         $role = $role;
         $rolePermissions = $role->permissions->pluck('name')->toArray();
         $permissions = Permission::get();
@@ -103,6 +122,10 @@ class RolesController extends Controller
      */
     public function update(Role $role, Request $request)
     {
+        if(!auth()->user()->can('role-edit')) {
+            return abort(403);
+        }
+
         $this->validate($request, [
             'name' => 'required',
             'permission' => 'required',
@@ -124,6 +147,10 @@ class RolesController extends Controller
      */
     public function destroy(Role $role)
     {
+        if(!auth()->user()->can('role-delete')) {
+            return abort(403);
+        }
+        
         $role->delete();
 
         return redirect()->route('roles.index')

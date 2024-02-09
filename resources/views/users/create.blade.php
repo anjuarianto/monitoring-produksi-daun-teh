@@ -3,6 +3,8 @@
 @php
 use App\Models\General;
 
+
+
 $data_page = [
     'title' => 'Users',
     'sub_title' => 'Buat Users',
