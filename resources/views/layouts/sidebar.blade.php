@@ -234,7 +234,7 @@
                 @endcan
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('laporan.index')}}">
+                    <a class="nav-link" href="{{route('absen-karyawan.index')}}">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <i class="fas fa-clock"></i>
                         </span>

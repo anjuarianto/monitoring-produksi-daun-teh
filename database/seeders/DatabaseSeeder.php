@@ -12,11 +12,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        $seeders = [
+            new PermissionTableSeeder(),
+            new RoleSeeder(),
+            new GolonganSeeder(),
+            new CreateAdminUserSeeder(),
+            new MandorUserSeeder(),
+            new KaryawanUserSeeder(100)
+        ];
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        foreach ($seeders as $key => $seeder) {
+            $seeder->run();
+        }
+
     }
 }

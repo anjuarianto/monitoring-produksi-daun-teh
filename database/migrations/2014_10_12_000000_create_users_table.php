@@ -5,7 +5,6 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use DB;
 
 return new class extends Migration
 {
@@ -21,8 +20,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->string('golongan');
-            $table->string('jenis_karyawan');
+            $table->string('golongan_id')->nullable();
+            $table->string('jenis_karyawan')->nullable();
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
             $table->string('no_handphone');

@@ -2,6 +2,8 @@
 
 @php
     use App\Models\General;
+    use App\Models\User;
+
     $data_page = [
     'title' => 'Karyawan',
     'sub_title' => 'Detail Karyawan',
@@ -27,8 +29,8 @@
         <div class="mb-3">
             <label class="form-label">Jenis Karyawan</label>
             <select class="form-control" name="jenis_karyawan" id="jenis-karyawan">
-                <option value="Karyawan Harian Tetap" {{$user->jenis_karyawan == 'Karyawan Harian Tetap' ? '' : ''}}>Karyawan Harian Tetap</option>
-                <option value="Karyawan Harian Lepas" {{$user->jenis_karyawan == 'Karyawan Harian Lepas' ? '' : ''}}>Karyawan Harian Lepas</option>
+                <option value="{{User::KARYAWAN_HARIAN_TETAP}}" {{$user->jenis_karyawan == {{User::KARYAWAN_HARIAN_TETAP}} ? '' : ''}}>{{User::KARYAWAN_HARIAN_TETAP}}</option>
+                <option value="{{User::KARYAWAN_HARIAN_LEPAS}}" {{$user->jenis_karyawan == {{User::KARYAWAN_HARIAN_LEPAS}} ? '' : ''}}>{{User::KARYAWAN_HARIAN_LEPAS}}</option>
             </select>
         </div>
 

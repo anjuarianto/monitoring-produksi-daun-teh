@@ -2,6 +2,7 @@
 
 @php
     use App\Models\General;
+    use App\Models\User;
 @endphp
 
 @section('css')
@@ -110,8 +111,8 @@
                 <select name="jenis_karyawan" id="jenis_karyawan" class="form-control @error('jenis_karyawan') is-invalid @enderror"
                     required>
                     <option value="" disabled selected>--Pilih Jenis Karyawan--</option>
-                    <option value="Karyawan Harian Tetap">Karyawan Harian Tetap</option>
-                    <option value="Karyawan Harian Lepas">Karyawan Harian Lepas</option>
+                    <option value="{{User::KARYAWAN_HARIAN_TETAP}}">{{User::KARYAWAN_HARIAN_TETAP}}</option>
+                    <option value="{{User::KARYAWAN_HARIAN_LEPAS}}">{{User::KARYAWAN_HARIAN_LEPAS}}</option>
                 </select>
                 @error('jenis_karyawan')
                     <div class="invalid-feedback">{{ $message }}</div>

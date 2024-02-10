@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AbsenKaryawanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RolesController;
@@ -28,10 +29,10 @@ Route::get('/', function () {
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
-
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
     Route::resource('laporan', LaporanController::class);
+    Route::resource('absen-karyawan', AbsenKaryawanController::class);
     
     Route::get('/laporan/timbangan/{timbangan}', [TimbanganController::class, 'show'])->name('timbangan.view');
     Route::get('/laporan/timbangan/{timbangan}/edit', [TimbanganController::class, 'edit'])->name('timbangan.edit');

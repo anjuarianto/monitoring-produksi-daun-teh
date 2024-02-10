@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -20,15 +21,16 @@ class CreateAdminUserSeeder extends Seeder
             'name' => 'Super Admin',
             'email' => 'superadmin@mail.com',
             'email_verified_at' => date('Y-m-d H:i:s'),
-            'password' => password_hash('superadmin', PASSWORD_DEFAULT),
-            'golongan' => 00,
+            'password' => Hash::make('password'),
+            'golongan_id' => 1,
+            'jenis_karyawan' => NULL,
             'tempat_lahir' => 'JAKARTA',
             'tanggal_lahir' => date('Y-m-d H:i:s'),
             'no_handphone' => 0000,
             'alamat' => 'Indonesia'
         ]);
 
-        $role = Role::create(['name' => 'Admin']);
+        $role = Role::where(['name' => 'Admin'])->first();
      
         $permissions = Permission::pluck('id','id')->all();
    
