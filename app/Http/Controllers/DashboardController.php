@@ -12,7 +12,7 @@ class DashboardController extends Controller
 
     public function index() {
         $users['total'] = User::count();
-
+        
         $karyawan = [
             'total' => User::role('Karyawan')->count(),
             'KHT' => User::role('Karyawan')->where('jenis_karyawan', 'Karyawan Harian Tetap')->count(),

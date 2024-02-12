@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->date('tanggal');
             $table->unsignedBigInteger('user_id');
-            $table->string('timbangan_1');
-            $table->string('timbangan_2');
-            $table->string('timbangan_3');
+            $table->string('timbangan_1')->nullable();
+            $table->string('timbangan_2')->nullable();
+            $table->string('timbangan_3')->nullable();
             $table->unsignedBigInteger('created_by');
             $table->timestamps();
 

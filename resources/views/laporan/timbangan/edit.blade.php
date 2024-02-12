@@ -122,7 +122,7 @@
                             @foreach($hasils as $hasil)
                                 <tr>
                                     <td>
-                                        <select class="form-select" name="blok_id[{{$hasil->id}}]">
+                                        <select class="form-select" class="blok" name="blok_id[{{$hasil->id}}]">
                                             <option value="" selected disabled>--Pilih blok--</option>
                                             @foreach($bloks as $blok)
                                                 <option value="{{ $blok->id }}"
@@ -191,6 +191,7 @@
         </td>
         <td>
             <select class="form-select select2 mandor_id" style="width: 100%" required>
+                <option value="" disabled selected>--Pilih Mandor--</option>
                 @foreach($mandors as $mandor)
                     <option value="{{ $mandor->id }}">{{ $mandor->name }}</option>
                 @endforeach
@@ -207,7 +208,7 @@
             <button class="btn btn-danger btn-hapus"><i class="fas fa-trash"></i></button>
         </td>
     </tr>
-    </div>
+</table>
 
 
     @endsection
@@ -216,42 +217,79 @@
     @section('js')
     <script type="module">
         $(document).ready(function() {
+            $('.select-karyawan').select2();
+            $('.mandor-id').select2();
 
-        $('.select-karyawan').select2();
+            $('#btn-tambah-baris').on('click', function() {
+                var createId = $('#body-table tr').length;
 
+                if(createId > 0) {
+                    var createId = parseInt($('#body-table tr').last().find('.blok').attr('name').replace(/[^0-9]/gi, '')) + 1;
+                }
 
-        $('#btn-tambah-baris').on('click', function() {
-            var createId = $('#body-table tr').length;
+                var cloneItem = $('#clone-row').clone(true);
+                cloneItem.removeAttr('id');
+                cloneItem.find('.select2').addClass('select-karyawan');
+                cloneItem.find('.blok').attr({name : "blok_id[" + createId + "]"});
+                cloneItem.find('.luas_areal').attr({name : "luas_areal[" + createId + "]"});
+                cloneItem.find('.jumlah').attr({name : "jumlah[" + createId + "]"});
+                cloneItem.find('.mandor_id').attr({name : "mandor_id[" + createId + "]"});
+                cloneItem.find('.karyawan_id').attr({name : "karyawan_id[" + createId + "][]"});
+                cloneItem.closest('tr').appendTo('#body-table');
 
-            if(createId > 0) {
-                var createId = parseInt($('#body-table tr').last().find('.blok').attr('name').replace(/[^0-9]/gi, '')) + 1;
+                $('.select-karyawan').each(function (i, obj) {
+                    if ($(obj).data('select2'))
+                    {
+                        $(obj).select2('destroy');
+                    }
+                });
+                
+                $('.select-karyawan').select2();
+
+            });
+
+            $('#table-hasil').on('click', '.btn-hapus', function() {
+                $(this).closest('tr').remove()
+            });
+
+            function getSelectedArray(selector) {
+                var el = $('#body-table tr').find(selector);
+                
+                var value = el.map((_,el) => el.value).get()
+
+                return value;
             }
 
-            var cloneItem = $('#clone-row').clone(true);
-            cloneItem.removeAttr('id');
-            cloneItem.find('.select2').addClass('select-karyawan');
-            cloneItem.find('.blok').attr({name : "blok_id[" + createId + "]"});
-            cloneItem.find('.luas_areal').attr({name : "luas_areal[" + createId + "]"});
-            cloneItem.find('.jumlah').attr({name : "jumlah[" + createId + "]"});
-            cloneItem.find('.mandor_id').attr({name : "mandor_id[" + createId + "]"});
-            cloneItem.find('.karyawan_id').attr({name : "karyawan_id[" + createId + "][]"});
-            cloneItem.closest('tr').appendTo('#body-table');
+            (function () {
+                var blokArrValue;
 
-            $('.select-karyawan').each(function (i, obj) {
-                if ($(obj).data('select2'))
-                {
-                    $(obj).select2('destroy');
-                }
-            });
+                $(".blok").on('focus', function () {
+                    blokArrValue = getSelectedArray('.blok');
+                }).change(function() {
+                    if(blokArrValue.includes($(this).val())) {
+                        $(this).val("");
+                        alert('Silahkan pilih blok lain, blok tersebut sudah dipilih');
+                    }
+
+                    blokArrValue = getSelectedArray('.blok')
+                });
+            })();
+
+            (function () {
+                var mandorArrValue;
+
+                $(".mandor_id").on('select2:open', function () {
+                    mandorArrValue = getSelectedArray('.mandor_id');
+                }).on('select2:select', function() {
+                    if(mandorArrValue.includes($(this).val())) {
+                        $(this).val("").trigger('change');
+                        alert('Silahkan pilih mandor lain, mandor tersebut sudah dipilih');
+                    }
+
+                    mandorArrValue = getSelectedArray('.mandor_id')
+                });
+            })();
             
-            $('.select-karyawan').select2();
-
         });
-
-        $('#table-hasil').on('click', '.btn-hapus', function() {
-            $(this).closest('tr').remove()
-        })
-        
-    });
 </script>
     @endsection

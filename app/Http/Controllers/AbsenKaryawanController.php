@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AbsenKaryawan;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AbsenKaryawanController extends Controller
@@ -10,9 +11,14 @@ class AbsenKaryawanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $absens = AbsenKaryawan::get();
+        $request->tanggal 
+            ? $tanggal = $request->tanggal
+            : $tanggal = date('Y-m-d');
+
+        $absens = AbsenKaryawan::where('tanggal', $tanggal)->get();
+
         return view('absen-karyawan.index', compact('absens'));
     }
 
@@ -21,7 +27,9 @@ class AbsenKaryawanController extends Controller
      */
     public function create()
     {
+        $karyawans = User::role('Karyawan')->get();
 
+        return view('absen-karyawan.create', compact('karyawans'));
     }
 
     /**
@@ -29,7 +37,17 @@ class AbsenKaryawanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        foreach ($request->user_id as $key => $user) {
+            AbsenKaryawan::create([
+                'tanggal' => $request->tanggal,
+                'user_id' => $user,
+                'timbangan_1' => $request->timbangan_1[$key],
+                'created_by' => auth()->user()->id
+            ]);
+        }
+
+        return redirect()->route('absen-karyawan.index')->withSuccess('Data berhasil ditambah');
+        
     }
 
     /**
@@ -45,7 +63,8 @@ class AbsenKaryawanController extends Controller
      */
     public function edit(AbsenKaryawan $absenKaryawan)
     {
-        //
+        $absen = $absenKaryawan;
+        return view('absen-karyawan.edit', compact('absen'));
     }
 
     /**
@@ -53,7 +72,13 @@ class AbsenKaryawanController extends Controller
      */
     public function update(Request $request, AbsenKaryawan $absenKaryawan)
     {
-        //
+        $absenKaryawan->update([
+            'timbangan_1' => $request->timbangan_1,
+            'timbangan_2' => $request->timbangan_2,
+            'timbangan_3' => $request->timbangan_3
+        ]);
+
+        return redirect()->route('absen-karyawan.index', ['tanggal' => $absenKaryawan->tanggal])->withSuccess('Data berhasil diubah');
     }
 
     /**
@@ -61,6 +86,8 @@ class AbsenKaryawanController extends Controller
      */
     public function destroy(AbsenKaryawan $absenKaryawan)
     {
-        //
+        $absenKaryawan->delete();
+
+        return redirect()->back()->withSuccess('Data berhasil dihapus');
     }
 }

@@ -24,9 +24,9 @@ class Laporan extends Model
                     l.id, 
                     l.tanggal, 
                     petugas_user.name petugas_name, 
-                    SUM(jumlah_timbangan) total_timbangan, 
-                    SUM(jumlah_karyawan) total_karyawan,
-                    SUM(total_blok) total_blok
+                    IFNULL(SUM(jumlah_timbangan), 0) total_timbangan,
+                    IFNULL(SUM(jumlah_karyawan), 0) total_karyawan,
+                    IFNULL(SUM(total_blok), 0) total_blok
                 FROM laporan l
                 LEFT JOIN
                 (
