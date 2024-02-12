@@ -98,7 +98,7 @@
             </td>
             <td>
                 <select class="form-control timbangan-select-1">
-                    <option value="" disabled selected>--Pilih Status--</option>
+                    <option value="" selected>--Pilih Status--</option>
                     @foreach (AbsenKaryawan::$status_kehadiran as $status)
                     <option value="{{$status}}">{{$status}}</option>
                     @endforeach
@@ -106,7 +106,7 @@
             </td>
             <td>
                 <select class="form-control timbangan-select-2">
-                    <option value="" disabled selected>--Pilih Status--</option>
+                    <option value="" selected>--Pilih Status--</option>
                     @foreach (AbsenKaryawan::$status_kehadiran as $status)
                     <option value="{{$status}}">{{$status}}</option>
                     @endforeach

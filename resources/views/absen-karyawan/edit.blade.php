@@ -38,7 +38,7 @@
             <div class="col-md-4 mb-3">
                 <label class="form-label">Timbangan 1</label>
                 <select name="timbangan_1" id="" class="form-control">
-                    <option value="" disabled selected>--Pilih Status Kehadiran--</option>
+                    <option value="" selected>--Pilih Status Kehadiran--</option>
                     @foreach (AbsenKaryawan::$status_kehadiran as $status)
                     <option value="{{ $status }}" {{ $absen->timbangan_1 == $status ? 'selected' : '' }}>{{ $status }}</option>
                     @endforeach
@@ -47,7 +47,7 @@
             <div class="col-md-4 mb-3">
                 <label class="form-label">Timbangan 2</label>
                 <select name="timbangan_2" id="" class="form-control">
-                    <option value="" disabled selected>--Pilih Status Kehadiran--</option>
+                    <option value="" selected>--Pilih Status Kehadiran--</option>
                     @foreach (AbsenKaryawan::$status_kehadiran as $status)
                     <option value="{{ $status }}" {{ $absen->timbangan_2 == $status ? 'selected' : '' }}>{{ $status }}</option>
                     @endforeach
@@ -56,7 +56,7 @@
             <div class="col-md-4 mb-3">
                 <label class="form-label">Timbangan 3</label>
                 <select name="timbangan_3" id="" class="form-control">
-                    <option value="" disabled selected>--Pilih Status Kehadiran--</option>
+                    <option value="" selected>--Pilih Status Kehadiran--</option>
                     @foreach (AbsenKaryawan::$status_kehadiran as $status)
                     <option value="{{ $status }}" {{ $absen->timbangan_3 == $status ? 'selected' : '' }}>{{ $status }}</option>
                     @endforeach

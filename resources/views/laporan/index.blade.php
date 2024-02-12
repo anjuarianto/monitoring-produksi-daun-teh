@@ -117,7 +117,7 @@ $data_page = [
                         @endforeach
                         @else
                         <tr class="text-center">
-                          <td colspan="4"> Tidak ada data</td>
+                          <td colspan="7"> Tidak ada data</td>
                         </tr>
                         @endif
                     </tbody>
