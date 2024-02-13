@@ -54,7 +54,7 @@ $data_page = [
                     required>
                     <option value="" disabled selected>--Pilih Golongan--</option>
                     @foreach ($golongans as $golongan)
-                    <option value="{{$golongan->id}}" {{old('golongan', $user->golongan) == $golongan->id ?  'selected' : ''}}>{{$golongan->name}}</option>
+                    <option value="{{$golongan->id}}" {{old('golongan', $user->golongan->id) == $golongan->id ?  'selected' : ''}}>{{$golongan->name}}</option>
                     @endforeach
                 </select>
                 @error('golongan')
