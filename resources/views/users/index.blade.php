@@ -18,7 +18,7 @@
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table" id="myTable">
+            <table class="table" id="table-users">
                 <thead>
                     <tr>
                         <th>Nama</th>
@@ -103,6 +103,15 @@
 @endsection
 
 @section('js')
+<script type="module">
+    $('#table-users').DataTable({
+        responsive: true,
+        columnDefs: [{
+            'targets' : 5,
+            'orderable':false
+        }]
+    });
+</script>
 <script>
     const myDropdown = document.getElementById('myDropdown');
 
