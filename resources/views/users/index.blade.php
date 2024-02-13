@@ -18,7 +18,7 @@
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table">
+            <table class="table" id="myTable">
                 <thead>
                     <tr>
                         <th>Nama</th>

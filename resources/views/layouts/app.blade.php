@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
-
+    
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -21,9 +21,11 @@
         'resources/tabler/dist/css/tabler-vendors.min.css',
         'resources/tabler/dist/css/demo.min.css',
         'resources/tabler/dist/js/tabler.min.js',
-        // 'resources/tabler/dist/js/demo.min.js',
+        'resources/tabler/dist/js/demo.min.js',
         'resources/tabler/dist/js/demo-theme.min.js'
         ])
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" integrity="sha512-q3eWabyZPc1XTCmF+8/LuE1ozpg5xxn7iO89yfSOd5/oKvyqLngoNGsx8jq92Y8eXJ/IRxQbEC+FGSYxtk2oiw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
         <style>
             @import url('https://rsms.me/inter/inter.css');

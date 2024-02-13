@@ -248,7 +248,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#navbar-help" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false">
                         <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/lifebuoy -->
-                            <i class="fa-solid fa-layer-group"></i>
+                            <i class="fas fa-layer-group"></i>
                         </span>
                         <span class="nav-link-title">
                             Master
