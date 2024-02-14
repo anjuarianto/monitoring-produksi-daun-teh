@@ -42,6 +42,72 @@ function badgeStatusAbsen($status) {
 
 @section('content')
 @include('partials.success_message')
+<div class="row row-cards mb-4">
+  <div class="col-sm-6 col-lg-3">
+    <div class="card card-sm">
+      <div class="card-body">
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <span class="bg-success text-white avatar">
+                <i class="fas fa-user"></i>
+            </span>
+          </div>
+          <div class="col">
+            <div class="font-weight-medium">
+              Total Hadir
+            </div>
+            <div class="text-secondary">
+              ??
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-lg-3">
+    <div class="card card-sm">
+      <div class="card-body">
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <span class="bg-warning text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/shopping-cart -->
+                <i class="fas fa-user"></i>
+            </span>
+          </div>
+          <div class="col">
+            <div class="font-weight-medium">
+              Total Izin
+            </div>
+            <div class="text-secondary">
+                ??
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-lg-3">
+    <div class="card card-sm">
+      <div class="card-body">
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <span class="bg-danger text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/brand-twitter -->
+              <i class="fas fa-user"></i>
+            </span>
+          </div>
+          <div class="col">
+            <div class="font-weight-medium">
+              Total Tanpa Keterangan
+            </div>
+            <div class="text-secondary">
+               ??
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
     <div class="card">
       <div class="card-header">
         <h3 class="card-title">
