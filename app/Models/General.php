@@ -55,6 +55,19 @@ class General
         return $collection;
     }
 
+    public static function getListTahunLaporan() {
+        $current_date = (int) date('Y');
+        $bottom_date = $current_date - 5;
+        for ($i = $current_date; $i > $bottom_date; $i--) {
+            $data[] = $i;
+        }
+
+        $collection = collect($data);
+        
+        return $collection;
+
+    }
+
     public static function getListTahun() {
         $start = (int) date('Y') - 10;
         $end = 1960;

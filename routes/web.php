@@ -8,6 +8,7 @@ use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\GolonganController;
 use App\Http\Controllers\BlokController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KaryawanAbsenListController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\TimbanganController;
@@ -32,7 +33,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
     Route::resource('laporan', LaporanController::class);
-    Route::resource('absen-karyawan', AbsenKaryawanController::class);
+    Route::middleware('role:tai')->resource('absen-karyawan', AbsenKaryawanController::class);
+    Route::resource('golongan', GolonganController::class);
+    Route::resource('blok', BlokController::class);
+    Route::resource('users', UserController::class);
+    Route::resource('roles', RolesController::class);
+    Route::resource('permissions', PermissionsController::class);
+
+    Route::middleware('role:Karyawan')->get('/absen-karyawan', KaryawanAbsenListController::class)->name('absen-karyawan.index');
     
     Route::get('/laporan/timbangan/{timbangan}', [TimbanganController::class, 'show'])->name('timbangan.view');
     Route::get('/laporan/timbangan/{timbangan}/edit', [TimbanganController::class, 'edit'])->name('timbangan.edit');
@@ -45,11 +53,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/update/{karyawan}', [KaryawanController::class, 'update'])->name('update');
     });
 
-    Route::resource('golongan', GolonganController::class);
-    Route::resource('blok', BlokController::class);
-    Route::resource('users', UserController::class);
-    Route::resource('roles', RolesController::class);
-    Route::resource('permissions', PermissionsController::class);
+    
     
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
