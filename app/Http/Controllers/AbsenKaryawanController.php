@@ -13,6 +13,11 @@ class AbsenKaryawanController extends Controller
      */
     public function index(Request $request)
     {
+        if(in_array('Karyawan', auth()->user()->roles->pluck('name')->toArray())) {
+            $listAbsenKaryawan = new KaryawanAbsenListController();
+            return $listAbsenKaryawan->__invoke($request);
+        }
+
         $request->tanggal 
             ? $tanggal = $request->tanggal
             : $tanggal = date('Y-m-d');
