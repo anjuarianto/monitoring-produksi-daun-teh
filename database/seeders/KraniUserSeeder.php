@@ -7,14 +7,13 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class MandorUserSeeder extends Seeder
+class KraniUserSeeder extends Seeder
 {
     protected $count;
 
-    public function __construct($count = 1)
+    public function __construct($count = 10)
     {
         $this->count = $count;
     }
@@ -23,11 +22,11 @@ class MandorUserSeeder extends Seeder
      */
     public function run(): void
     {
-
+        
         for ($i = 0; $i < $this->count; $i++) {
             $user = User::create([
-                'name' => 'Mandor ' . $i,
-                'email' => 'mandor' . $i . '@mail.com',
+                'name' => 'Krani Timbang Lapangan ' . $i,
+                'email' => 'krani' . $i . '@mail.com',
                 'email_verified_at' => date('Y-m-d H:i:s'),
                 'password' => Hash::make('password'),
                 'golongan_id' => Golongan::all()->random()->id,
@@ -37,13 +36,10 @@ class MandorUserSeeder extends Seeder
                 'no_handphone' => '081299126614',
                 'alamat' => 'Jakarta'
             ]);
-            
-            $role = Role::where('name', 'Mandor')->first();
-            
+
+            $role = Role::where('name', 'Krani Timbang Lapangan')->first();
+         
             $user->assignRole([$role->id]);
         }
-        
-
-        
     }
 }

@@ -218,6 +218,18 @@
                     </a>
                 </li>
 
+                @can('daun-list')
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('daun.index')}}">
+                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                            <i class="fas fa-leaf"></i>
+                        </span>
+                        <span class="nav-link-title">
+                            Daun
+                        </span>
+                    </a>
+                </li>
+                @endcan
                 
                 {{-- Laporan --}}
                 @can('laporan-list')
@@ -227,7 +239,7 @@
                             <i class="fas fa-archive"></i>
                         </span>
                         <span class="nav-link-title">
-                            Laporan
+                            Timbangan
                         </span>
                     </a>
                 </li>

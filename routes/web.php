@@ -9,7 +9,7 @@ use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\GolonganController;
 use App\Http\Controllers\BlokController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\KaryawanAbsenListController;
+use App\Http\Controllers\DaunController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProduksiController;
@@ -34,6 +34,9 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
+    Route::get('/daun', [DaunController::class, 'index'])->name('daun.index');
+    Route::get('/daun/{laporan_id}', [DaunController::class, 'show'])->name('daun.show');
+
     Route::resource('laporan', LaporanController::class);
     Route::resource('absen-karyawan', AbsenKaryawanController::class);
     Route::resource('golongan', GolonganController::class);

@@ -11,7 +11,7 @@ class GolonganSeeder extends Seeder
 
     protected $count;
 
-    public function __construct($count = 1)
+    public function __construct($count = 10)
     {
         $this->count = $count;
     }
