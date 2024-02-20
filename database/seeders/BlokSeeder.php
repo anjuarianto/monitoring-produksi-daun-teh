@@ -2,13 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Golongan;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class GolonganSeeder extends Seeder
+class BlokSeeder extends Seeder
 {
-
     protected $count;
 
     public function __construct($count = 1)
@@ -20,6 +18,6 @@ class GolonganSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Golongan::factory()->count($this->count)->create();
+        \App\Models\Blok::factory($this->count)->create();
     }
 }

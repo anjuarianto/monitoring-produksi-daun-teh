@@ -5,12 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Hasil;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Auth;
 
 class DashboardController extends Controller
 {
     //
 
     public function index() {
+        if(!Auth::user()->hasRole('Admin')) {
+            $user = User::find(Auth::user()->id);
+            return view('dashboard.karyawan', compact('user'));
+        }
         $users['total'] = User::count();
         
         $karyawan = [
@@ -24,7 +29,7 @@ class DashboardController extends Controller
             'kemarin' => Hasil::getJumlahKemarin()
         ];
 
-        return view('dashboard', compact(
+        return view('dashboard.admin', compact(
             'users', 'karyawan', 'daun'
         ));
     }

@@ -217,7 +217,7 @@
         $('#button-show-password, #button-show-confirmation').on('click', function(element) {
             var input = $(this).parent().prev();
             var iconShowPassword =  $(this).children();
-            console.log(iconShowPassword)
+            
 
             if (input.attr("type") == 'password') {
                 input.attr("type", "text");

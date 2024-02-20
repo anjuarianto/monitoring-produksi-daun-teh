@@ -16,9 +16,12 @@ class DatabaseSeeder extends Seeder
             new PermissionTableSeeder(),
             new RoleSeeder(),
             new GolonganSeeder(),
+            new BlokSeeder(100),
             new CreateAdminUserSeeder(),
             new MandorUserSeeder(),
-            new KaryawanUserSeeder(100)
+            new KaryawanUserSeeder(100),
+            new LaporanSeeder(),
+            new TimbanganSeeder()
         ];
 
         foreach ($seeders as $key => $seeder) {

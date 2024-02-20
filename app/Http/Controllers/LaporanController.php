@@ -95,6 +95,7 @@ class LaporanController extends Controller
      */
     public function destroy(Laporan $laporan)
     {
-        //
+        $laporan->delete();
+        return redirect()->back()->withSuccess('Data berhasil dihapus');
     }
 }

@@ -1,29 +1,133 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-profile-information-form')
-                </div>
-            </div>
 
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-password-form')
-                </div>
-            </div>
+@php
+use App\Models\General;
+use App\Models\User;
+$roles = auth()->user()->roles->pluck('name')->toArray();
+$tanggal_lahir_user = date('d', strtotime(Auth::user()->tanggal_lahir));
+$bulan_lahir_user = date('m', strtotime(Auth::user()->tanggal_lahir));
+$tahun_lahir_user = date('Y', strtotime(Auth::user()->tanggal_lahir));
 
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.delete-user-form')
+$selected_year = app('request')->input('filter_tahun') ?? date('Y');
+    $data_page = [
+    'title' => 'Profile',
+    'sub_title' => 'Edit Profile',
+    'create_button' => [
+        'is_enabled' => FALSE,
+    ]
+    ];
+@endphp
+
+@section('content')
+    <div class="card">
+        <div class="card-body">
+            <form action="{{ route('profile.update') }}" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" value="{{ Auth::user()->name }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" value="{{ Auth::user()->email }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Golongan</label>
+                            <select name="golongan_id" id="golongan-id" class="form-control">
+                                <option value="">--Pilih Golongan--</option>
+                                @foreach ($golongans as $golongan)
+                                    <option value="{{ $golongan->id }}" {{ Auth::user()->golongan_id == $golongan->id ? 'selected' : '' }}>{{ $golongan->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3 {{in_array('Karyawan', $roles) ? '' : 'd-none'}}" id="section-jenis-karyawan">
+                            <label class="form-label">Jenis Karyawan</label>
+                            <select name="jenis_karyawan" id="jenis_karyawan" class="form-control @error('jenis_karyawan') is-invalid @enderror"
+                                required>
+                                <option value="" disabled selected>--Pilih Jenis Karyawan--</option>
+                                <option value="{{User::KARYAWAN_HARIAN_TETAP}}">{{User::KARYAWAN_HARIAN_TETAP}}</option>
+                                <option value="{{User::KARYAWAN_HARIAN_LEPAS}}">{{User::KARYAWAN_HARIAN_LEPAS}}</option>
+                            </select>
+                            @error('jenis_karyawan')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Tempat Lahir</label>
+                            <select name="tempat_lahir" id="tempat-lahir"
+                                class="form-control @error('tempat_lahir') is-invalid @enderror" required>
+                                <option value="" disabled selected>--Pilih Tempat Lahir--</option>
+                                <option value="Jakarta" {{$user->tempat_lahir == 'Jakarta' ? 'selected' : ''}}>Jakarta</option>
+                            </select>
+                            @error('tempat_lahir')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Tanggal Lahir</label>
+                            <div class="row g-2">
+                                <div class="col-3">
+                                    <select name="tanggal" class="form-select @error('tanggal') is-invalid @enderror">
+                                        @foreach(General::getListTanggal() as $item)
+                                            <option value="{{ $item }}" {{ $item ==  $tanggal_lahir_user ? 'selected' : '' }}>{{ $item }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('tanggal')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-5">
+                                    <select name="bulan" class="form-select select2 @error('bulan') is-invalid @enderror">
+                                        @foreach(General::getListBulan() as $key => $item)
+                                            <option value="{{ $key }}" {{ $key == $bulan_lahir_user ? 'selected' : '' }}>{{ $item }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('bulan')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-4">
+                                    <select name="tahun" id="list-tahun" class="form-select @error('tahun') is-invalid @enderror">
+                                        @foreach(General::getListTahun() as $item)
+                                            <option value="{{ $item }}" {{ $item == $tahun_lahir_user ? 'selected' : '' }}>{{ $item }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('tahun')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Alamat</label>
+                                    <textarea name="alamat" id="alamat" maxlength="255"
+                                        class="form-control @error('alamat') is-invalid @enderror" cols="30" rows="2"
+                                        placeholder="Masukkan alamat...">{{old('alamat', $user->alamat)}}</textarea>
+                                    @error('alamat')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <img src="https://w7.pngwing.com/pngs/141/425/png-transparent-user-profile-computer-icons-avatar-profile-s-free-angle-rectangle-profile-cliparts-free.png" alt="avatar" class="img-fluid">
+                        </div>
+                        <div class="mb-3">
+                            <label for="avatar" class="form-label">Avatar</label>
+                            <input type="file" class="form-control" id="avatar" name="avatar">
+                        </div>
+                    </div>
                 </div>
-            </div>
+                
+            </form>
         </div>
     </div>
-</x-app-layout>
+    
+@endsection

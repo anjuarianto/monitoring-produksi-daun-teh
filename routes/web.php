@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AbsenKaryawanController;
+use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RolesController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KaryawanAbsenListController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\ProduksiController;
 use App\Http\Controllers\TimbanganController;
 use Illuminate\Support\Facades\Route;
 
@@ -40,7 +42,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('roles', RolesController::class);
     Route::resource('permissions', PermissionsController::class);
 
-    // Route::middleware('role:Karyawan')->get('/absen-karyawan', KaryawanAbsenListController::class)->name('absen-karyawan.index');
+    Route::get('/produksi', [ProduksiController::class, 'index'])->name('produksi.index');
     
     Route::get('/laporan/timbangan/{timbangan}', [TimbanganController::class, 'show'])->name('timbangan.view');
     Route::get('/laporan/timbangan/{timbangan}/edit', [TimbanganController::class, 'edit'])->name('timbangan.edit');
@@ -56,6 +58,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     
     
 
+    Route::get('/profile/change-password', [PasswordController::class, 'edit'])->name('profile.change-password.edit');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

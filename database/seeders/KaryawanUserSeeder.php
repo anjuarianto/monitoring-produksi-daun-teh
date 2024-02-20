@@ -33,7 +33,7 @@ class KaryawanUserSeeder extends Seeder
 
             $user = User::create([
                 'name' => $faker->name(),
-                'email' => $faker->safeEmail(),
+                'email' => $faker->unique()->safeEmail(),
                 'email_verified_at' => date('Y-m-d H:i:s'),
                 'password' => Hash::make('password'),
                 'golongan_id' => Golongan::all()->random()->id,

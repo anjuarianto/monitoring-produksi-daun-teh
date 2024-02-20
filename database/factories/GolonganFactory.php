@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\AbsenKaryawan>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Golongan>
  */
-class AbsenKaryawanFactory extends Factory
+class GolonganFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,7 @@ class AbsenKaryawanFactory extends Factory
     public function definition(): array
     {
         return [
-            ''
+            'name' => strtoupper($this->faker->randomLetter()).'-'.$this->faker->randomDigit(),
         ];
     }
 }

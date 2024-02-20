@@ -26,7 +26,8 @@
             </div>
           </a>
           <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-            <a href="./settings.html" class="dropdown-item">Profile</a>
+            <a href="{{route('profile.edit')}}" class="dropdown-item">Profil</a>
+            <a href="{{route('profile.change-password.edit')}}" class="dropdown-item">Ganti Password</a>
             <form action="{{route('logout')}}" method="POST">
                 @csrf
                 <button type="submit" class="dropdown-item">Logout</button>
