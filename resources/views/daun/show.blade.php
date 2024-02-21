@@ -3,13 +3,13 @@
 
 @php
 
-    $data_page = [
+$data_page = [
     'title' => 'Daun',
     'sub_title' => 'Detail Data Daun',
     'create_button' => [
     'is_enabled' => FALSE,
     ]
-    ];
+];
 @endphp
 
 @section('content')
@@ -33,7 +33,7 @@
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table">
+            <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
                         <th></th>
@@ -42,12 +42,9 @@
                         <th>Karyawan</th>
                     </tr>
                 </thead>
-                <tbody id="body-data">
+                <tbody id="body-table">
                 </tbody>
-                <tfoot>
-                    <tr>
-                        <td class="fw-bold">Total</td>
-                    </tr>
+                <tfoot id="footer-table">
                 </tfoot>
             </table>
         </div>
@@ -74,7 +71,8 @@ $(document).ready(function() {
         success: function(data) {
             console.log(data);
             // You can process your data here
-            $('#body-data').html(data.component)
+            $('#body-table').html(data.component.body)
+            $('#footer-table').html(data.component.footer)
         },
         error: function(error) {
             console.log(error);
@@ -84,7 +82,7 @@ $(document).ready(function() {
     $('#mandor-id').on('change', function() {
         callDataDaun($(this).val())
     })
-    
+
 })
 </script>
 @endsection

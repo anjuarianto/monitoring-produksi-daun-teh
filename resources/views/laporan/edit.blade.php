@@ -52,10 +52,10 @@ $data_page = [
                             <td>{{$loop->iteration}}</td>
                             <td>{{$timbangan->waktu}}</td>
                             <td>Data Timbangan {{$timbangan->order}}</td>
-                            @if($timbangan->total_blok > 0)
-                            <td>{{ $timbangan->total_blok}}</td>
-                            <td>{{ $timbangan->total_karyawan }}</td>
-                            <td>{{ $timbangan->total_timbangan }}</td>
+                            @if($timbangan->count_blok > 0)
+                            <td>{{ $timbangan->count_blok}}</td>
+                            <td>{{ $timbangan->count_users }}</td>
+                            <td>{{ $timbangan->sum_jumlah }}</td>
                             @else
                                 <td colspan="3" style="text-align: center"> <span
                                         class="badge bg-danger text-danger-fg">Belum Input</span> </td>

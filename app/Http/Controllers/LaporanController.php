@@ -17,12 +17,12 @@ class LaporanController extends Controller
      */
     public function index(Request $request)
     {
-        $filter_bulan = $request->get('filter-bulan') 
-            ? $request->get('filter-bulan') 
+        $filter_bulan = $request->get('filter-bulan')
+            ? $request->get('filter-bulan')
             : date('m');
-        
-        $filter_tahun = $request->get('filter-tahun') 
-            ? $request->get('filter-tahun') 
+
+        $filter_tahun = $request->get('filter-tahun')
+            ? $request->get('filter-tahun')
             : date('Y');
 
         $laporans = Laporan::getDataLaporan($filter_bulan, $filter_tahun);
@@ -51,7 +51,7 @@ class LaporanController extends Controller
         ]);
 
 
-        for ($i=1; $i <= 3; $i++) { 
+        for ($i=1; $i <= 3; $i++) {
             Timbangan::create([
                 'laporan_id' => $laporan->id,
                 'order' => $i,

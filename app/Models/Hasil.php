@@ -18,6 +18,7 @@ class Hasil extends Model
         return $this->belongsToMany(User::class, 'hasil_has_karyawan', 'hasil_id', 'user_id',);
     }
 
+
     public function blok() {
         return $this->belongsTo(Blok::class, 'blok_id', 'id');
     }

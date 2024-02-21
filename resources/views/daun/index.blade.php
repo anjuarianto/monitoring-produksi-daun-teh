@@ -7,13 +7,13 @@ use App\Models\General;
 $filter_bulan = app('request')->input('filter-bulan') ? app('request')->input('filter-bulan') : date('m');
 $filter_tahun = app('request')->input('filter-tahun') ? app('request')->input('filter-tahun') : date('Y');
 
-    $data_page = [
+$data_page = [
     'title' => 'Daun',
     'sub_title' => 'Data daun',
     'create_button' => [
     'is_enabled' => FALSE,
     ]
-    ];
+];
 @endphp
 
 @section('content')
@@ -64,7 +64,7 @@ $filter_tahun = app('request')->input('filter-tahun') ? app('request')->input('f
                             <tr>
                                 <td>{{
                                     General::setTanggaltoString(date('N', strtotime($daun->tanggal)))
-                                    .', ' 
+                                    .', '
                                     .date('d-m-Y', strtotime($daun->tanggal))
                                   }}</td>
                                 <td class="text-end">
