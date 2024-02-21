@@ -57,4 +57,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(Golongan::class, 'golongan_id', 'id');
     }
 
+    public function karyawan() {
+        return $this->belongsToMany(User::class, 'mandor_has_karyawan', 'mandor_id', 'karyawan_id');
+    }
+
+    public function mandor() {
+        return $this->belongsToMany(User::class, 'mandor_has_karyawan', 'karyawan_id', 'mandor_id');
+    }
 }

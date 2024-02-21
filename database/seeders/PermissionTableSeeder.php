@@ -1,10 +1,10 @@
 <?php
-  
+
 namespace Database\Seeders;
-  
+
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
-  
+
 class PermissionTableSeeder extends Seeder
 {
     /**
@@ -23,6 +23,8 @@ class PermissionTableSeeder extends Seeder
             'karyawan-list', 'karyawan-create', 'karyawan-edit', 'karyawan-delete',
             'laporan-list', 'laporan-create', 'laporan-edit', 'laporan-delete',
             'absen-karyawan-list', 'absen-karyawan-create', 'absen-karyawan-edit', 'absen-karyawan-delete',
+            'daun-list', 'daun-edit',
+            'opsi-mandor-list', 'opsi-mandor-create', 'opsi-mandor-edit', 'opsi-mandor-delete',
         ];
 
         foreach ($permissions as $permission) {

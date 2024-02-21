@@ -33,9 +33,15 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    
+
+//    data daun
     Route::get('/daun', [DaunController::class, 'index'])->name('daun.index');
     Route::get('/daun/{laporan_id}', [DaunController::class, 'show'])->name('daun.show');
+
+//    opsi mandor
+    Route::get('/opsi-mandor', [\App\Http\Controllers\OpsiMandorController::class, 'index'])->name('opsi-mandor.index');
+    Route::get('/opsi-mandor/{id}/edit', [\App\Http\Controllers\OpsiMandorController::class, 'edit'])->name('opsi-mandor.edit');
+    Route::put('/opsi-mandor/{id}', [\App\Http\Controllers\OpsiMandorController::class, 'update'])->name('opsi-mandor.update');
 
     Route::resource('laporan', LaporanController::class);
     Route::resource('absen-karyawan', AbsenKaryawanController::class);
@@ -46,11 +52,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('permissions', PermissionsController::class);
 
     Route::get('/produksi', [ProduksiController::class, 'index'])->name('produksi.index');
-    
+
     Route::get('/laporan/timbangan/{timbangan}', [TimbanganController::class, 'show'])->name('timbangan.view');
     Route::get('/laporan/timbangan/{timbangan}/edit', [TimbanganController::class, 'edit'])->name('timbangan.edit');
     Route::put('/laporan/timbangan/{timbangan}', [TimbanganController::class, 'update'])->name('timbangan.update');
-    
+
     Route::group(['prefix' => 'karyawan', 'as' => 'karyawan.'], function() {
         Route::get('/', [KaryawanController::class, 'index'])->name('index');
         Route::get('/show/{karyawan}', [KaryawanController::class, 'show'])->name('show');
@@ -58,8 +64,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/update/{karyawan}', [KaryawanController::class, 'update'])->name('update');
     });
 
-    
-    
+
+
 
     Route::get('/profile/change-password', [PasswordController::class, 'edit'])->name('profile.change-password.edit');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

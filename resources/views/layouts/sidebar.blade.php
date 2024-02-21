@@ -230,7 +230,20 @@
                     </a>
                 </li>
                 @endcan
-                
+
+                @can('opsi-mandor-list')
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('opsi-mandor.index')}}">
+                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                            <i class="fas fa-users"></i>
+                        </span>
+                            <span class="nav-link-title">
+                            Opsi Mandor List
+                        </span>
+                        </a>
+                    </li>
+                @endcan
+
                 {{-- Laporan --}}
                 @can('laporan-list')
                 <li class="nav-item">
@@ -325,8 +338,8 @@
                 </li>
                 @endrole
 
-              
-            </ul>            
+
+            </ul>
         </div>
     </div>
 </aside>
