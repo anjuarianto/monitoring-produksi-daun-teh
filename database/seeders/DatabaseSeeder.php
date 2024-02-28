@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
             new MandorUserSeeder(12),
             new KaryawanUserSeeder(100),
             new LaporanSeeder(),
-            new TimbanganSeeder()
+            new TimbanganSeeder(),
+            new HasilSeeder(),
         ];
 
         foreach ($seeders as $key => $seeder) {

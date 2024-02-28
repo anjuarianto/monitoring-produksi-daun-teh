@@ -15,8 +15,6 @@ return new class extends Migration
             $table->unsignedBigInteger('mandor_id');
             $table->unsignedBigInteger('karyawan_id');
 
-            $table->foreign('mandor_id')->references('id')->on('users')->onDelete('cascade');;
-            $table->foreign('karyawan_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mandor_has_user');
+        Schema::dropIfExists('mandor_has_karyawan');
     }
 };

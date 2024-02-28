@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->string('golongan_id')->nullable();
+            $table->unsignedBigInteger('golongan_id')->nullable();
             $table->string('jenis_karyawan')->nullable();
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');

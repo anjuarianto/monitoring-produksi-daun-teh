@@ -27,6 +27,8 @@ class Hasil extends Model
         return $this->belongsTo(User::class, 'mandor_id', 'id');
     }
 
+
+
     public static function getJumlahKemarin() {
 
         return DB::table('laporan as l')

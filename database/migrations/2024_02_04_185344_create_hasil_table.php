@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('timbangan_id');
             $table->integer('jumlah');
-            $table->integer('luas_areal');
+            $table->float('luas_areal');
             $table->unsignedBigInteger('blok_id');
             $table->unsignedBigInteger('mandor_id');
             $table->timestamps();
