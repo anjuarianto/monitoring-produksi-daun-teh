@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreLaporanRequest;
 use App\Http\Requests\UpdateLaporanRequest;
+use App\Models\Hasil;
 use App\Models\Laporan;
 use App\Models\Timbangan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 class LaporanController extends Controller
 {
@@ -51,7 +53,7 @@ class LaporanController extends Controller
         ]);
 
 
-        for ($i=1; $i <= 3; $i++) {
+        for ($i = 1; $i <= 3; $i++) {
             Timbangan::create([
                 'laporan_id' => $laporan->id,
                 'order' => $i,
@@ -68,7 +70,8 @@ class LaporanController extends Controller
     public function show(Laporan $laporan)
     {
         $users = User::get();
-        $timbangans = Timbangan::getDataTimbangan($laporan->id);
+        $timbangans = Timbangan::getTimbanganByLaporanId($laporan->id);
+
         return view('laporan.show', compact('laporan', 'users', 'timbangans'));
     }
 
@@ -77,7 +80,7 @@ class LaporanController extends Controller
      */
     public function edit(Laporan $laporan)
     {
-        $timbangans = Timbangan::getDataTimbangan($laporan->id);
+        $timbangans = Timbangan::getTimbanganByLaporanId($laporan->id);
         $users = User::get();
         return view('laporan.edit', compact('laporan', 'users', 'timbangans'));
     }

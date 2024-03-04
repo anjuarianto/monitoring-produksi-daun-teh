@@ -35,6 +35,15 @@
         </div>
 
         <div class="mb-3">
+            <label class="form-label">Jenis Pemanen</label>
+            <select class="form-control" name="jenis_pemanen" id="jenis-karyawan">
+                @foreach($jenis_pemanens as $jenis_pemanen)
+                    <option value="{{$jenis_pemanen}}" {{$user->jenis_pemanen == $jenis_pemanen ? 'selected' : ''}}>{{$jenis_pemanen}}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="mb-3">
             <label class="form-label">Golongan</label>
             <select name="golongan" id="golongan" class="form-control" disabled>
                 @foreach($golongans as $golongan)

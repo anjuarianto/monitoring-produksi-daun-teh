@@ -22,6 +22,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->unsignedBigInteger('golongan_id')->nullable();
             $table->string('jenis_karyawan')->nullable();
+            $table->string('jenis_pemanen')->nullable();
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
             $table->string('no_handphone');

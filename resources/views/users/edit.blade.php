@@ -2,6 +2,7 @@
 
 @php
 use App\Models\General;
+use App\Models\User;
 $data_page = [
     'title' => 'Users',
     'sub_title' => 'Edit Users',
@@ -25,7 +26,7 @@ $data_page = [
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
-            
+
             <div class="mb-3">
                 <label class="form-label">Email</label>
                 <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{old('email', $user->email)}}"
@@ -40,14 +41,34 @@ $data_page = [
                     required>
                     <option value="" disabled selected>--Pilih Golongan--</option>
                     @foreach ($roles as $role)
-                    <option value="{{$role->id}}" {{old('role', $user->roles[0]->id) == $role->id ?  'selected' : ''}}>{{$role->name}}</option>
+                    <option value="{{$role->name}}" {{old('role', $user->roles[0]->id) == $role->id ?  'selected' : ''}}>{{$role->name}}</option>
                     @endforeach
-                   
+
                 </select>
                 @error('golongan')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
+
+            <div class="d-none" id="section-role-karyawan">
+                <div class="mb-3">
+                    <label class="form-label">Jenis Karyawan</label>
+                    <select class="form-control" name="jenis_karyawan" id="jenis-karyawan">
+                        <option value="{{User::KARYAWAN_HARIAN_TETAP}}" {{$user->jenis_karyawan == User::KARYAWAN_HARIAN_TETAP ? 'selected' : ''}}>{{User::KARYAWAN_HARIAN_TETAP}}</option>
+                        <option value="{{User::KARYAWAN_HARIAN_LEPAS}}" {{$user->jenis_karyawan == User::KARYAWAN_HARIAN_LEPAS ? 'selected' : ''}}>{{User::KARYAWAN_HARIAN_LEPAS}}</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Jenis Pemanen</label>
+                    <select class="form-control" name="jenis_pemanen" id="jenis-karyawan">
+                        @foreach($jenis_pemanens as $jenis_pemanen)
+                            <option value="{{$jenis_pemanen}}" {{$user->jenis_pemanen == $jenis_pemanen ? 'selected' : ''}}>{{$jenis_pemanen}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
             <div class="mb-3">
                 <label class="form-label">Golongan</label>
                 <select name="golongan" id="golongan" class="form-control @error('golongan') is-invalid @enderror"
@@ -132,4 +153,23 @@ $data_page = [
         </form>
     </div>
 </div>
+@endsection
+
+@section('js')
+    <script type="module">
+        $(document).ready(function() {
+            function onChangeKaryawan() {
+                $('#role').val() == 'Karyawan'
+                    ? $('#section-role-karyawan').removeClass('d-none')
+                    : $('#section-role-karyawan').addClass('d-none');
+            }
+
+            onChangeKaryawan();
+
+            $('#role').on('change', function() {
+                onChangeKaryawan();
+
+            })
+        });
+    </script>
 @endsection

@@ -26,9 +26,9 @@ class UserController extends Controller
         if(!Auth::user()->can('user-list')) {
             return abort(403);
         }
-        
+
         $users = User::with('golongan')->get();
-        
+
         return view('users.index', compact('users'));
     }
 
@@ -43,7 +43,9 @@ class UserController extends Controller
 
         $golongans = Golongan::get();
         $roles = Role::get();
-        return view('users.create', compact('golongans', 'roles'));
+        $jenis_pemanens = User::jenis_pemanen();
+
+        return view('users.create', compact('golongans', 'roles', 'jenis_pemanens'));
     }
 
     /**
@@ -59,6 +61,8 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'jenis_karyawan' => $request->role == 'Karyawan' ? $request->jenis_karyawan : null,
+            'jenis_pemanen' => $request->jenis_pemanen ? $request->jenis_pemanen : null,
             'golongan_id' => $request->golongan,
             'tempat_lahir' => $request->tempat_lahir,
             'tanggal_lahir' => $request->tahun.'-'.$request->bulan.'-'.$request->tanggal,
@@ -66,9 +70,7 @@ class UserController extends Controller
             'alamat' => $request->alamat
         ]);
 
-        $role = Role::find($request->role);
-
-        $user->assignRole($role->name);
+        $user->assignRole([$request->role]);
 
         return redirect()->route('users.index')->withSuccess('Data berhasil ditambah');
     }
@@ -96,7 +98,9 @@ class UserController extends Controller
 
         $roles = Role::get();
         $golongans = Golongan::get();
-        return view('users.edit', compact('user', 'golongans', 'roles'));
+        $jenis_pemanens = User::jenis_pemanen();
+
+        return view('users.edit', compact('user', 'golongans', 'roles', 'jenis_pemanens'));
     }
 
     /**
@@ -107,7 +111,7 @@ class UserController extends Controller
         if(!Auth::user()->can('user-edit')) {
             return abort(403);
         }
-        
+
         $user->update([
             'name' => $request->name,
             'password' => Hash::make($request->password),
@@ -120,9 +124,7 @@ class UserController extends Controller
 
         $user->roles()->detach();
 
-        $role = Role::find($request->role);
-
-        $user->assignRole([$role->id]);
+        $user->assignRole([$request->role]);
 
         return redirect()->route('users.index')->withSuccess('Data berhasil diubah');
     }

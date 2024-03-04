@@ -27,6 +27,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'golongan_id',
         'jenis_karyawan',
+        'jenis_pemanen',
         'tempat_lahir',
         'tanggal_lahir',
         'no_handphone',
@@ -63,5 +64,14 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function mandor() {
         return $this->belongsToMany(User::class, 'mandor_has_karyawan', 'karyawan_id', 'mandor_id');
+    }
+
+    public static function jenis_pemanen()
+    {
+        return [
+            'PM',
+            'PG',
+            'OS'
+        ];
     }
 }

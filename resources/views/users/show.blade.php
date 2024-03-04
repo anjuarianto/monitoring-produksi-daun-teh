@@ -32,6 +32,17 @@ use App\Models\General;
             <input type="text" class="form-control" value="{{$user->roles[0]->name }}" readonly>
         </div>
 
+        @if($user->hasRole('Karyawan'))
+        <div class="mb-3">
+            <label class="form-label">Jenis Karyawan</label>
+            <input type="text" class="form-control" value="{{ $user->jenis_karyawan }}" readonly>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Jenis Pemanen</label>
+            <input type="text" class="form-control" value="{{ $user->jenis_pemanen }}" readonly>
+        </div>
+        @endif
 
         <div class="mb-3">
             <label class="form-label">Golongan</label>

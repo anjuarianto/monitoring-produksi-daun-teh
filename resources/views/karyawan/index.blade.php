@@ -23,7 +23,7 @@ $data_page = [
         <div>
           <h4 class="alert-title">Success!</h4>
           <div class="text-secondary">{{$message}}</div>
-        </div>    
+        </div>
       </div>
       <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
     </div>
@@ -39,6 +39,7 @@ $data_page = [
                             <th>Email</th>
                             <th>Golongan</th>
                             <th>Jenis Karyawan</th>
+                            <th>Jenis Pemanen</th>
                             <th>No. Handphone</th>
                             <th></th>
                         </tr>
@@ -50,6 +51,7 @@ $data_page = [
                             <td>{{$karyawan->email}}</td>
                             <td>{{$karyawan->golongan->name}}</td>
                             <td>{{$karyawan->jenis_karyawan}}</td>
+                            <td>{{$karyawan->jenis_pemanen}}</td>
                             <td>{{$karyawan->no_handphone}}</td>
                             <td>
                                 <div class="dropdown" id="myDropdown">
@@ -80,7 +82,7 @@ $data_page = [
 @section('js')
 <script>
     const myDropdown = document.getElementById('myDropdown');
-    
+
     myDropdown.addEventListener('show.bs.dropdown', event => {
         $('.table-responsive').css( "overflow", "inherit" );
     })
@@ -94,7 +96,7 @@ $data_page = [
         modalDelete.addEventListener('show.bs.modal', event => {
 
         const button = event.relatedTarget;
-        
+
         const actionUrl = button.getAttribute('data-bs-action-url');
 
         // Update the modal's content.

@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -14,8 +13,11 @@ return new class extends Migration
         Schema::create('hasil', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('timbangan_id');
-            $table->integer('jumlah');
-            $table->float('luas_areal');
+            $table->float('luas_areal_pm');
+            $table->float('luas_areal_pg');
+            $table->float('luas_areal_os');
+            $table->integer('jumlah_kht');
+            $table->integer('jumlah_khl');
             $table->unsignedBigInteger('blok_id');
             $table->unsignedBigInteger('mandor_id');
             $table->timestamps();

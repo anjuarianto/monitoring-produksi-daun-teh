@@ -6,28 +6,26 @@
 @endphp
 
 @section('css')
-<style>
     .select2-selection {
-        border-color: #dadfe5 !important;
+    border-color: #dadfe5 !important;
     }
 
     .select2-selection__rendered {
-        line-height: 31px !important;
+    line-height: 31px !important;
     }
 
     .select2-container .select2-selection--single {
-        height: 35px !important;
+    height: 35px !important;
     }
 
     .select2-selection__arrow {
-        height: 34px !important;
+    height: 34px !important;
     }
 
     .logo-icon {
-        width: 150px;
-        height: auto;
+    width: 150px;
+    height: auto;
     }
-</style>
 @endsection
 
 @section('content')
@@ -217,7 +215,7 @@
         $('#button-show-password, #button-show-confirmation').on('click', function(element) {
             var input = $(this).parent().prev();
             var iconShowPassword =  $(this).children();
-            
+
 
             if (input.attr("type") == 'password') {
                 input.attr("type", "text");
@@ -230,8 +228,9 @@
             }
         });
 
+        // on change karyawan function
         function onChangeKaryawan() {
-            $('#role').val() == 'Karyawan' 
+            $('#role').val() == 'Karyawan'
                 ? $('#section-jenis-karyawan').removeClass('d-none')
                 : $('#section-jenis-karyawan').addClass('d-none');
         }

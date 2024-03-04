@@ -31,8 +31,9 @@ class KaryawanController extends Controller
         }
 
         $golongans = Golongan::get();
+        $jenis_pemanens = User::jenis_pemanen();
 
-        return view('karyawan.show', compact('user', 'golongans'));
+        return view('karyawan.show', compact('user', 'golongans', 'jenis_pemanens'));
 
     }
 
@@ -52,8 +53,9 @@ class KaryawanController extends Controller
         }
 
         $golongans = Golongan::get();
+        $jenis_pemanens = User::jenis_pemanen();
 
-        return view('karyawan.edit', compact('user', 'golongans'));
+        return view('karyawan.edit', compact('user', 'golongans', 'jenis_pemanens'));
     }
 
     /**
@@ -62,9 +64,10 @@ class KaryawanController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::find($id);
-        
+
         $user->update([
-            'jenis_karyawan' => $request->jenis_karyawan
+            'jenis_karyawan' => $request->jenis_karyawan,
+            'jenis_pemanen' => $request->jenis_pemanen
         ]);
 
         return redirect()->route('karyawan.index')->withSuccess('Data berhasil diubah');
