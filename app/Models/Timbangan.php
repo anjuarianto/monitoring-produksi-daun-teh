@@ -31,10 +31,14 @@ class Timbangan extends Model
     }
 
 
-    public static function getTimbanganByLaporanId($laporan_id)
+    public static function getDataByLaporanId($laporan_id)
     {
-        return self::withSum('hasil as total_kht', 'jumlah_kht')
-            ->withSum('hasil as total_khl', 'jumlah_khl')
+        return self::withSum('hasil as total_kht_pg', 'jumlah_kht_pg')
+            ->withSum('hasil as total_kht_pm', 'jumlah_kht_pm')
+            ->withSum('hasil as total_kht_os', 'jumlah_kht_os')
+            ->withSum('hasil as total_khl_pg', 'jumlah_khl_pg')
+            ->withSum('hasil as total_khl_pm', 'jumlah_khl_pm')
+            ->withSum('hasil as total_khl_os', 'jumlah_khl_os')
             ->withSum('hasil as total_areal_pm', 'luas_areal_pm')
             ->withSum('hasil as total_areal_pg', 'luas_areal_pg')
             ->withSum('hasil as total_areal_os', 'luas_areal_os')
@@ -43,6 +47,60 @@ class Timbangan extends Model
             }])
             ->withCount('hasil as total_blok')
             ->where('laporan_id', $laporan_id)
+            ->get();
+    }
+
+    public static function test($bulan)
+    {
+        $timbangan = new Timbangan();
+        return [
+            'luas_areal' => self::withSum('hasil as total_pm', 'luas_areal_pm')->with('laporan', 'hasil')->whereHas('laporan', function ($query) use ($bulan) {
+                $query->whereMonth('tanggal', 02);
+            })->get()->sum('total_pm'),
+            'pemetik_kht' => $timbangan->sumKhtInMonth($bulan),
+            'pemetik_khl' => $timbangan->sumKhlInMonth($bulan)
+        ];
+    }
+
+    public function sumKhtInMonth($bulan)
+    {
+        return self::withCount(['karyawan as total_kht_pm' => function ($query) {
+            $query->select(\Illuminate\Support\Facades\DB::raw('COUNT(user_id)'));
+            $query->where('jenis_karyawan', User::KARYAWAN_HARIAN_TETAP);
+            $query->where('jenis_pemanen', 'pm');
+        }])
+            ->whereHas('laporan', function ($query) use ($bulan) {
+                $query->whereMonth('tanggal', $bulan);
+            })->get();
+    }
+
+    public function sumKhlInMonth($bulan)
+    {
+        return self::withCount(['karyawan as total_karyawan' => function ($query) {
+            $query->select(\Illuminate\Support\Facades\DB::raw('COUNT(DISTINCT user_id)'));
+            $query->where('jenis_karyawan', User::KARYAWAN_HARIAN_LEPAS);
+        }])
+            ->whereHas('laporan', function ($query) use ($bulan) {
+                $query->whereMonth('tanggal', $bulan);
+            })->get()->sum('total_karyawan');
+    }
+
+
+    public static function getTimbanganAwalSampaiAkhirBulan($bulan)
+    {
+        return self::with('laporan')
+            ->whereHas('laporan', function ($query) use ($bulan) {
+                $query->whereMonth('tanggal', 02);
+            })
+            ->withSum('hasil as total_kht', 'jumlah_kht')
+            ->withSum('hasil as total_khl', 'jumlah_khl')
+            ->withSum('hasil as total_areal_pm', 'luas_areal_pm')
+            ->withSum('hasil as total_areal_pg', 'luas_areal_pg')
+            ->withSum('hasil as total_areal_os', 'luas_areal_os')
+            ->withCount(['karyawan as total_karyawan' => function ($query) {
+                $query->select(\Illuminate\Support\Facades\DB::raw('COUNT(DISTINCT user_id)'));
+            }])
+            ->withCount('hasil as total_blok')
             ->get();
     }
 

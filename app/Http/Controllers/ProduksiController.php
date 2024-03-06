@@ -11,7 +11,7 @@ class ProduksiController extends Controller
     public function index(Request $request): View
     {
         $filter_tahun = $request->filter_tahun ?? date('Y');
-        $produksis = Laporan::getDataLaporanByMonth($filter_tahun);
+        $produksis = Laporan::getDataLaporanByYear($filter_tahun);
         return view('produksi.index', compact('produksis'));
     }
 

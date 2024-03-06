@@ -58,14 +58,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/laporan/timbangan/{timbangan}/edit', [TimbanganController::class, 'edit'])->name('timbangan.edit');
     Route::put('/laporan/timbangan/{timbangan}', [TimbanganController::class, 'update'])->name('timbangan.update');
 
-    Route::group(['prefix' => 'karyawan', 'as' => 'karyawan.'], function() {
+    Route::post('/hasil', [\App\Http\Controllers\HasilController::class, 'store'])->name('hasil.store');
+    Route::put('/hasil/{hasil}', [\App\Http\Controllers\HasilController::class, 'update'])->name('hasil.update');
+    Route::delete('/hasil/{hasil}', [\App\Http\Controllers\HasilController::class, 'destroy'])->name('hasil.destroy');
+
+    Route::group(['prefix' => 'karyawan', 'as' => 'karyawan.'], function () {
         Route::get('/', [KaryawanController::class, 'index'])->name('index');
         Route::get('/show/{karyawan}', [KaryawanController::class, 'show'])->name('show');
         Route::get('/edit/{karyawan}', [KaryawanController::class, 'edit'])->name('edit');
         Route::put('/update/{karyawan}', [KaryawanController::class, 'update'])->name('update');
     });
-
-
 
 
     Route::get('/profile/change-password', [PasswordController::class, 'edit'])->name('profile.change-password.edit');
@@ -74,4 +76,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

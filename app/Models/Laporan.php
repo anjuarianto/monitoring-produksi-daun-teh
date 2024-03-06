@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class Laporan extends Model
@@ -30,12 +30,15 @@ class Laporan extends Model
         return $this->hasManyThrough(Hasil::class, Timbangan::class);
     }
 
-
     public static function getDataLaporan($filter_bulan, $filter_tahun)
     {
         return self::query()->with('kerani_timbang')
-            ->withSum('hasil as total_kht', 'jumlah_kht')
-            ->withSum('hasil as total_khl', 'jumlah_khl')
+            ->withSum('hasil as total_kht_pg', 'jumlah_kht_pg')
+            ->withSum('hasil as total_kht_pm', 'jumlah_kht_pm')
+            ->withSum('hasil as total_kht_os', 'jumlah_kht_os')
+            ->withSum('hasil as total_khl_pg', 'jumlah_khl_pg')
+            ->withSum('hasil as total_khl_pm', 'jumlah_khl_pm')
+            ->withSum('hasil as total_khl_os', 'jumlah_khl_os')
             ->withSum('hasil as total_areal_pm', 'luas_areal_pm')
             ->withSum('hasil as total_areal_pg', 'luas_areal_pg')
             ->withSum('hasil as total_areal_os', 'luas_areal_os')
@@ -54,12 +57,49 @@ class Laporan extends Model
 
     }
 
-    public static function getDataLaporanByMonth($filter_tahun)
+    public static function getDataBulanIni($bulan)
+    {
+        $hasil = Hasil::whereHas('laporan', function ($query) use ($bulan) {
+            $query->whereMonth('tanggal', $bulan);
+        })->get();
+
+        $karyawanPm = Hasil::withCount(['karyawans as total_karyawan_kht' => function ($query) {
+            $query->where('jenis_karyawan', User::KARYAWAN_HARIAN_TETAP);
+            $query->where('jenis_pemanen', 'pm');
+        }])->withCount(['karyawans as total_karyawan_khl' => function ($query) {
+            $query->where('jenis_karyawan', User::KARYAWAN_HARIAN_LEPAS);
+            $query->where('jenis_pemanen', 'pm');
+        }])
+            ->whereHas('laporan', function ($query) use ($bulan) {
+                $query->whereMonth('tanggal', $bulan);
+            })->get();
+
+        return [
+            'pm' => [
+                'luas_areal' => $hasil->sum('luas_areal_pm'),
+                'total_karyawan_kht' => $karyawanPm->sum('total_karyawan_kht'),
+                'total_karyawan_khl' => $karyawanPm->sum('total_karyawan_khl'),
+                'total_timbangan_kht' => $hasil->sum('jumlah_kht_pm'),
+                'total_timbangan_khl' => $hasil->sum('jumlah_khl_pm')
+            ],
+            'pg' => [
+                'luas_areal' => $hasil->sum('luas_areal_pg'),
+                'total_karyawan_kht' => $karyawanPm->sum('total_karyawan_kht'),
+                'total_karyawan_khl' => $karyawanPm->sum('total_karyawan_khl'),
+                'total_timbangan_kht' => $hasil->sum('jumlah_kht_pg'),
+                'total_timbangan_khl' => $hasil->sum('jumlah_khl_pg')
+            ]
+        ];
+    }
+
+
+    public static function getDataLaporanByYear($filter_tahun)
     {
         $sql = "
       SELECT
           m.month as bulan,
-          IFNULL(t.total_timbangan, 0) AS total_timbangan,
+          IFNULL(t.jumlah_kht_pm, 0) AS total_timbangan_kht,
+          IFNULL(t.jumlah_khl_pm, 0) AS total_timbangan_khl,
           IFNULL(t.total_karyawan, 0) AS total_karyawan,
           IFNULL(t.total_blok, 0) AS total_blok
       FROM (
@@ -70,7 +110,8 @@ class Laporan extends Model
       LEFT JOIN (
           SELECT
               MONTH(l.tanggal) AS month,
-              IFNULL(SUM(jumlah_timbangan), 0) AS total_timbangan,
+              IFNULL(SUM(jumlah_kht_pm), 0) AS jumlah_kht_pm,
+              IFNULL(SUM(jumlah_khl_pm), 0) AS jumlah_khl_pm,
               IFNULL(SUM(jumlah_karyawan), 0) AS total_karyawan,
               IFNULL(SUM(total_blok), 0) AS total_blok
           FROM
@@ -78,7 +119,8 @@ class Laporan extends Model
           LEFT JOIN (
               SELECT
                   h.timbangan_id,
-                  SUM(h.jumlah) AS jumlah_timbangan,
+                  SUM(h.jumlah_kht_pm) AS jumlah_kht_pm,
+                  SUM(h.jumlah_khl_pm) AS jumlah_khl_pm,
                   SUM(hk.jumlah_karyawan) AS jumlah_karyawan,
                   COUNT(*) AS total_blok,
                   t.laporan_id
@@ -107,4 +149,28 @@ class Laporan extends Model
 
         return DB::select($sql, array($filter_tahun));
     }
+
+
+    public static function test($filter_tahun)
+    {
+        return self::query()->with('kerani_timbang')
+            ->withSum('hasil as total_kht', 'jumlah_kht')
+            ->withSum('hasil as total_khl', 'jumlah_khl')
+            ->withSum('hasil as total_areal_pm', 'luas_areal_pm')
+            ->withSum('hasil as total_areal_pg', 'luas_areal_pg')
+            ->withSum('hasil as total_areal_os', 'luas_areal_os')
+            ->withCount(['hasil as total_blok' => function ($query) {
+                $query->select(DB::raw('COUNT(DISTINCT blok_id)'));
+            }])
+            ->addSelect(['total_karyawan' => Hasil::selectRaw('COUNT(hasil_has_karyawan.user_id)')
+                ->join('hasil_has_karyawan', 'hasil.id', '=', 'hasil_has_karyawan.hasil_id')
+                ->join('timbangan', 'hasil.timbangan_id', '=', 'timbangan.id')
+                ->whereColumn('timbangan.laporan_id', 'laporan.id')
+                ->limit(1)
+            ])
+            ->whereYear('tanggal', $filter_tahun)
+            ->get();
+
+    }
+
 }

@@ -28,11 +28,16 @@ class HasilSeeder extends Seeder
             while ($counterHasil < 2) {
                 $hasil = Hasil::create([
                     'timbangan_id' => $timbangan->id,
-                    'jumlah_kht' => $faker->numberBetween(593, 3000),
-                    'jumlah_khl' => $faker->numberBetween(593, 3000),
+                    'jumlah_kht_pm' => $faker->numberBetween(593, 3000),
+                    'jumlah_kht_pg' => $faker->numberBetween(593, 3000),
+                    'jumlah_kht_os' => $faker->numberBetween(593, 3000),
+                    'jumlah_khl_pm' => $faker->numberBetween(593, 3000),
+                    'jumlah_kht_pg' => $faker->numberBetween(593, 3000),
+                    'jumlah_kht_os' => $faker->numberBetween(593, 3000),
                     'luas_areal_pm' => $faker->randomFloat(4, 1, 10),
                     'luas_areal_pg' => $faker->randomFloat(4, 1, 10),
                     'luas_areal_os' => $faker->randomFloat(4, 1, 10),
+                    'pusingan_petikan_ke' => $faker->numberBetween(20, 30),
                     'blok_id' => Blok::all()->random()->id,
                     'mandor_id' => User::role('Mandor')->get()->random()->id
                 ]);

@@ -2,11 +2,11 @@
 
 @php
     $data_page = [
-    'title' => 'Laporan',
-    'sub_title' => 'View Laporan',
-    'create_button' => [
-    'is_enabled' => FALSE,
-    ]
+        'title' => 'Laporan',
+        'sub_title' => 'View Laporan',
+        'create_button' => [
+        'is_enabled' => FALSE,
+        ]
     ];
 @endphp
 
@@ -43,8 +43,10 @@
                         <th>Waktu</th>
                         <th>Deskripsi</th>
                         <th>Jumlah Blok</th>
+                        <th>Luas Areal</th>
                         <th>Jumlah Pemetik</th>
                         <th>Jumlah kilogram <small>(kg)</small></th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -57,11 +59,15 @@
 
                                 @if($timbangan->total_blok > 0)
                                     <td>{{ $timbangan->total_blok}}</td>
-                                    <td>{{ $timbangan->luas_areal}}</td>
+                                    <td>{{ $timbangan->total_areal_pm + $timbangan->total_areal_pg + $timbangan->total_areal_os }}</td>
                                     <td>{{ $timbangan->total_karyawan }}</td>
                                     <td>{{ $timbangan->total_kht + $timbangan->total_khl }}</td>
+                                    <td>
+                                        <a href="{{ route('timbangan.view', $timbangan->id) }}"
+                                           class="btn btn-sm btn-outline-github">Detail</a>
+                                    </td>
                                 @else
-                                    <td colspan="3" style="text-align: center"> <span
+                                    <td colspan="5" style="text-align: center"> <span
                                             class="badge bg-danger text-danger-fg">Belum Input</span></td>
                                 @endif
 
@@ -74,7 +80,7 @@
                 </table>
             </div>
             <div class="form-footer">
-                <a class="btn btn-secondary" href="{{ route('laporan.index') }}">Back</a>
+                <button type="button" class="btn btn-secondary" onclick="history.back()">Back</button>
             </div>
         </div>
     </div>

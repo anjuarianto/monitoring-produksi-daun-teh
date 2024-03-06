@@ -32,7 +32,7 @@ class TimbanganController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -55,9 +55,9 @@ class TimbanganController extends Controller
         $karyawans = User::role('Karyawan')->get();
         $mandors = User::role('Mandor')->get();
         $bloks = Blok::get();
-        $hasils = Hasil::with('karyawan')->where('timbangan_id', $timbangan->id)->get();
+        $hasils = Hasil::with('karyawan', 'blok')->where('timbangan_id', $timbangan->id)->get();
 
-        return view('laporan.timbangan.edit', compact('timbangan', 'bloks', 'karyawans', 'hasils', 'mandors'));   
+        return view('laporan.timbangan.edit', compact('timbangan', 'bloks', 'karyawans', 'hasils', 'mandors'));
     }
 
     /**
@@ -67,18 +67,18 @@ class TimbanganController extends Controller
     {
         // Remove old record by timbangan id
         Hasil::where('timbangan_id', $timbangan->id)->delete();
-        
+
         // set blok
-        if(!$request->blok_id) {
+        if (!$request->blok_id) {
             return redirect()->back()->withErrors('Data tidak boleh kosong');
         }
 
-        if(!$request->karyawan_id) {
+        if (!$request->karyawan_id) {
             return redirect()->back()->withErrors('Data karyawan tidak boleh kosong');
         }
 
 
-        foreach($request->blok_id as $key => $blok) {
+        foreach ($request->blok_id as $key => $blok) {
 
             $hasil = Hasil::create([
                 'timbangan_id' => $timbangan->id,
@@ -95,7 +95,7 @@ class TimbanganController extends Controller
                 ]);
             }
         }
-        
+
         return redirect()->route('laporan.edit', $timbangan->laporan_id)->withSuccess('Data berhasil diubah');
 
     }
