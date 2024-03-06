@@ -69,10 +69,29 @@ class Laporan extends Model
         }])->withCount(['karyawans as total_karyawan_khl' => function ($query) {
             $query->where('jenis_karyawan', User::KARYAWAN_HARIAN_LEPAS);
             $query->where('jenis_pemanen', 'pm');
-        }])
-            ->whereHas('laporan', function ($query) use ($bulan) {
+        }])->whereHas('laporan', function ($query) use ($bulan) {
                 $query->whereMonth('tanggal', $bulan);
-            })->get();
+        })->get();
+
+        $karyawanPg = Hasil::withCount(['karyawans as total_karyawan_kht' => function ($query) {
+            $query->where('jenis_karyawan', User::KARYAWAN_HARIAN_TETAP);
+            $query->where('jenis_pemanen', 'pg');
+        }])->withCount(['karyawans as total_karyawan_khl' => function ($query) {
+            $query->where('jenis_karyawan', User::KARYAWAN_HARIAN_LEPAS);
+            $query->where('jenis_pemanen', 'pg');
+        }])->whereHas('laporan', function ($query) use ($bulan) {
+            $query->whereMonth('tanggal', $bulan);
+        })->get();
+
+        $karyawanOs = Hasil::withCount(['karyawans as total_karyawan_kht' => function ($query) {
+            $query->where('jenis_karyawan', User::KARYAWAN_HARIAN_TETAP);
+            $query->where('jenis_pemanen', 'os');
+        }])->withCount(['karyawans as total_karyawan_khl' => function ($query) {
+            $query->where('jenis_karyawan', User::KARYAWAN_HARIAN_LEPAS);
+            $query->where('jenis_pemanen', 'os');
+        }])->whereHas('laporan', function ($query) use ($bulan) {
+            $query->whereMonth('tanggal', $bulan);
+        })->get();
 
         return [
             'pm' => [
@@ -84,10 +103,17 @@ class Laporan extends Model
             ],
             'pg' => [
                 'luas_areal' => $hasil->sum('luas_areal_pg'),
-                'total_karyawan_kht' => $karyawanPm->sum('total_karyawan_kht'),
-                'total_karyawan_khl' => $karyawanPm->sum('total_karyawan_khl'),
+                'total_karyawan_kht' => $karyawanPg->sum('total_karyawan_kht'),
+                'total_karyawan_khl' => $karyawanPg->sum('total_karyawan_khl'),
                 'total_timbangan_kht' => $hasil->sum('jumlah_kht_pg'),
                 'total_timbangan_khl' => $hasil->sum('jumlah_khl_pg')
+            ],
+            'os' => [
+                'luas_areal' => $hasil->sum('luas_areal_os'),
+                'total_karyawan_kht' => $karyawanOs->sum('total_karyawan_kht'),
+                'total_karyawan_khl' => $karyawanOs->sum('total_karyawan_khl'),
+                'total_timbangan_kht' => $hasil->sum('jumlah_kht_os'),
+                'total_timbangan_khl' => $hasil->sum('jumlah_khl_os')
             ]
         ];
     }

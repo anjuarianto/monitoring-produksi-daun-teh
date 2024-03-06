@@ -1,3 +1,12 @@
+@php
+foreach($timbangans as $key => $timbangan) {
+    $total_timbangans[$key] = $timbangan->total_kht_pm +  $timbangan->total_kht_pg + $timbangan->total_kht_os +
+                $timbangan->total_khl_pm + $timbangan->total_khl_pg + $timbangan->total_khl_os;
+}
+
+$total_sum_timbangan = $timbangans->sum('total_kht_pm') +  $timbangans->sum('total_kht_pg') + $timbangans->sum('total_kht_os') +
+            $timbangans->sum('total_khl_pm') + $timbangans->sum('total_khl_pg') + $timbangans->sum('total_khl_os');
+@endphp
 <tr>
     <td colspan="4" rowspan="3" class="fw-bold" style="vertical-align: bottom">
         Timbangan Di Lapangan
@@ -21,12 +30,14 @@
     <td>V</td>
 </tr>
 <tr class="text-center">
-    @foreach($timbangans as $timbangan)
-        <td>{{ $timbangan->sum_jumlah }}</td>
+    @foreach($total_timbangans as $total_timbangan)
+        <td>
+            {{ $total_timbangan }}
+        </td>
     @endforeach
     <td></td>
     <td></td>
-    <td>{{ $timbangans->sum('sum_jumlah') }}</td>
+    <td>{{ $total_sum_timbangan }}</td>
     <td colspan="2"></td>
     <td></td>
     <td></td>
@@ -36,12 +47,12 @@
 </tr>
 <tr>
     <td class="fw-bold" colspan="4">Timbangan di Pabrik</td>
+    @foreach($timbangans as $timbangan)
+        <td>{{ $timbangan->timbangan_pabrik }}</td>
+    @endforeach
     <td></td>
     <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td>{{ $timbangans->sum('timbangan_pabrik') }}</td>
     <td colspan="2">xx</td>
     <td colspan="4">Jam berangkat dari afd</td>
     <td></td>
@@ -51,12 +62,12 @@
 </tr>
 <tr>
     <td class="fw-bold" colspan="4">Selisih Lebih (Kurang) </td>
+    @foreach($total_timbangans as $key => $total_timbangan)
+        <td>({{ $total_timbangan - $timbangans[$key]->timbangan_pabrik }})</td>
+    @endforeach
     <td></td>
     <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td>({{ $total_sum_timbangan - $timbangans->sum('timbangan_pabrik') }})</td>
     <td colspan="2">xx</td>
     <td colspan="4">Jam tiba di pabrik</td>
     <td></td>

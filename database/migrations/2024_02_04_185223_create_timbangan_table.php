@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('laporan_id');
             $table->integer('order');
+            $table->integer('timbangan_pabrik');
             $table->time('waktu');
             $table->timestamps();
 

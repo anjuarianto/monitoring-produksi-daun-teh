@@ -4,15 +4,16 @@ namespace Database\Seeders;
 
 use App\Models\Laporan;
 use App\Models\Timbangan;
+use Faker\Factory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class TimbanganSeeder extends Seeder
 {
-    
+
     protected $count;
 
-    public function __construct() 
+    public function __construct()
     {
 
     }
@@ -21,6 +22,7 @@ class TimbanganSeeder extends Seeder
      */
     public function run(): void
     {
+        $faker = Factory::create();
         $laporans = Laporan::all();
 
         foreach($laporans as $laporan) {
@@ -30,6 +32,7 @@ class TimbanganSeeder extends Seeder
                 Timbangan::create([
                     'laporan_id' => $laporan->id,
                     'order' => $i,
+                    'timbangan_pabrik' => $faker->numberBetween(3600, 14371),
                     'waktu' => date('H:i:s')
                 ]);
 
