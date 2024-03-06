@@ -16,8 +16,11 @@
             <h3 class="m-0">Tabel Laporan PB58 Tanggal --25</h3>
         </div>
         <div class="card-body">
+
             <div class="table-responsive">
-                <table class="table table-bordered table-sm" style="font-size: 12px">
+                @include('laporan.table-component.title')
+                <table class="table table-bordered table-sm" style="font-size: 11px">
+
                     @include('laporan.table-component.header')
                     @include('laporan.table-component.body')
                 </table>

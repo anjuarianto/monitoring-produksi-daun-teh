@@ -1,19 +1,19 @@
 @php
-foreach($timbangans as $key => $timbangan) {
-    $total_timbangans[$key] = $timbangan->total_kht_pm +  $timbangan->total_kht_pg + $timbangan->total_kht_os +
-                $timbangan->total_khl_pm + $timbangan->total_khl_pg + $timbangan->total_khl_os;
-}
+    foreach($timbangans as $key => $timbangan) {
+        $total_timbangans[$key] = $timbangan->total_kht_pm +  $timbangan->total_kht_pg + $timbangan->total_kht_os +
+                    $timbangan->total_khl_pm + $timbangan->total_khl_pg + $timbangan->total_khl_os;
+    }
 
-$total_sum_timbangan = $timbangans->sum('total_kht_pm') +  $timbangans->sum('total_kht_pg') + $timbangans->sum('total_kht_os') +
-            $timbangans->sum('total_khl_pm') + $timbangans->sum('total_khl_pg') + $timbangans->sum('total_khl_os');
+    $total_sum_timbangan = $timbangans->sum('total_kht_pm') +  $timbangans->sum('total_kht_pg') + $timbangans->sum('total_kht_os') +
+                $timbangans->sum('total_khl_pm') + $timbangans->sum('total_khl_pg') + $timbangans->sum('total_khl_os');
 @endphp
 <tr>
     <td colspan="4" rowspan="3" class="fw-bold" style="vertical-align: bottom">
         Timbangan Di Lapangan
     </td>
     <td colspan="6" class="fw-bold text-center">Kilogram Daun Basah</td>
-    <td colspan="2" class="fw-bold" rowspan="2">Jumlah kg s/d hari ini</td>
-    <td rowspan="3" colspan="3" class="fw-bold" style="vertical-align: bottom">Mutu Daun</td>
+    <td colspan="1" class="fw-bold" rowspan="2">Jumlah kg s/d hari ini</td>
+    <td rowspan="3" colspan=2" class="fw-bold" style="vertical-align: bottom">Mutu Daun</td>
     <td colspan="5" class="fw-bold text-center">TIMBANG KE:</td>
 </tr>
 <tr class="text-center fw-bold">
@@ -38,7 +38,7 @@ $total_sum_timbangan = $timbangans->sum('total_kht_pm') +  $timbangans->sum('tot
     <td></td>
     <td></td>
     <td>{{ $total_sum_timbangan }}</td>
-    <td colspan="2"></td>
+    <td class="text-center">{{ $total_bulanan['total_timbangan'] }}</td>
     <td></td>
     <td></td>
     <td></td>
@@ -48,28 +48,28 @@ $total_sum_timbangan = $timbangans->sum('total_kht_pm') +  $timbangans->sum('tot
 <tr>
     <td class="fw-bold" colspan="4">Timbangan di Pabrik</td>
     @foreach($timbangans as $timbangan)
-        <td>{{ $timbangan->timbangan_pabrik }}</td>
+        <td class="text-center">{{ $timbangan->timbangan_pabrik }}</td>
     @endforeach
     <td></td>
     <td></td>
-    <td>{{ $timbangans->sum('timbangan_pabrik') }}</td>
-    <td colspan="2">xx</td>
-    <td colspan="4">Jam berangkat dari afd</td>
+    <td class="text-center">{{ $timbangans->sum('timbangan_pabrik') }}</td>
+    <td class="text-center">{{ $total_bulanan['total_timbangan_pabrik'] }}</td>
+    <td colspan="3">Jam berangkat dari afd</td>
     <td></td>
     <td></td>
     <td></td>
     <td></td>
 </tr>
 <tr>
-    <td class="fw-bold" colspan="4">Selisih Lebih (Kurang) </td>
+    <td class="fw-bold" colspan="4">Selisih Lebih (Kurang)</td>
     @foreach($total_timbangans as $key => $total_timbangan)
-        <td>({{ $total_timbangan - $timbangans[$key]->timbangan_pabrik }})</td>
+        <td class="text-center">({{ $total_timbangan - $timbangans[$key]->timbangan_pabrik }})</td>
     @endforeach
     <td></td>
     <td></td>
-    <td>({{ $total_sum_timbangan - $timbangans->sum('timbangan_pabrik') }})</td>
-    <td colspan="2">xx</td>
-    <td colspan="4">Jam tiba di pabrik</td>
+    <td class="text-center">({{ $total_sum_timbangan - $timbangans->sum('timbangan_pabrik') }})</td>
+    <td class="text-center"></td>
+    <td colspan="3">Jam tiba di pabrik</td>
     <td></td>
     <td></td>
     <td></td>
@@ -83,8 +83,8 @@ $total_sum_timbangan = $timbangans->sum('total_kht_pm') +  $timbangans->sum('tot
     <td></td>
     <td></td>
     <td></td>
-    <td colspan="2"></td>
-    <td colspan="4"></td>
+    <td></td>
+    <td colspan="3"></td>
     <td></td>
     <td></td>
     <td></td>
