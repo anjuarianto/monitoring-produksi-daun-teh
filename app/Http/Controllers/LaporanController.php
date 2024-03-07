@@ -70,7 +70,8 @@ class LaporanController extends Controller
     public function show(Laporan $laporan)
     {
         $users = User::get();
-        $timbangans = Timbangan::getTimbanganByLaporanId($laporan->id);
+
+        $timbangans = Timbangan::getDataByLaporanId($laporan->id);
 
         return view('laporan.show', compact('laporan', 'users', 'timbangans'));
     }
@@ -80,7 +81,7 @@ class LaporanController extends Controller
      */
     public function edit(Laporan $laporan)
     {
-        $timbangans = Timbangan::getTimbanganByLaporanId($laporan->id);
+        $timbangans = Timbangan::getDataByLaporanId($laporan->id);
         $users = User::get();
         return view('laporan.edit', compact('laporan', 'users', 'timbangans'));
     }

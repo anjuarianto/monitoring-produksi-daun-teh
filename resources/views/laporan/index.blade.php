@@ -98,7 +98,9 @@
                                     }}
                                 </td>
                                 <td>{{$laporan->kerani_timbang->name}}</td>
-                                <td>{{$laporan->total_kht + $laporan->total_khl}} Kg</td>
+                                <td>{{ $laporan->total_kht_pm +  $laporan->total_kht_pg + $laporan->total_kht_os + $laporan->total_khl_pm + $laporan->total_khl_pg + $laporan->total_khl_os }}
+                                    Kg
+                                </td>
                                 <td>{{$laporan->total_blok}} Blok</td>
                                 <td>{{$laporan->total_karyawan}} Orang</td>
                                 <td class="text-end">

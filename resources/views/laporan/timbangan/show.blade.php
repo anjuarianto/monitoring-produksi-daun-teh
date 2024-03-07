@@ -61,7 +61,7 @@
                         </thead>
                         <tbody id="body-table">
 
-                        @if ($timbangan->total_blok > 0)
+                        @if ($timbangan->hasil->count() > 0)
                             @foreach ($hasils as $hasil)
                                 <tr>
                                     <td style="vertical-align: middle;">
@@ -74,14 +74,14 @@
                                         {{ $hasil->pusingan_petikan_ke }}
                                     </td>
                                     <td style="vertical-align: middle;">
-                                        {{ $hasil->jumlah_kht + $hasil->jumlah_khl }}
+                                        {{ $hasil->jumlah_kht_pm + $hasil->jumlah_kht_pg + $hasil->jumlah_kht_os + $hasil->jumlah_khl_pm + $hasil->jumlah_khl_pg + $hasil->jumlah_khl_os }}
                                     </td>
                                     <td style="vertical-align: middle">
                                         {{$hasil->mandor->name}}
                                     </td>
                                     <td>
                                         <ul style="margin: 0;">
-                                            @foreach ($hasil->karyawan as $karyawan)
+                                            @foreach ($hasil->karyawans as $karyawan)
                                                 <li>{{$karyawan->name}}</li>
                                             @endforeach
                                         </ul>

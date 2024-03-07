@@ -44,7 +44,7 @@ class TimbanganController extends Controller
         $bloks = Blok::get();
         $karyawans = User::role('karyawan')->get();
 
-        return view('laporan.timbangan.view', compact('timbangan', 'hasils', 'bloks', 'karyawans'));
+        return view('laporan.timbangan.show', compact('timbangan', 'hasils', 'bloks', 'karyawans'));
     }
 
     /**

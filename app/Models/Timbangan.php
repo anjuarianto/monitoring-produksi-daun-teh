@@ -122,35 +122,36 @@ class Timbangan extends Model
             ->get();
     }
 
-    public static function daun($laporan_id, $mandor_id)
-    {
-        return Timbangan::with(['hasil' => function ($query) use ($mandor_id) {
-            $query->where('mandor_id', $mandor_id);
-        }])
-            ->select('timbangan.*')
-            ->selectRaw('hasil.jumlah as total_timbangan')
-            ->selectRaw('hasil.luas_areal as total_luas')
-            ->selectRaw('COUNT(DISTINCT hasil_has_karyawan.user_id) as total_karyawan')
-            ->selectRaw('COUNT(DISTINCT hasil.blok_id) as total_blok')
-            ->leftJoin('hasil', 'hasil.timbangan_id', '=', 'timbangan.id')
-            ->leftJoin('hasil_has_karyawan', 'hasil.id', '=', 'hasil_has_karyawan.hasil_id')
-            ->leftJoin('users', 'users.id', '=', 'hasil_has_karyawan.user_id')
-            ->where('timbangan.laporan_id', $laporan_id)
-            ->where('hasil.mandor_id', $mandor_id)
-            ->groupBy('timbangan.id')
-            ->get();
-
-    }
-
-    public static function daunTotal($laporan_id, $mandor_id): array
-    {
-        $data = self::daun($laporan_id, $mandor_id);
-
-        return [
-            'timbangan' => $data->sum('total_timbangan'),
-            'luas' => $data->sum('total_luas'),
-            'karyawan' => $data->sum('total_karyawan'),
-            'blok' => $data->sum('total_blok')
-        ];
-    }
+//    public static function daun($laporan_id, $mandor_id)
+//    {
+//        return Timbangan::with(['hasil' => function ($query) use ($mandor_id) {
+//            $query->where('mandor_id', $mandor_id);
+//        }])
+//            ->select('timbangan.*')
+//            ->selectRaw('hasil.jumlah_kht_pm as total_jumlah_pm')
+//            ->selectRaw('hasil.luas_areal as total_luas')
+//            ->selectRaw('COUNT(DISTINCT hasil_has_karyawan.user_id) as total_karyawan')
+//            ->selectRaw('COUNT(DISTINCT hasil.blok_id) as total_blok')
+//            ->leftJoin('hasil', 'hasil.timbangan_id', '=', 'timbangan.id')
+//            ->leftJoin('hasil_has_karyawan', 'hasil.id', '=', 'hasil_has_karyawan.hasil_id')
+//            ->leftJoin('users', 'users.id', '=', 'hasil_has_karyawan.user_id')
+//            ->where('timbangan.laporan_id', $laporan_id)
+//            ->where('hasil.mandor_id', $mandor_id)
+//            ->groupBy('timbangan.id')
+//            ->get();
+//
+//    }
+//
+//    public static function daunTotal($laporan_id, $mandor_id): array
+//    {
+//        $data = self::daun($laporan_id, $mandor_id);
+//        dd($data);
+//
+//        return [
+//            'timbangan' => $data->sum('total_timbangan'),
+//            'luas' => $data->sum('total_luas'),
+//            'karyawan' => $data->sum('total_karyawan'),
+//            'blok' => $data->sum('total_blok')
+//        ];
+//    }
 }

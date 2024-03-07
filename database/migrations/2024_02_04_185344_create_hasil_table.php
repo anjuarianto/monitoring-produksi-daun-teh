@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('hasil', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('laporan_id');
             $table->unsignedBigInteger('timbangan_id');
             $table->float('luas_areal_pm');
             $table->float('luas_areal_pg');
@@ -27,6 +28,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('mandor_id');
             $table->timestamps();
 
+            $table->foreign('laporan_id')->references('id')->on('laporan');
             $table->foreign('timbangan_id')->references('id')->on('timbangan');
             $table->foreign('blok_id')->references('id')->on('blok');
             $table->foreign('mandor_id')->references('id')->on('users');

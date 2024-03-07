@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Blok;
 use App\Models\Hasil;
 use App\Models\HasilHasKaryawan;
+use App\Models\Laporan;
 use App\Models\Mandor;
 use App\Models\Timbangan;
 use App\Models\User;
@@ -22,11 +23,13 @@ class HasilSeeder extends Seeder
         $faker = Factory::create();
         $timbangans = Timbangan::get();
 
+
         foreach ($timbangans as $timbangan) {
 
             $counterHasil = 0;
             while ($counterHasil < 2) {
                 $hasil = Hasil::create([
+                    'laporan_id' => $timbangan->laporan_id,
                     'timbangan_id' => $timbangan->id,
                     'jumlah_kht_pm' => $faker->numberBetween(593, 3000),
                     'jumlah_kht_pg' => $faker->numberBetween(593, 3000),
@@ -55,6 +58,7 @@ class HasilSeeder extends Seeder
                 $counterHasil++;
             }
         }
+
 
     }
 }

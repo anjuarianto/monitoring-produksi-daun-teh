@@ -13,7 +13,7 @@ class Hasil extends Model
     protected $table = 'hasil';
 
     protected $fillable = [
-        'timbangan_id', 'luas_areal_pm', 'luas_areal_pg', 'luas_areal_os', 'pusingan_petikan_ke',
+        'laporan_id', 'timbangan_id', 'luas_areal_pm', 'luas_areal_pg', 'luas_areal_os', 'pusingan_petikan_ke',
         'jumlah_kht_pg', 'jumlah_kht_pm', 'jumlah_kht_os',
         'jumlah_khl_pg', 'jumlah_khl_pm', 'jumlah_khl_os',
         'mandor_id', 'blok_id'
@@ -21,8 +21,13 @@ class Hasil extends Model
 
     public function laporan()
     {
-        return $this->belongsTo(Laporan::class, 'timbangan_id', 'id', 'timbangan');
+        return $this->belongsTo(Laporan::class, 'laporan_id');
     }
+
+//    public function laporan()
+//    {
+//        return $this->belongsTo(Laporan::class, 'laporan_id');
+//    }
 
     public function karyawans()
     {
