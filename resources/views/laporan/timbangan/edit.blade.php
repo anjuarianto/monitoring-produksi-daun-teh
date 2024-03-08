@@ -137,11 +137,11 @@
                                     <td>{{ $hasil->luas_areal_pg }}</td>
                                     <td>{{ $hasil->luas_areal_os }}</td>
                                     <td>{{ $hasil->pusingan_petikan_ke }}</td>
-                                    <td>{{ $hasil->jumlah_kht }}</td>
-                                    <td>{{ $hasil->jumlah_khl }}</td>
+                                    <td>{{ $hasil->jumlah_kht_pm + $hasil->jumlah_kht_pg + $hasil->jumlah_kht_os }}</td>
+                                    <td>{{ $hasil->jumlah_khl_pm + $hasil->jumlah_khl_pg + $hasil->jumlah_khl_os }}</td>
                                     <td>{{ $hasil->mandor->name }}</td>
                                     <td>
-                                        {{ $hasil->karyawan->count() }} Orang
+                                        {{ $hasil->karyawans->count() }} Orang
                                     </td>
                                     <td class="text-end">
                                         <div class="dropdown" id="myDropdown">
@@ -446,14 +446,16 @@
                         $('#modal-edit input[name="luas_areal_pg"]').val(res.data.luas_areal_pg)
                         $('#modal-edit input[name="luas_areal_os"]').val(res.data.luas_areal_os)
                         $('#modal-edit input[name="pusingan_petikan_ke"]').val(res.data.pusingan_petikan_ke)
-                        $('#modal-edit input[name="jumlah_kht"]').val(res.data.jumlah_kht)
+                        $('#modal-edit input[name="jumlah_kht"]').val(res.data.jumlah_kht_pm + res.data.jumlah_kht_pg + res.data.jumlah_kht_os + res.data.jumlah_khl_pm + res.data.jumlah_khl_pg + res.data.jumlah_khl_os)
                         $('#modal-edit input[name="jumlah_khl"]').val(res.data.jumlah_khl);
                         $('#modal-edit select[name="mandor_id"]').val(res.data.mandor_id).change();
 
                         var karyawanArray = [];
-                        res.data.karyawan.forEach(function (element) {
+
+                        res.data.karyawans.forEach(function (element) {
                             karyawanArray.push(element.id)
-                        })
+                        });
+                        console.log(karyawanArray)
 
                         $('#modal-edit select[name="karyawan_id[]"]').val(karyawanArray).change();
 

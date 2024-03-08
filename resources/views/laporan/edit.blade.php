@@ -33,7 +33,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="row">
                 <table class="table table-bordered">
                     <thead>
@@ -58,7 +57,7 @@
                                 <td>{{ $timbangan->total_blok}}</td>
                                 <td>{{ $timbangan->total_areal_pm + $timbangan->total_areal_pg + $timbangan->total_areal_os }}</td>
                                 <td>{{ $timbangan->total_karyawan }}</td>
-                                <td>{{ $timbangan->total_kht + $timbangan->total_khl }}</td>
+                                <td>{{ $timbangan->total_kht_pm + $timbangan->total_kht_pg + $timbangan->total_kht_os + $timbangan->total_khl_pm + $timbangan->total_khl_pg + $timbangan->total_khl_os }}</td>
                             @else
                                 <td colspan="4" style="text-align: center"> <span
                                         class="badge bg-danger text-danger-fg">Belum Input</span></td>

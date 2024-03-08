@@ -55,7 +55,7 @@ class TimbanganController extends Controller
         $karyawans = User::role('Karyawan')->get();
         $mandors = User::role('Mandor')->get();
         $bloks = Blok::get();
-        $hasils = Hasil::with('karyawan', 'blok')->where('timbangan_id', $timbangan->id)->get();
+        $hasils = Hasil::with('karyawans', 'blok')->where('timbangan_id', $timbangan->id)->get();
 
         return view('laporan.timbangan.edit', compact('timbangan', 'bloks', 'karyawans', 'hasils', 'mandors'));
     }

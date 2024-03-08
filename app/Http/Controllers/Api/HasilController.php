@@ -29,7 +29,7 @@ class HasilController extends Controller
      */
     public function show($id)
     {
-        $hasil = Hasil::with('karyawan')->find($id);
+        $hasil = Hasil::with('karyawans')->find($id);
         return response()->json([
             'data' => $hasil
         ]);
