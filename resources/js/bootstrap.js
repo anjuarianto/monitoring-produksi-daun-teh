@@ -7,12 +7,13 @@ import jQuery from 'jquery';
 import select2 from 'select2/dist/js/select2'
 import axios from 'axios';
 import DataTable from 'datatables.net-dt';
-// import 'datatables.net-responsive-dt';
+import Chart from 'chart.js/auto'
 
 
 window.$ = jQuery;
 window.axios = axios;
 window.DataTable = DataTable;
+window.Chart = Chart
 select2();
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';

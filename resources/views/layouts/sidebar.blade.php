@@ -293,6 +293,17 @@
                     </a>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('produksi-hasil.index')}}">
+                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                            <i class="fas fa-clock"></i>
+                        </span>
+                        <span class="nav-link-title">
+                            Hasil Produksi
+                        </span>
+                    </a>
+                </li>
+
                 {{-- Master Menu --}}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#navbar-help" data-bs-toggle="dropdown"
