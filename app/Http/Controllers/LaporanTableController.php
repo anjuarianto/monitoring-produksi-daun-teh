@@ -10,33 +10,35 @@ use function PHPUnit\Framework\isEmpty;
 
 class LaporanTableController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $filter_tanggal = $request->tanggal;
+        $laporans = Laporan::get();
+        return view('laporan.table.index', compact('laporans'));
+    }
 
-        if (!$filter_tanggal) {
-            $filter_tanggal = date('Y-m-d');
-        }
-
-        $laporan = Laporan::where('tanggal', $filter_tanggal)->first();
+    public function show($id)
+    {
+        $laporan = Laporan::find($id);
 
         if (!$laporan) {
             return abort(404);
         }
 
+        $tanggal = $laporan->tanggal;
+
         $timbangans = Timbangan::getDataByLaporanId($laporan->id);
-        $timbangan_bulanan = Laporan::getDataBulanIni(date('m', strtotime($filter_tanggal)));
+        $timbangan_bulanan = Laporan::getDataBulanIni(date('m', strtotime($tanggal)));
         $total_timbangan_pabrik = Timbangan::with('laporan')
-            ->whereHas('laporan', function ($query) use ($filter_tanggal) {
-                $query->whereMonth('tanggal', date('m', strtotime($filter_tanggal)));
+            ->whereHas('laporan', function ($query) use ($tanggal) {
+                $query->whereMonth('tanggal', date('m', strtotime($tanggal)));
             })
             ->sum('timbangan_pabrik');
         $total_timbangan = Timbangan::with('laporan')
             ->withSum('hasil as total_kht_pg', 'jumlah_kht_pg')
             ->withSum('hasil as total_kht_pm', 'jumlah_kht_pm')
             ->withSum('hasil as total_kht_os', 'jumlah_kht_os')
-            ->whereHas('laporan', function ($query) use ($filter_tanggal) {
-                $query->whereMonth('tanggal', date('m', strtotime($filter_tanggal)));
+            ->whereHas('laporan', function ($query) use ($tanggal) {
+                $query->whereMonth('tanggal', date('m', strtotime($tanggal)));
             })
             ->get();
 
@@ -55,6 +57,6 @@ class LaporanTableController extends Controller
             $query->where('jenis_karyawan', 'Karyawan Harian Lepas');
         }])->whereIn('timbangan_id', $timbangans->pluck('id'))->get();
 
-        return view('laporan.table', compact('hasils', 'timbangans', 'laporan', 'timbangan_bulanan', 'total_bulanan'));
+        return view('laporan.table.show', compact('hasils', 'timbangans', 'laporan', 'timbangan_bulanan', 'total_bulanan'));
     }
 }

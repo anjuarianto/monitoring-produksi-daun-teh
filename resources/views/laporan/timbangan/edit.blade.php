@@ -247,7 +247,7 @@
 
                                 <div class="mb-3">
                                     <label class="form-label">Karyawan</label>
-                                    <select name="karyawan_id[]" id="karyawan-id"
+                                    <select name="karyawan_id[]" id="karyawan-id-create"
                                             class="form-select select2 select-karyawan"
                                             style="width:100%;"
                                             multiple="multiple">
@@ -419,15 +419,16 @@
 @section('js')
     <script type="module">
         $(document).ready(function () {
-            $('#modal-create select[name="mandor_id"]').select2({
+            $('#modal-create .modal-body select[name="mandor_id"]').select2({
                 dropdownParent: $('#modal-create')
             });
 
-            $('#modal-create select[name="karyawan_id[]"]').select2({
-                dropdownParent: $('#modal-create')
+            $('#modal-create #karyawan-id-create').select2({
+                dropdownParent: $('#modal-create'),
             });
 
-            $('#modal-edit select[name="mandor_id"]').select2({
+
+            $('#modal-edit .modal-body select[name="mandor_id"]').select2({
                 dropdownParent: $('#modal-edit')
             });
 

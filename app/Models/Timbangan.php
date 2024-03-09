@@ -25,9 +25,9 @@ class Timbangan extends Model
         return $this->hasMany(Hasil::class, 'timbangan_id');
     }
 
-    public function karyawan()
+    public function karyawans()
     {
-        return $this->belongsToMany(User::class, 'hasil_has_karyawan', 'hasil_id', 'user_id',);
+        return $this->hasManyThrough(HasilHasKaryawan::class, Hasil::class, 'timbangan_id', 'hasil_id');
     }
 
 
@@ -42,9 +42,7 @@ class Timbangan extends Model
             ->withSum('hasil as total_areal_pm', 'luas_areal_pm')
             ->withSum('hasil as total_areal_pg', 'luas_areal_pg')
             ->withSum('hasil as total_areal_os', 'luas_areal_os')
-            ->withCount(['karyawan as total_karyawan' => function ($query) {
-                $query->select(\Illuminate\Support\Facades\DB::raw('COUNT(DISTINCT user_id)'));
-            }])
+            ->withCount(['karyawans as total_karyawan'])
             ->withCount('hasil as total_blok')
             ->where('laporan_id', $laporan_id)
             ->get();

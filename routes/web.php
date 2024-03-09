@@ -44,6 +44,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/opsi-mandor/{id}', [\App\Http\Controllers\OpsiMandorController::class, 'update'])->name('opsi-mandor.update');
 
     Route::get('/laporan-table', [\App\Http\Controllers\LaporanTableController::class, 'index'])->name('laporan-table.index');
+    Route::get('/laporan-table/{laporan}', [\App\Http\Controllers\LaporanTableController::class, 'show'])->name('laporan-table.show');
     Route::resource('laporan', LaporanController::class);
     Route::resource('absen-karyawan', AbsenKaryawanController::class);
     Route::resource('golongan', GolonganController::class);
