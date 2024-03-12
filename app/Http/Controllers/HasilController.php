@@ -29,6 +29,9 @@ class HasilController extends Controller
      */
     public function store(Request $request)
     {
+        if (Hasil::where('timbangan_id', $request->timbangan_id)->where('blok_id', $request->blok_id)->count() > 0) {
+            return redirect()->back()->withErrors('Blok sudah ada');
+        }
 
         $hasil = Hasil::create($request->except('karyawan_id'));
 

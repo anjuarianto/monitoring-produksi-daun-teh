@@ -98,7 +98,7 @@
                                     }}
                                 </td>
                                 <td>{{$laporan->kerani_timbang->name}}</td>
-                                <td>{{ $laporan->total_kht_pm +  $laporan->total_kht_pg + $laporan->total_kht_os + $laporan->total_khl_pm + $laporan->total_khl_pg + $laporan->total_khl_os }}
+                                <td>{{ $laporan->total_kht_pm +  $laporan->total_kht_pg + $laporan->total_kht_os + $laporan->total_kht_lt + $laporan->total_khl_pm + $laporan->total_khl_pg + $laporan->total_khl_os + $laporan->total_khl_lt }}
                                     Kg
                                 </td>
                                 <td>{{$laporan->total_blok}} Blok</td>

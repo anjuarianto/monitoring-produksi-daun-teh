@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
             new PermissionTableSeeder(),
             new RoleSeeder(),
             new GolonganSeeder(),
-            new BlokSeeder(10),
+            new BlokSeeder(5),
             new CreateAdminUserSeeder(),
             new KraniUserSeeder(4),
             new MandorUserSeeder(12),

@@ -36,12 +36,15 @@ class Laporan extends Model
             ->withSum('hasil as total_kht_pg', 'jumlah_kht_pg')
             ->withSum('hasil as total_kht_pm', 'jumlah_kht_pm')
             ->withSum('hasil as total_kht_os', 'jumlah_kht_os')
+            ->withSum('hasil as total_kht_lt', 'jumlah_kht_lt')
             ->withSum('hasil as total_khl_pg', 'jumlah_khl_pg')
             ->withSum('hasil as total_khl_pm', 'jumlah_khl_pm')
             ->withSum('hasil as total_khl_os', 'jumlah_khl_os')
+            ->withSum('hasil as total_khl_lt', 'jumlah_khl_lt')
             ->withSum('hasil as total_areal_pm', 'luas_areal_pm')
             ->withSum('hasil as total_areal_pg', 'luas_areal_pg')
             ->withSum('hasil as total_areal_os', 'luas_areal_os')
+            ->withSum('hasil as total_areal_lt', 'luas_areal_lt')
             ->withCount(['hasil as total_blok' => function ($query) {
                 $query->select(DB::raw('COUNT(DISTINCT blok_id)'));
             }])
@@ -57,6 +60,40 @@ class Laporan extends Model
 
     }
 
+    public static function getDataHasilRegular($laporan_id)
+    {
+        return Hasil::where('laporan_id', $laporan_id)
+            ->groupBy('blok_id')
+            ->get()
+            ->map(function ($item) {
+                $item->total_karyawan_kht = Hasil::where('laporan_id', $item->laporan_id)->where('blok_id', $item->blok_id)->withCount(['karyawans as kht' => function ($query) {
+                    $query->where('jenis_karyawan', 'Karyawan Harian Tetap');
+                }])->get()->sum('kht');
+                $item->total_karyawan_khl = Hasil::where('laporan_id', $item->laporan_id)->where('blok_id', $item->blok_id)->withCount(['karyawans as khl' => function ($query) {
+                    $query->where('jenis_karyawan', 'Karyawan Harian Lepas');
+                }])->get()->sum('khl');
+                return $item;
+            });
+    }
+
+    public static function getDataHasilLeavyTea($laporan_id)
+    {
+        return Hasil::where('laporan_id', $laporan_id)
+            ->where('jumlah_kht_lt', '>', 0)
+            ->orWhere('jumlah_khl_lt', '>', 0)
+            ->groupBy('blok_id')
+            ->get()
+            ->map(function ($item) {
+                $item->total_karyawan_kht = Hasil::where('laporan_id', $item->laporan_id)->where('blok_id', $item->blok_id)->withCount(['karyawans as kht' => function ($query) {
+                    $query->where('jenis_karyawan', 'Karyawan Harian Tetap');
+                }])->get()->sum('kht');
+                $item->total_karyawan_khl = Hasil::where('laporan_id', $item->laporan_id)->where('blok_id', $item->blok_id)->withCount(['karyawans as khl' => function ($query) {
+                    $query->where('jenis_karyawan', 'Karyawan Harian Lepas');
+                }])->get()->sum('khl');
+                return $item;
+            });
+    }
+
     public static function getDataBulanIni($bulan)
     {
         $hasil = Hasil::whereHas('laporan', function ($query) use ($bulan) {
@@ -70,7 +107,7 @@ class Laporan extends Model
             $query->where('jenis_karyawan', User::KARYAWAN_HARIAN_LEPAS);
             $query->where('jenis_pemanen', 'pm');
         }])->whereHas('laporan', function ($query) use ($bulan) {
-                $query->whereMonth('tanggal', $bulan);
+            $query->whereMonth('tanggal', $bulan);
         })->get();
 
         $karyawanPg = Hasil::withCount(['karyawans as total_karyawan_kht' => function ($query) {
@@ -114,6 +151,13 @@ class Laporan extends Model
                 'total_karyawan_khl' => $karyawanOs->sum('total_karyawan_khl'),
                 'total_timbangan_kht' => $hasil->sum('jumlah_kht_os'),
                 'total_timbangan_khl' => $hasil->sum('jumlah_khl_os')
+            ],
+            'lt' => [
+                'luas_areal' => $hasil->sum('luas_areal_lt'),
+                'total_karyawan_kht' => '',
+                'total_karyawan_khl' => '',
+                'total_timbangan_kht' => $hasil->sum('jumlah_kht_lt'),
+                'total_timbangan_khl' => $hasil->sum('jumlah_khl_lt')
             ]
         ];
     }
@@ -136,8 +180,8 @@ class Laporan extends Model
       LEFT JOIN (
           SELECT
               MONTH(l.tanggal) AS month,
-              IFNULL(SUM(jumlah_kht_pm), 0) AS jumlah_kht_pm,
-              IFNULL(SUM(jumlah_khl_pm), 0) AS jumlah_khl_pm,
+              IFNULL(SUM(jumlah_kht), 0) AS jumlah_kht_pm,
+              IFNULL(SUM(jumlah_khl), 0) AS jumlah_khl_pm,
               IFNULL(SUM(jumlah_karyawan), 0) AS total_karyawan,
               IFNULL(SUM(total_blok), 0) AS total_blok
           FROM
@@ -145,8 +189,8 @@ class Laporan extends Model
           LEFT JOIN (
               SELECT
                   h.timbangan_id,
-                  SUM(h.jumlah_kht_pm) AS jumlah_kht_pm,
-                  SUM(h.jumlah_khl_pm) AS jumlah_khl_pm,
+                  (SUM(h.jumlah_kht_pm) + SUM(h.jumlah_kht_pg) + SUM(h.jumlah_kht_os) + SUM(h.jumlah_kht_lt)) AS jumlah_kht,
+                  (SUM(h.jumlah_khl_pm) + SUM(h.jumlah_khl_pg) + SUM(h.jumlah_khl_os) + SUM(h.jumlah_khl_lt)) AS jumlah_khl,
                   SUM(hk.jumlah_karyawan) AS jumlah_karyawan,
                   COUNT(*) AS total_blok,
                   t.laporan_id

@@ -59,9 +59,9 @@
 
                                 @if($timbangan->total_blok > 0)
                                     <td>{{ $timbangan->total_blok}}</td>
-                                    <td>{{ $timbangan->total_areal_pm + $timbangan->total_areal_pg + $timbangan->total_areal_os }}</td>
+                                    <td>{{ $timbangan->total_areal_pm + $timbangan->total_areal_pg + $timbangan->total_areal_os + $timbangan->total_areal_lt }}</td>
                                     <td>{{ $timbangan->total_karyawan }}</td>
-                                    <td>{{ $timbangan->total_kht_pm +  $timbangan->total_kht_pg + $timbangan->total_kht_os + $timbangan->total_khl_pm + $timbangan->total_khl_pg + $timbangan->total_khl_os }}
+                                    <td>{{ $timbangan->total_kht_pm +  $timbangan->total_kht_pg + $timbangan->total_kht_os + $timbangan->total_kht_lt + $timbangan->total_khl_pm + $timbangan->total_khl_pg + $timbangan->total_khl_os + $timbangan->total_khl_lt }}
                                         Kg
                                     </td>
                                     <td>

@@ -74,7 +74,7 @@
                                         {{ $hasil->pusingan_petikan_ke }}
                                     </td>
                                     <td style="vertical-align: middle;">
-                                        {{ $hasil->jumlah_kht_pm + $hasil->jumlah_kht_pg + $hasil->jumlah_kht_os + $hasil->jumlah_khl_pm + $hasil->jumlah_khl_pg + $hasil->jumlah_khl_os }}
+                                        {{ $hasil->jumlah_kht_pm + $hasil->jumlah_kht_pg + $hasil->jumlah_kht_os + $hasil->jumlah_kht_lt + $hasil->jumlah_khl_pm + $hasil->jumlah_khl_pg + $hasil->jumlah_khl_os + $hasil->jumlah_khl_lt }}
                                     </td>
                                     <td style="vertical-align: middle">
                                         {{$hasil->mandor->name}}

@@ -68,7 +68,7 @@
     <td></td>
     <td></td>
     <td class="text-center">({{ $total_sum_timbangan - $timbangans->sum('timbangan_pabrik') }})</td>
-    <td class="text-center"></td>
+    <td class="text-center">{{ $total_bulanan['total_timbangan_pabrik'] - $total_bulanan['total_timbangan'] < 0 ? '('. abs($total_bulanan['total_timbangan_pabrik'] - $total_bulanan['total_timbangan']) .')' : abs($total_bulanan['total_timbangan_pabrik'] - $total_bulanan['total_timbangan']) }}</td>
     <td colspan="3">Jam tiba di pabrik</td>
     <td></td>
     <td></td>

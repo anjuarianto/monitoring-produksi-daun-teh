@@ -32,7 +32,7 @@ class TimbanganController extends Controller
      */
     public function store(Request $request)
     {
-
+        //
     }
 
     /**

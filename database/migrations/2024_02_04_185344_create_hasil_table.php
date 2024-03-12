@@ -17,13 +17,16 @@ return new class extends Migration {
             $table->float('luas_areal_pm');
             $table->float('luas_areal_pg');
             $table->float('luas_areal_os');
+            $table->float('luas_areal_lt');
             $table->float('pusingan_petikan_ke');
             $table->integer('jumlah_kht_pm');
             $table->integer('jumlah_kht_pg');
             $table->integer('jumlah_kht_os');
+            $table->integer('jumlah_kht_lt');
             $table->integer('jumlah_khl_pm');
             $table->integer('jumlah_khl_pg');
             $table->integer('jumlah_khl_os');
+            $table->integer('jumlah_khl_lt');
             $table->unsignedBigInteger('blok_id');
             $table->unsignedBigInteger('mandor_id');
             $table->timestamps();

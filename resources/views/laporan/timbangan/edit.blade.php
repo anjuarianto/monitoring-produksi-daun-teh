@@ -35,6 +35,7 @@
 
 @section('content')
     @include('partials.success_message')
+
     @if($errors->any())
         <div class="alert alert-danger" role="alert">
             <div class="d-flex">
@@ -95,86 +96,84 @@
     </div>
 
     <div class="card">
-        <form action="{{ route('timbangan.update', $timbangan->id) }}" method="post">
-            @csrf
-            @method('PUT')
-            <div class="card-body">
 
-                <div class="d-flex justify-content-between mb-3">
-                    <div></div>
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#modal-create"
-                            id="btn-tambah-baris"
-                            class="btn btn-primary btn-sm">
-                        <i class="fas fa-plus"></i> &nbsp;Baris
-                    </button>
-                </div>
-                <div class="row">
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="table-hasil">
-                            <thead>
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between mb-3">
+                <div></div>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#modal-create"
+                        id="btn-tambah-baris"
+                        class="btn btn-primary btn-sm">
+                    <i class="fas fa-plus"></i> &nbsp;Baris
+                </button>
+            </div>
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="table-hasil">
+                        <thead>
+                        <tr>
+                            <th rowspan="2">Nama Blok</th>
+                            <th colspan="3">Luas Areal</th>
+                            <th rowspan="2">Pusingan Petikan Ke</th>
+                            <th colspan="2">Jumlah Timbangan (kg)</th>
+                            <th rowspan="2">Mandor</th>
+                            <th rowspan="2">Karyawan</th>
+                            <th style="width:50px" rowspan="2"></th>
+                        </tr>
+                        <tr>
+                            <th>PM</th>
+                            <th>PG</th>
+                            <th>OS</th>
+                            <th>KHT</th>
+                            <th>KHL</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($hasils as $hasil)
                             <tr>
-                                <th rowspan="2">Nama Blok</th>
-                                <th colspan="3">Luas Areal</th>
-                                <th rowspan="2">Pusingan Petikan Ke</th>
-                                <th colspan="2">Jumlah Timbangan (kg)</th>
-                                <th rowspan="2">Mandor</th>
-                                <th rowspan="2">Karyawan</th>
-                                <th style="width:50px" rowspan="2"></th>
-                            </tr>
-                            <tr>
-                                <th>PM</th>
-                                <th>PG</th>
-                                <th>OS</th>
-                                <th>KHT</th>
-                                <th>KHL</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($hasils as $hasil)
-                                <tr>
-                                    <td>{{ $hasil->blok->name }}</td>
-                                    <td>{{ $hasil->luas_areal_pm }}</td>
-                                    <td>{{ $hasil->luas_areal_pg }}</td>
-                                    <td>{{ $hasil->luas_areal_os }}</td>
-                                    <td>{{ $hasil->pusingan_petikan_ke }}</td>
-                                    <td>{{ $hasil->jumlah_kht_pm + $hasil->jumlah_kht_pg + $hasil->jumlah_kht_os }}</td>
-                                    <td>{{ $hasil->jumlah_khl_pm + $hasil->jumlah_khl_pg + $hasil->jumlah_khl_os }}</td>
-                                    <td>{{ $hasil->mandor->name }}</td>
-                                    <td>
-                                        {{ $hasil->karyawans->count() }} Orang
-                                    </td>
-                                    <td class="text-end">
-                                        <div class="dropdown" id="myDropdown">
-                                            <button class="btn btn-sm dropdown-toggle align-text-top"
-                                                    data-bs-toggle="dropdown">
-                                                Actions
+                                <td>{{ $hasil->blok->name }}</td>
+                                <td>{{ $hasil->luas_areal_pm }}</td>
+                                <td>{{ $hasil->luas_areal_pg }}</td>
+                                <td>{{ $hasil->luas_areal_os }}</td>
+                                <td>{{ $hasil->pusingan_petikan_ke }}</td>
+                                <td>{{ $hasil->jumlah_kht_pm + $hasil->jumlah_kht_pg + $hasil->jumlah_kht_os + $hasil->jumlah_kht_lt }}</td>
+                                <td>{{ $hasil->jumlah_khl_pm + $hasil->jumlah_khl_pg + $hasil->jumlah_khl_os + $hasil->jumlah_khl_lt }}</td>
+                                <td>{{ $hasil->mandor->name }}</td>
+                                <td>
+                                    {{ $hasil->karyawans->count() }} Orang
+                                </td>
+                                <td class="text-end">
+                                    <div class="dropdown" id="myDropdown">
+                                        <button class="btn btn-sm dropdown-toggle align-text-top"
+                                                data-bs-toggle="dropdown">
+                                            Actions
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                                    data-bs-target="#modal-edit" data-id="{{ $hasil->id }}"
+                                                    data-bs-action-url="{{ route('hasil.update', $hasil->id) }}">
+                                                Edit
                                             </button>
-                                            <div class="dropdown-menu dropdown-menu-end">
-                                                <button type="button" class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#modal-edit" data-id="{{ $hasil->id }}"
-                                                        data-bs-action-url="{{ route('hasil.update', $hasil->id) }}">
-                                                    Edit
-                                                </button>
-                                                <button type="button" class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#modal-delete"
-                                                        data-bs-action-url="{{ route('hasil.destroy', $hasil->id) }}">
-                                                    Delete
-                                                </button>
-                                            </div>
+                                            <button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                                    data-bs-target="#modal-delete"
+                                                    data-bs-action-url="{{ route('hasil.destroy', $hasil->id) }}">
+                                                Delete
+                                            </button>
                                         </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="form-footer">
-                    <a class="btn btn-secondary"
-                       href="{{ route('laporan.edit', $timbangan->laporan_id) }}">Back</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </form>
+            <div class="form-footer">
+                <a class="btn btn-secondary"
+                   href="{{ route('laporan.edit', $timbangan->laporan_id) }}">Back</a>
+            </div>
+        </div>
+
     </div>
 
     {{--    modal create    --}}
@@ -189,6 +188,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
+                            <input type="hidden" name="laporan_id" value="{{ $timbangan->laporan_id }}">
                             <input type="hidden" name="timbangan_id" value="{{ $timbangan->id }}">
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -202,17 +202,21 @@
                                 </div>
 
                                 <div class="mb-3 row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label class="form-label">Luas Areal PM</label>
                                         <input type="text" name="luas_areal_pm" class="form-control">
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label class="form-label">Luas Areal PG</label>
                                         <input type="text" name="luas_areal_pg" class="form-control">
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label class="form-label">Luas Areal OS</label>
                                         <input type="text" name="luas_areal_os" class="form-control">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Luas Areal LT</label>
+                                        <input type="text" name="luas_areal_lt" class="form-control">
                                     </div>
                                 </div>
 
@@ -222,14 +226,40 @@
                                 </div>
 
                                 <div class="mb-3 row">
-                                    <div class="col-md-6">
-                                        <label class="form-label">Jumlah KHT</label>
-                                        <input type="text" name="jumlah_kht" class="form-control">
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">Jumlah KHT PM</label>
+                                        <input type="text" name="jumlah_kht_pm" class="form-control">
                                     </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">Jumlah KHT PG</label>
+                                        <input type="text" name="jumlah_kht_pg" class="form-control">
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">Jumlah KHT OS</label>
+                                        <input type="text" name="jumlah_kht_os" class="form-control">
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">Jumlah KHT LT</label>
+                                        <input type="text" name="jumlah_kht_lt" class="form-control">
+                                    </div>
+                                </div>
 
-                                    <div class="col-md-6">
-                                        <label class="form-label">Jumlah KHL</label>
-                                        <input type="text" name="jumlah_kht" class="form-control">
+                                <div class="mb-3 row">
+                                    <div class="col-md-3">
+                                        <label class="form-label">Jumlah KHL PM</label>
+                                        <input type="text" name="jumlah_khl_pm" class="form-control">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Jumlah KHL PG</label>
+                                        <input type="text" name="jumlah_khl_pg" class="form-control">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Jumlah KHL OS</label>
+                                        <input type="text" name="jumlah_khl_os" class="form-control">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Jumlah KHL LT</label>
+                                        <input type="text" name="jumlah_khl_lt" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -310,17 +340,21 @@
                                 </div>
 
                                 <div class="mb-3 row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label class="form-label">Luas Areal PM</label>
                                         <input type="text" name="luas_areal_pm" class="form-control">
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label class="form-label">Luas Areal PG</label>
                                         <input type="text" name="luas_areal_pg" class="form-control">
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label class="form-label">Luas Areal OS</label>
                                         <input type="text" name="luas_areal_os" class="form-control">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Luas Areal LT</label>
+                                        <input type="text" name="luas_areal_lt" class="form-control">
                                     </div>
                                 </div>
 
@@ -330,14 +364,40 @@
                                 </div>
 
                                 <div class="mb-3 row">
-                                    <div class="col-md-6">
-                                        <label class="form-label">Jumlah KHT</label>
-                                        <input type="text" name="jumlah_kht" class="form-control">
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">Jumlah KHT PM</label>
+                                        <input type="text" name="jumlah_kht_pm" class="form-control">
                                     </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">Jumlah KHT PG</label>
+                                        <input type="text" name="jumlah_kht_pg" class="form-control">
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">Jumlah KHT OS</label>
+                                        <input type="text" name="jumlah_kht_os" class="form-control">
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">Jumlah KHT LT</label>
+                                        <input type="text" name="jumlah_kht_lt" class="form-control">
+                                    </div>
+                                </div>
 
-                                    <div class="col-md-6">
-                                        <label class="form-label">Jumlah KHL</label>
-                                        <input type="text" name="jumlah_kht" class="form-control">
+                                <div class="mb-3 row">
+                                    <div class="col-md-3">
+                                        <label class="form-label">Jumlah KHL PM</label>
+                                        <input type="text" name="jumlah_khl_pm" class="form-control">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Jumlah KHL PG</label>
+                                        <input type="text" name="jumlah_khl_pg" class="form-control">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Jumlah KHL OS</label>
+                                        <input type="text" name="jumlah_khl_os" class="form-control">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Jumlah KHL LT</label>
+                                        <input type="text" name="jumlah_khl_lt" class="form-control">
                                     </div>
                                 </div>
 
@@ -419,6 +479,32 @@
 @section('js')
     <script type="module">
         $(document).ready(function () {
+            function preventBlokDuplicate() {
+
+            }
+
+            $('#modal-create select[name="blok_id"]').on('change', function () {
+                let arrayBlokSelected = @json($hasils->pluck('blok_id'));
+
+                if (arrayBlokSelected.includes(parseInt($(this).val()))) {
+                    alert('Blok sudah ada');
+                    $(this).val('').change();
+                }
+            });
+
+            $('#modal-edit select[name="blok_id"]').on('change', function () {
+                var arrayBlokSelected = @json($hasils->pluck('blok_id'));
+                var index = arrayBlokSelected.indexOf(parseInt($(this).attr('data-id')));
+
+                arrayBlokSelected.splice(index, 1);
+
+                if (arrayBlokSelected.includes(parseInt($(this).val()))) {
+                    alert('Blok sudah ada');
+                    $(this).val('').change();
+                }
+            });
+
+
             $('#modal-create .modal-body select[name="mandor_id"]').select2({
                 dropdownParent: $('#modal-create')
             });
@@ -442,13 +528,22 @@
                     type: 'GET',
                     dataType: 'json',
                     success: function (res) {
+                        $('#modal-edit select[name="blok_id"]').attr('data-id', res.data.blok_id);
+
                         $('#modal-edit select[name="blok_id"]').val(res.data.blok_id).change();
                         $('#modal-edit input[name="luas_areal_pm"]').val(res.data.luas_areal_pm)
                         $('#modal-edit input[name="luas_areal_pg"]').val(res.data.luas_areal_pg)
                         $('#modal-edit input[name="luas_areal_os"]').val(res.data.luas_areal_os)
+                        $('#modal-edit input[name="luas_areal_lt"]').val(res.data.luas_areal_lt)
                         $('#modal-edit input[name="pusingan_petikan_ke"]').val(res.data.pusingan_petikan_ke)
-                        $('#modal-edit input[name="jumlah_kht"]').val(res.data.jumlah_kht_pm + res.data.jumlah_kht_pg + res.data.jumlah_kht_os + res.data.jumlah_khl_pm + res.data.jumlah_khl_pg + res.data.jumlah_khl_os)
-                        $('#modal-edit input[name="jumlah_khl"]').val(res.data.jumlah_khl);
+                        $('#modal-edit input[name="jumlah_kht_pm"]').val(res.data.jumlah_kht_pm)
+                        $('#modal-edit input[name="jumlah_kht_pg"]').val(res.data.jumlah_kht_pg)
+                        $('#modal-edit input[name="jumlah_kht_os"]').val(res.data.jumlah_kht_os)
+                        $('#modal-edit input[name="jumlah_kht_lt"]').val(res.data.jumlah_kht_lt)
+                        $('#modal-edit input[name="jumlah_khl_pm"]').val(res.data.jumlah_khl_pm);
+                        $('#modal-edit input[name="jumlah_khl_pg"]').val(res.data.jumlah_khl_pg);
+                        $('#modal-edit input[name="jumlah_khl_os"]').val(res.data.jumlah_khl_os);
+                        $('#modal-edit input[name="jumlah_khl_lt"]').val(res.data.jumlah_khl_lt);
                         $('#modal-edit select[name="mandor_id"]').val(res.data.mandor_id).change();
 
                         var karyawanArray = [];
@@ -456,7 +551,6 @@
                         res.data.karyawans.forEach(function (element) {
                             karyawanArray.push(element.id)
                         });
-                        console.log(karyawanArray)
 
                         $('#modal-edit select[name="karyawan_id[]"]').val(karyawanArray).change();
 
