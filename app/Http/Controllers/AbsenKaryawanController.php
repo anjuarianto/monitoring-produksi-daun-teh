@@ -13,12 +13,12 @@ class AbsenKaryawanController extends Controller
      */
     public function index(Request $request)
     {
-        if(in_array('Karyawan', auth()->user()->roles->pluck('name')->toArray())) {
+        if (in_array('Karyawan', auth()->user()->roles->pluck('name')->toArray())) {
             $listAbsenKaryawan = new KaryawanAbsenListController();
             return $listAbsenKaryawan->__invoke($request);
         }
 
-        $request->tanggal 
+        $request->tanggal
             ? $tanggal = $request->tanggal
             : $tanggal = date('Y-m-d');
 
@@ -47,12 +47,14 @@ class AbsenKaryawanController extends Controller
                 'tanggal' => $request->tanggal,
                 'user_id' => $user,
                 'timbangan_1' => $request->timbangan_1[$key],
+                'timbangan_2' => $request->timbangan_2[$key],
+                'timbangan_3' => $request->timbangan_3[$key],
                 'created_by' => auth()->user()->id
             ]);
         }
 
         return redirect()->route('absen-karyawan.index')->withSuccess('Data berhasil ditambah');
-        
+
     }
 
     /**
