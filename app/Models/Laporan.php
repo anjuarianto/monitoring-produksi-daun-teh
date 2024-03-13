@@ -66,6 +66,9 @@ class Laporan extends Model
             ->groupBy('blok_id')
             ->get()
             ->map(function ($item) {
+                $hasil = Hasil::where('laporan_id', $item->laporan_id)->where('blok_id', $item->blok_id);
+                $item->jumlah_timbangan_kht = $hasil->sum('jumlah_kht_pm') + $hasil->sum('jumlah_kht_pg') + $hasil->sum('jumlah_kht_os');
+                $item->jumlah_timbangan_khl = $hasil->sum('jumlah_khl_pm') + $hasil->sum('jumlah_khl_pg') + $hasil->sum('jumlah_khl_os');
                 $item->total_karyawan_kht = Hasil::where('laporan_id', $item->laporan_id)->where('blok_id', $item->blok_id)->withCount(['karyawans as kht' => function ($query) {
                     $query->where('jenis_karyawan', 'Karyawan Harian Tetap');
                 }])->get()->sum('kht');

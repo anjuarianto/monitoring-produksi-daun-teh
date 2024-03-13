@@ -56,8 +56,6 @@ class LaporanTableController extends Controller
         $hasils = [];
         $hasilRegular = Laporan::getDataHasilRegular($laporan->id);
 
-//        dd($hasilRegular);
-
         $hasilRegular = $hasilRegular->map(function ($item) {
             return [
                 'blok' => $item->blok->name,
@@ -67,9 +65,9 @@ class LaporanTableController extends Controller
                 'total_karyawan_kht' => $item->total_karyawan_kht,
                 'total_karyawan_khl' => $item->total_karyawan_khl,
                 'total_karyawan' => $item->total_karyawan_kht + $item->total_karyawan_khl,
-                'jumlah_timbangan_kht' => $item->jumlah_kht_pm + $item->jumlah_kht_pg + $item->jumlah_kht_os,
-                'jumlah_timbangan_khl' => $item->jumlah_khl_pm + $item->jumlah_khl_pg + $item->jumlah_khl_os,
-                'total_timbangan' => $item->jumlah_kht_pm + $item->jumlah_kht_pg + $item->jumlah_kht_os + $item->jumlah_khl_pm + $item->jumlah_khl_pg + $item->jumlah_khl_os,
+                'jumlah_timbangan_kht' => $item->jumlah_timbangan_kht,
+                'jumlah_timbangan_khl' => $item->jumlah_timbangan_khl,
+                'total_timbangan' => $item->jumlah_timbangan_kht + $item->jumlah_timbangan_khl,
                 'bulan_ini_blok' => '',
                 'bulan_ini_luas_areal' => '',
                 'bulan_ini_pusingan_petikan_ke' => '',
