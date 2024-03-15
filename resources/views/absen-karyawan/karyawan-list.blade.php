@@ -4,8 +4,8 @@
     use App\Models\AbsenKaryawan;
     use App\Models\General;
 
-    $filter_bulan = app('request')->input('filter-bulan') ? app('request')->input('filter-bulan') : date('m');
-    $filter_tahun = app('request')->input('filter-tahun') ? app('request')->input('filter-tahun') : date('Y');
+    $filter_bulan = app('request')->input('filter_bulan') ? app('request')->input('filter_bulan') : date('m');
+    $filter_tahun = app('request')->input('filter_tahun') ? app('request')->input('filter_tahun') : date('Y');
 
     $listBulan = General::getListBulan();
     $listTahun = General::getListTahunLaporan();
@@ -42,7 +42,7 @@
 @section('content')
     @include('partials.success_message')
     <div class="row row-cards mb-4">
-        <div class="col-sm-6 col-lg-3">
+        <div class="col-sm-6 col-lg-4">
             <div class="card card-sm">
                 <div class="card-body">
                     <div class="row align-items-center">
@@ -56,14 +56,14 @@
                                 Total Hadir
                             </div>
                             <div class="text-secondary">
-                                ??
+                                {{ $total_absen['hadir'] }}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-lg-3">
+        <div class="col-sm-6 col-lg-4">
             <div class="card card-sm">
                 <div class="card-body">
                     <div class="row align-items-center">
@@ -77,7 +77,7 @@
                                 Total Izin
                             </div>
                             <div class="text-secondary">
-                                ??
+                                {{ $total_absen['izin'] }}
                             </div>
                         </div>
                     </div>
@@ -85,7 +85,7 @@
             </div>
         </div>
 
-        <div class="col-sm-6 col-lg-3">
+        <div class="col-sm-6 col-lg-4">
             <div class="card card-sm">
                 <div class="card-body">
                     <div class="row align-items-center">
@@ -99,7 +99,7 @@
                                 Total Tanpa Keterangan
                             </div>
                             <div class="text-secondary">
-                                ??
+                                {{ $total_absen['tanpa_keterangan'] }}
                             </div>
                         </div>
                     </div>
@@ -117,7 +117,7 @@
                         <div class="row m-0 col-md-10">
                             <label class="col-md-2 col-form-label">Bulan</label>
                             <div class="col-md-4">
-                                <select class="form-select" name="filter-bulan">
+                                <select class="form-select" name="filter_bulan">
                                     @foreach (General::getListBulan() as $key => $bulan)
                                         <option
                                             value="{{$key}}" {{$key == $filter_bulan ? 'selected' : ''}}>{{$bulan}}</option>
@@ -126,7 +126,7 @@
                             </div>
                             <label class="col-md-2 col-form-label">Tahun</label>
                             <div class="col-md-4">
-                                <select class="form-select" name="filter-tahun">
+                                <select class="form-select" name="filter_tahun">
                                     @for ($i = (int) date('Y'); $i > (int) date('Y') - 3; $i--)
                                         <option
                                             value="{{$i}}" {{$i == $filter_tahun ? 'selected' : ''}}>{{$i}}</option>
