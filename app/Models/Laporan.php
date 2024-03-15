@@ -67,6 +67,7 @@ class Laporan extends Model
             ->get()
             ->map(function ($item) {
                 $hasil = Hasil::where('laporan_id', $item->laporan_id)->where('blok_id', $item->blok_id);
+                $item->luas_areal = $hasil->sum('luas_areal_pm') + $hasil->sum('luas_areal_pg') + $hasil->sum('luas_areal_os');
                 $item->jumlah_timbangan_kht = $hasil->sum('jumlah_kht_pm') + $hasil->sum('jumlah_kht_pg') + $hasil->sum('jumlah_kht_os');
                 $item->jumlah_timbangan_khl = $hasil->sum('jumlah_khl_pm') + $hasil->sum('jumlah_khl_pg') + $hasil->sum('jumlah_khl_os');
                 $item->total_karyawan_kht = Hasil::where('laporan_id', $item->laporan_id)->where('blok_id', $item->blok_id)->withCount(['karyawans as kht' => function ($query) {

@@ -113,8 +113,8 @@
                         <thead>
                         <tr>
                             <th rowspan="2">Nama Blok</th>
-                            <th colspan="3">Luas Areal</th>
-                            <th rowspan="2">Pusingan Petikan Ke</th>
+                            <th colspan="5">Luas Areal</th>
+                            <th rowspan="2" style="column-width: 10px">Pusingan Petikan Ke</th>
                             <th colspan="2">Jumlah Timbangan (kg)</th>
                             <th rowspan="2">Mandor</th>
                             <th rowspan="2">Karyawan</th>
@@ -124,6 +124,8 @@
                             <th>PM</th>
                             <th>PG</th>
                             <th>OS</th>
+                            <th>LT</th>
+                            <th>Total</th>
                             <th>KHT</th>
                             <th>KHL</th>
                         </tr>
@@ -135,6 +137,8 @@
                                 <td>{{ $hasil->luas_areal_pm }}</td>
                                 <td>{{ $hasil->luas_areal_pg }}</td>
                                 <td>{{ $hasil->luas_areal_os }}</td>
+                                <td>{{ $hasil->luas_areal_lt }}</td>
+                                <td>{{ $hasil->luas_areal_pm + $hasil->luas_areal_pg + $hasil->luas_areal_os + $hasil->luas_areal_lt }}</td>
                                 <td>{{ $hasil->pusingan_petikan_ke }}</td>
                                 <td>{{ $hasil->jumlah_kht_pm + $hasil->jumlah_kht_pg + $hasil->jumlah_kht_os + $hasil->jumlah_kht_lt }}</td>
                                 <td>{{ $hasil->jumlah_khl_pm + $hasil->jumlah_khl_pg + $hasil->jumlah_khl_os + $hasil->jumlah_khl_lt }}</td>
@@ -165,6 +169,24 @@
                             </tr>
                         @endforeach
                         </tbody>
+                        <tfoot>
+                        <tr class="fw-bold">
+                            <td class="text-end">Total</td>
+                            <td class="text-end">{{ $hasils->sum('luas_areal_pm') }}</td>
+                            <td class="text-end">{{ $hasils->sum('luas_areal_pg') }}</td>
+                            <td class="text-end">{{ $hasils->sum('luas_areal_os') }}</td>
+                            <td class="text-end">{{ $hasils->sum('luas_areal_lt') }}</td>
+                            <td>{{ $hasils->sum('luas_areal_pm') + $hasils->sum('luas_areal_pg') + $hasils->sum('luas_areal_os') + $hasils->sum('luas_areal_lt') }}</td>
+                            <td></td>
+                            <td>{{ $hasils->sum('jumlah_kht_pm') + $hasils->sum('jumlah_kht_pg') + $hasils->sum('jumlah_kht_os') + $hasils->sum('jumlah_kht_lt') }}</td>
+                            <td>{{ $hasils->sum('jumlah_khl_pm') + $hasils->sum('jumlah_khl_pg') + $hasils->sum('jumlah_khl_os') + $hasils->sum('jumlah_khl_lt') }}</td>
+                            <td>{{ $hasils->count('mandor_name') }} Orang</td>
+                            <td>{{ array_sum($hasils->map(function($item) { return $item->karyawans->count(); })->toArray()) }}
+                                Orang
+                            </td>
+                            <td></td>
+                        </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>

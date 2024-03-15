@@ -80,6 +80,16 @@
                         </tr>
                     @endforeach
                     </tbody>
+                    <tfoot>
+                    <tr class="fw-bold">
+                        <td colspan="3" class="text-end">Total</td>
+                        <td>{{$timbangans->sum('total_blok')}}</td>
+                        <td>{{$timbangans->sum('total_areal_pm') + $timbangans->sum('total_areal_pg') + $timbangans->sum('total_areal_os') + $timbangans->sum('total_areal_lt')}}</td>
+                        <td>{{$timbangans->sum('total_karyawan')}}</td>
+                        <td>{{$timbangans->sum('total_kht_pm') + $timbangans->sum('total_kht_pg') + $timbangans->sum('total_kht_os') + $timbangans->sum('total_kht_lt') + $timbangans->sum('total_khl_pm') + $timbangans->sum('total_khl_pg') + $timbangans->sum('total_khl_os') + $timbangans->sum('total_khl_lt')}}</td>
+                        <td></td>
+                    </tr>
+                    </tfoot>
                 </table>
             </div>
             <div class="form-footer">

@@ -60,7 +60,7 @@ class LaporanTableController extends Controller
             return [
                 'blok' => $item->blok->name,
                 'luas_areal_blok' => $item->blok->luas_areal,
-                'luas_areal' => $item->luas_areal_pm + $item->luas_areal_pg + $item->luas_areal_os,
+                'luas_areal' => $item->luas_areal,
                 'pusingan_petikan_ke' => $item->pusingan_petikan_ke,
                 'total_karyawan_kht' => $item->total_karyawan_kht,
                 'total_karyawan_khl' => $item->total_karyawan_khl,
