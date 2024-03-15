@@ -56,6 +56,11 @@ class Hasil extends Model
         return $this->belongsTo(User::class, 'mandor_id', 'id');
     }
 
+    public function timbangan()
+    {
+        return $this->belongsTo(Timbangan::class, 'timbangan_id', 'id');
+    }
+
 
     public static function getJumlahKemarin()
     {

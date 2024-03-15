@@ -17,21 +17,24 @@ class DaunController extends Controller
         $mandor = User::find(request()->get('mandor_id'));
 
         if (request()->get('mandor_id')) {
-            $list = Hasil::with('laporan', 'karyawans', 'blok')
-                ->withCount('karyawans as total_karyawan')
+            $list = Hasil::with('laporan', 'karyawans', 'blok', 'timbangan')
+                ->withCount('karyawans')
                 ->whereHas('laporan', function ($query) {
                     $query->where('laporan.id', request()->get('laporan_id'));
                 })
                 ->where('mandor_id', request()->get('mandor_id'))
-                ->get();
+                ->get()->map(function ($item) {
+                    $item->total_timbangan = $item->jumlah_kht_pm + $item->jumlah_kht_pg + $item->jumlah_kht_os + $item->jumlah_kht_lt + $item->jumlah_khl_pm + $item->jumlah_khl_pg + $item->jumlah_khl_os + $item->jumlah_khl_lt;
+                    return $item;
+                });
         } else {
-            $list = [];
+            $list = collect([]);
         }
 
         $total = [
-            'timbangan' => $list->sum('jumlah_kht_pm') + $list->sum('jumlah_kht_pg') + $list->sum('jumlah_kht_os') + $list->sum('jumlah_khl_pm') + $list->sum('jumlah_khl_pg') + $list->sum('jumlah_khl_os'),
+            'timbangan' => $list->sum('total_timbangan'),
             'luas' => $list->sum('luas_areal_pm') + $list->sum('luas_areal_pg') + $list->sum('luas_areal_os'),
-            'karyawan' => $list->sum('total_karyawan'),
+            'karyawan' => $list->sum('karyawans_count'),
             'blok' => $list->count()
         ];
 

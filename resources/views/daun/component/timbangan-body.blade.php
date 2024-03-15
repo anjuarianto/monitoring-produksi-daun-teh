@@ -1,7 +1,7 @@
 @if (count($list) > 0)
     @foreach($list as $item)
         <tr class="text-center" style="vertical-align: middle;">
-            <td>Timbangan {{ $item->order }}</td>
+            <td>Timbangan {{ $item->timbangan->order }}</td>
             <td>{{ $item->total_timbangan }} kg</td>
             <td>{{ $item->blok->name }}</td>
             <td class="text-start">
