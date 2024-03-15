@@ -45,7 +45,7 @@
                 <div class="mb-3">
                     <label class="form-label">Tanggal</label>
                     <input type="date" class="form-control @error('tanggal') is-invalid @enderror" name="tanggal"
-                           placeholder="Masukkan tanggal..." value="{{ old('tanggal') }}">
+                           placeholder="Masukkan tanggal..." value="{{ old('tanggal') }}" required>
                     @error('tanggal')
                     <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -70,16 +70,66 @@
                                 <th width="20%">Timbangan 1</th>
                                 <th width="20%">Timbangan 2</th>
                                 <th width="20%">Timbangan 3</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody id="body-table">
+                            @if(!$karyawanMandor->isEmpty())
+                                @foreach($karyawanMandor as $karyawan_mandor)
+                                    <tr>
+                                        <td>
+                                            <select name="user_id[{{$loop->index}}]"
+                                                    class="form-control select2 user_id karyawan-select" required>
+                                                <option value="" selected>--Pilih Karyawan--</option>
+                                                @foreach ($karyawans as $karyawan)
+                                                    <option
+                                                        value="{{$karyawan->id}}" {{ $karyawan->id == $karyawan_mandor->karyawan->id ? 'selected' : '' }}>{{$karyawan->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="timbangan_1[{{ $loop->index }}]"
+                                                    class="form-control timbangan-select-1">
+                                                <option value="" selected>--Pilih Status--</option>
+                                                @foreach (AbsenKaryawan::$status_kehadiran as $status)
+                                                    <option value="{{$status}}">{{$status}}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="timbangan_2[{{ $loop->index }}]"
+                                                    class="form-control timbangan-select-2">
+                                                <option value="" selected>--Pilih Status--</option>
+                                                @foreach (AbsenKaryawan::$status_kehadiran as $status)
+                                                    <option value="{{$status}}">{{$status}}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="timbangan_3[{{ $loop->index }}]"
+                                                    class="form-control timbangan-select-3">
+                                                <option value="" selected>--Pilih Status--</option>
+                                                @foreach (AbsenKaryawan::$status_kehadiran as $status)
+                                                    <option value="{{$status}}">{{$status}}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-danger btn-delete-row"><i
+                                                    class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
                             </tbody>
                         </table>
                     </div>
                 </div>
                 <div class="form-footer">
                     <button type="submit" class="btn btn-primary">Submit</button>
-                    <button class="btn btn-secondary" onclick="window.history.back()">Back</button>
+                    <a class="btn btn-secondary"
+                       href="{{ url()->previous() }}">Back</a>
                 </div>
             </div>
         </div>
@@ -119,6 +169,11 @@
                     @endforeach
                 </select>
             </td>
+            <td>
+                <button class="btn btn-danger btn-delete-row">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
         </tr>
     </table>
 
@@ -128,10 +183,10 @@
 @section('js')
     <script type="module">
         $(document).ready(function () {
-
+            $('.karyawan-select').select2();
             $('#btn-tambah-baris').on('click', function () {
                 var createId = $('#body-table tr').length;
-
+                console.log($('#body-table tr').last().find('.karyawan-select').attr('name'))
                 if (createId > 0) {
                     var createId = parseInt($('#body-table tr').last().find('.karyawan-select').attr('name').replace(/[^0-9]/gi, '')) + 1;
                 }
@@ -155,14 +210,19 @@
 
             });
 
+            $('.btn-delete-row').on('click', function () {
+                $(this).closest('tr').remove();
+            });
+
             (function () {
                 var mandorArrValue;
-
+                var initialValue;
                 $(".user_id").on('select2:open', function () {
+                    initialValue = $(this).val();
                     mandorArrValue = getSelectedArray('.user_id');
                 }).on('select2:select', function () {
                     if (mandorArrValue.includes($(this).val())) {
-                        $(this).val("").trigger('change');
+                        $(this).val(initialValue).trigger('change');
                         alert('Silahkan pilih mandor lain, mandor tersebut sudah dipilih');
                     }
 

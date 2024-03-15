@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\AbsenKaryawan;
+use App\Models\MandorHasKaryawan;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AbsenKaryawanController extends Controller
 {
@@ -34,7 +36,15 @@ class AbsenKaryawanController extends Controller
     {
         $karyawans = User::role('Karyawan')->get();
 
-        return view('absen-karyawan.create', compact('karyawans'));
+        $auth_roles = Auth::user()->roles->pluck('name')->toArray();
+        if (in_array('Mandor', $auth_roles)) {
+            $karyawanMandor = MandorHasKaryawan::where('mandor_id', auth()->user()->id)->get();
+        } else {
+            $karyawanMandor = [];
+        }
+
+
+        return view('absen-karyawan.create', compact('karyawans', 'karyawanMandor'));
     }
 
     /**
@@ -42,19 +52,18 @@ class AbsenKaryawanController extends Controller
      */
     public function store(Request $request)
     {
-        foreach ($request->user_id as $key => $user) {
+        collect($request->user_id)->each(function ($user, $key) use ($request) {
             AbsenKaryawan::create([
                 'tanggal' => $request->tanggal,
                 'user_id' => $user,
                 'timbangan_1' => $request->timbangan_1[$key],
                 'timbangan_2' => $request->timbangan_2[$key],
                 'timbangan_3' => $request->timbangan_3[$key],
-                'created_by' => auth()->user()->id
+                'created_by' => auth()->id()
             ]);
-        }
+        });
 
         return redirect()->route('absen-karyawan.index')->withSuccess('Data berhasil ditambah');
-
     }
 
     /**

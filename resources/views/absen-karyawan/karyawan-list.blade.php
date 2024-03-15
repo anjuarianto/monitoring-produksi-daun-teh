@@ -137,7 +137,7 @@ function badgeStatusAbsen($status) {
               <div class="col-md-2">
                 <button type="submit" class="btn btn-primary btn-sm">Select</button>
               </div>
-            </div>            
+            </div>
           </form>
         </div>
       </div>
@@ -200,7 +200,7 @@ function badgeStatusAbsen($status) {
 @section('js')
 <script type="module">
   $(document).ready(function() {
-    
+
     $('.my-dropdown').on('show.bs.dropdown', function() {
       $('.table-responsive').css( "overflow", "inherit" );
     })
@@ -209,16 +209,16 @@ function badgeStatusAbsen($status) {
         $('.table-responsive').css( "overflow", "auto" );
     });
   });
-  
 
-    
+
+
 
     const modalDelete = document.getElementById('modal-delete');
     if (modalDelete) {
       modalDelete.addEventListener('show.bs.modal', event => {
 
         const button = event.relatedTarget;
-        
+
         const actionUrl = button.getAttribute('data-bs-action-url');
 
         // Update the modal's content.
