@@ -77,6 +77,9 @@ class TimbanganController extends Controller
             return redirect()->back()->withErrors('Data karyawan tidak boleh kosong');
         }
 
+        $timbangan->update([
+            'timbangan_pabrik' => $request->timbangan_pabrik,
+        ]);
 
         foreach ($request->blok_id as $key => $blok) {
 

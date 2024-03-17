@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -98,10 +99,14 @@ class Laporan extends Model
             });
     }
 
-    public static function getDataBulanIni($bulan)
+    public static function getDataBulanIni($tanggal)
     {
-        $hasil = Hasil::whereHas('laporan', function ($query) use ($bulan) {
-            $query->whereMonth('tanggal', $bulan);
+        $bulan = date('m', strtotime($tanggal));
+        $date = Carbon::parse($tanggal);
+        $awalBulan = $date->startOfMonth()->toDateString();
+
+        $hasil = Hasil::whereHas('laporan', function ($query) use ($awalBulan, $tanggal) {
+            $query->whereBetween('tanggal', [$awalBulan, $tanggal]);
         })->get();
 
         $karyawanPm = Hasil::withCount(['karyawans as total_karyawan_kht' => function ($query) {
@@ -110,8 +115,8 @@ class Laporan extends Model
         }])->withCount(['karyawans as total_karyawan_khl' => function ($query) {
             $query->where('jenis_karyawan', User::KARYAWAN_HARIAN_LEPAS);
             $query->where('jenis_pemanen', 'pm');
-        }])->whereHas('laporan', function ($query) use ($bulan) {
-            $query->whereMonth('tanggal', $bulan);
+        }])->whereHas('laporan', function ($query) use ($awalBulan, $tanggal) {
+            $query->whereBetween('tanggal', [$awalBulan, $tanggal]);
         })->get();
 
         $karyawanPg = Hasil::withCount(['karyawans as total_karyawan_kht' => function ($query) {
@@ -120,8 +125,8 @@ class Laporan extends Model
         }])->withCount(['karyawans as total_karyawan_khl' => function ($query) {
             $query->where('jenis_karyawan', User::KARYAWAN_HARIAN_LEPAS);
             $query->where('jenis_pemanen', 'pg');
-        }])->whereHas('laporan', function ($query) use ($bulan) {
-            $query->whereMonth('tanggal', $bulan);
+        }])->whereHas('laporan', function ($query) use ($awalBulan, $tanggal) {
+            $query->whereBetween('tanggal', [$awalBulan, $tanggal]);
         })->get();
 
         $karyawanOs = Hasil::withCount(['karyawans as total_karyawan_kht' => function ($query) {
@@ -130,8 +135,8 @@ class Laporan extends Model
         }])->withCount(['karyawans as total_karyawan_khl' => function ($query) {
             $query->where('jenis_karyawan', User::KARYAWAN_HARIAN_LEPAS);
             $query->where('jenis_pemanen', 'os');
-        }])->whereHas('laporan', function ($query) use ($bulan) {
-            $query->whereMonth('tanggal', $bulan);
+        }])->whereHas('laporan', function ($query) use ($awalBulan, $tanggal) {
+            $query->whereBetween('tanggal', [$awalBulan, $tanggal]);
         })->get();
 
         return [

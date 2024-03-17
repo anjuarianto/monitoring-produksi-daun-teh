@@ -77,6 +77,7 @@
                     </div>
                 </div>
 
+
                 <div class="col-md-4">
                     <div class="mb-3">
                         <label class="form-label">Kerani Timbang Lapangan</label>
@@ -87,18 +88,20 @@
 
                 <div class="col-md-4">
                     <div class="mb-3">
-                        <label class="form-label">Waktu</label>
-                        <input type="text" class="form-control" value="{{ $timbangan->waktu }}" disabled>
+                        <label class="form-label">Timbangan</label>
+                        <input type="text" class="form-control" name="timbangan_pabrik"
+                               value="{{ old('timbangan_pabrik', $timbangan->timbangan_pabrik) }}"
+                               placeholder="Jumlah timbangan pabrik...">
                     </div>
                 </div>
+
+
             </div>
         </div>
     </div>
 
     <div class="card">
-
         <div class="card-body">
-
             <div class="d-flex justify-content-between mb-3">
                 <div></div>
                 <button type="button" data-bs-toggle="modal" data-bs-target="#modal-create"

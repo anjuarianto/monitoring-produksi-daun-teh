@@ -13,7 +13,7 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h3 class="m-0">Tabel Laporan PB58 Tanggal - {{ date('d-m-Y', strtotime($laporan->tanggal)) }}</h3>
+            <h3 class="m-0">Tabel Laporan PB58 Tanggal - {{ date('d/m/Y', strtotime($laporan->tanggal)) }}</h3>
         </div>
         <div class="card-body">
 

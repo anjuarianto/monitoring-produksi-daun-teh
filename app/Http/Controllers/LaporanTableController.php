@@ -27,7 +27,7 @@ class LaporanTableController extends Controller
         $tanggal = $laporan->tanggal;
 
         $timbangans = Timbangan::getDataByLaporanId($laporan->id);
-        $hasilBulanan = Laporan::getDataBulanIni(date('m', strtotime($tanggal)));
+        $hasilBulanan = Laporan::getDataBulanIni(date(date($tanggal)));
         $hasilLeavyTea = Laporan::getDataHasilLeavyTea($laporan->id);
 
         $total_timbangan_pabrik = Timbangan::with('laporan')

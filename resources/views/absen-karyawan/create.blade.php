@@ -74,7 +74,7 @@
                             </tr>
                             </thead>
                             <tbody id="body-table">
-                            @if(!$karyawanMandor->isEmpty())
+                            @if(!empty($karyawanMandor))
                                 @foreach($karyawanMandor as $karyawan_mandor)
                                     <tr>
                                         <td>
