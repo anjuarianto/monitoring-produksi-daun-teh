@@ -36,8 +36,8 @@
 
                 <div class="col-md-4">
                     <div class="mb-3">
-                        <label class="form-label">Waktu</label>
-                        <input type="text" class="form-control" value="{{ $timbangan->waktu }}" disabled>
+                        <label class="form-label">Timbangan Pabrik</label>
+                        <input type="text" class="form-control" value="{{ $timbangan->timbangan_pabrik }}" disabled>
                     </div>
                 </div>
             </div>

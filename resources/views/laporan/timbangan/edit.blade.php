@@ -88,7 +88,7 @@
 
                 <div class="col-md-4">
                     <div class="mb-3">
-                        <label class="form-label">Timbangan</label>
+                        <label class="form-label">Timbangan Pabrik</label>
                         <input type="text" class="form-control" name="timbangan_pabrik"
                                value="{{ old('timbangan_pabrik', $timbangan->timbangan_pabrik) }}"
                                placeholder="Jumlah timbangan pabrik...">

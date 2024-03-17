@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Hasil;
+use App\Models\HasilHasKaryawan;
 use App\Models\Laporan;
 use App\Models\Timbangan;
 use App\Models\User;
@@ -31,10 +32,16 @@ class DaunController extends Controller
             $list = collect([]);
         }
 
+        $total_karyawan = HasilHasKaryawan::whereHas('hasil', function ($query) {
+            $query->where('laporan_id', request()->get('laporan_id'));
+        })->whereHas('hasil', function ($query) {
+            $query->where('mandor_id', request()->get('mandor_id'));
+        })->distinct('user_id')->count('user_id');
+
         $total = [
             'timbangan' => $list->sum('total_timbangan'),
             'luas' => $list->sum('luas_areal_pm') + $list->sum('luas_areal_pg') + $list->sum('luas_areal_os'),
-            'karyawan' => $list->sum('karyawans_count'),
+            'karyawan' => $total_karyawan,
             'blok' => $list->count()
         ];
 
