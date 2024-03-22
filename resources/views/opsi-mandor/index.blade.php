@@ -41,16 +41,11 @@
 
                                 </td>
                                 <td class="text-end">
-                                    <div class="dropdown my-dropdown">
-                                        <button class="btn btn-sm dropdown-toggle align-text-top" data-bs-toggle="dropdown">
-                                            Actions
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <a class="dropdown-item" href="{{route('opsi-mandor.edit', $mandor->id)}}">
-                                                Edit Karyawan
-                                            </a>
-                                        </div>
-                                    </div>
+                                    @can('opsi-mandor-edit')
+                                        <a class="btn btn-outline btn-sm" href="{{route('opsi-mandor.edit', $mandor->id)}}">
+                                            Edit Karyawan
+                                        </a>
+                                    @endcan
                                 </td>
                             </tr>
                         @endforeach

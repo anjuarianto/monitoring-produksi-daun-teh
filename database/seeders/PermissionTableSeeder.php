@@ -24,7 +24,7 @@ class PermissionTableSeeder extends Seeder
             'laporan-list', 'laporan-create', 'laporan-edit', 'laporan-delete',
             'absen-karyawan-list', 'absen-karyawan-create', 'absen-karyawan-edit', 'absen-karyawan-delete',
             'daun-list', 'daun-edit',
-            'opsi-mandor-list', 'opsi-mandor-create', 'opsi-mandor-edit', 'opsi-mandor-delete',
+            'opsi-mandor-list', 'opsi-mandor-edit',
         ];
 
         foreach ($permissions as $permission) {
