@@ -14,6 +14,9 @@ class DaunController extends Controller
 {
     public function get()
     {
+        if (!Auth::user()->can('daun-list')) {
+            return response()->json(['message' => 'Forbidden'], 403);
+        }
 
         $mandor = User::find(request()->get('mandor_id'));
 

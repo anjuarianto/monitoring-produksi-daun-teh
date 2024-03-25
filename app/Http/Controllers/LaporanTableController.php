@@ -7,16 +7,60 @@ use App\Models\HasilHasKaryawan;
 use App\Models\Laporan;
 use App\Models\Timbangan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LaporanTableController extends Controller
 {
     public function index()
     {
+        if (!Auth::user()->can('laporan-list')) {
+            return abort(403, 'Anda tidak memiliki hak akses untuk melihat data laporan');
+        }
+
         $laporans = Laporan::get();
         return view('laporan.table.index', compact('laporans'));
     }
 
     public function show($id)
+    {
+        if (!Auth::user()->can('laporan-list')) {
+            return abort(403, 'Anda tidak memiliki hak akses untuk melihat data laporan');
+        }
+
+        $dataLaporan = $this->_dataExport($id);
+        $hasils = $dataLaporan['hasils'];
+        $timbangans = $dataLaporan['timbangans'];
+        $hasilTotal = $dataLaporan['hasilTotal'];
+        $laporan = $dataLaporan['laporan'];
+        $hasilBulanan = $dataLaporan['hasilBulanan'];
+        $total_bulanan = $dataLaporan['total_bulanan'];
+
+
+        return view('laporan.table.show', compact(
+                'hasils', 'timbangans', 'hasilTotal',
+                'laporan', 'hasilBulanan', 'total_bulanan')
+        );
+    }
+
+    public function export($id)
+    {
+        $dataLaporan = $this->_dataExport($id);
+        $hasils = $dataLaporan['hasils'];
+        $timbangans = $dataLaporan['timbangans'];
+        $hasilTotal = $dataLaporan['hasilTotal'];
+        $laporan = $dataLaporan['laporan'];
+        $hasilBulanan = $dataLaporan['hasilBulanan'];
+        $total_bulanan = $dataLaporan['total_bulanan'];
+
+        $pdf = \PDF::loadView('laporan.table.export', compact(
+            'hasils', 'timbangans', 'hasilTotal',
+            'laporan', 'hasilBulanan', 'total_bulanan'));
+
+        return $pdf->stream('filename.pdf');
+        return $pdf->download();
+    }
+
+    public function _dataExport($id)
     {
         $laporan = Laporan::find($id);
 
@@ -176,9 +220,8 @@ class LaporanTableController extends Controller
             'bulan_ini_total_timbangan' => (int)$hasilBulanan['pm']['total_timbangan_kht'] + (int)$hasilBulanan['pg']['total_timbangan_kht'] + (int)$hasilBulanan['os']['total_timbangan_kht'] + (int)$hasilBulanan['lt']['total_timbangan_kht'] + (int)$hasilBulanan['pm']['total_timbangan_khl'] + (int)$hasilBulanan['pg']['total_timbangan_khl'] + (int)$hasilBulanan['os']['total_timbangan_khl'] + (int)$hasilBulanan['lt']['total_timbangan_khl']
         ];
 
-        return view('laporan.table.show', compact(
-                'hasils', 'timbangans', 'hasilTotal',
-                'laporan', 'hasilBulanan', 'total_bulanan')
-        );
+        return compact(
+            'hasils', 'timbangans', 'hasilTotal',
+            'laporan', 'hasilBulanan', 'total_bulanan');
     }
 }

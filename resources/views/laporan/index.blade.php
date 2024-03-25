@@ -2,6 +2,7 @@
 
 @php
     use App\Models\General;
+    use Illuminate\Support\Facades\Auth;
 
     $filter_bulan = app('request')->input('filter-bulan') ? app('request')->input('filter-bulan') : date('m');
     $filter_tahun = app('request')->input('filter-tahun') ? app('request')->input('filter-tahun') : date('Y');
@@ -10,7 +11,7 @@
         'title' => 'Laporan',
         'sub_title' => 'Daftar Laporan',
         'create_button' => [
-            'is_enabled' => TRUE,
+            'is_enabled' => Auth::user()->can('laporan-create') ? TRUE : FALSE,
             'caption' => 'Buat Laporan',
             'redirect' => route('laporan.create')
         ]
@@ -112,14 +113,18 @@
                                             <a class="dropdown-item" href="{{route('laporan.show', $laporan->id)}}">
                                                 View
                                             </a>
-                                            <a class="dropdown-item" href="{{route('laporan.edit', $laporan->id)}}">
-                                                Edit
-                                            </a>
-                                            <button class="dropdown-item" data-bs-toggle="modal"
-                                                    data-bs-target="#modal-delete"
-                                                    data-bs-action-url="{{route('laporan.destroy', $laporan->id)}}">
-                                                Delete
-                                            </button>
+                                            @can('laporan-edit')
+                                                <a class="dropdown-item" href="{{route('laporan.edit', $laporan->id)}}">
+                                                    Edit
+                                                </a>
+                                            @endcan
+                                            @can('laporan-delete')
+                                                <button class="dropdown-item" data-bs-toggle="modal"
+                                                        data-bs-target="#modal-delete"
+                                                        data-bs-action-url="{{route('laporan.destroy', $laporan->id)}}">
+                                                    Delete
+                                                </button>
+                                            @endcan
                                         </div>
                                     </div>
                                 </td>

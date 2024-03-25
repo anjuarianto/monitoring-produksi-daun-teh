@@ -15,7 +15,7 @@ class PermissionTableSeeder extends Seeder
     public function run()
     {
         $permissions = [
-            'permission-list', 'permission-create', 'permission-edit','permission-delete',
+            'permission-list', 'permission-create', 'permission-edit', 'permission-delete',
             'role-list', 'role-create', 'role-edit', 'role-delete',
             'user-list', 'user-create', 'user-edit', 'user-delete',
             'blok-list', 'blok-create', 'blok-edit', 'blok-delete',
@@ -23,15 +23,14 @@ class PermissionTableSeeder extends Seeder
             'karyawan-list', 'karyawan-create', 'karyawan-edit', 'karyawan-delete',
             'daun-list',
             'opsi-mandor-list', 'opsi-mandor-edit',
-            'timbangan-list', 'timbangan-create', 'timbangan-edit', 'timbangan-delete',
-            'produksi-list', 'produksi-create', 'produksi-edit', 'produksi-delete',
-            'laporan-list',
+            'laporan-list', 'laporan-create', 'laporan-edit', 'laporan-delete',
+            'produksi-list',
             'absen-karyawan-list', 'absen-karyawan-create', 'absen-karyawan-edit', 'absen-karyawan-delete',
             'hasil-produksi-list'
         ];
 
         foreach ($permissions as $permission) {
-             Permission::create(['name' => $permission]);
+            Permission::create(['name' => $permission]);
         }
     }
 }

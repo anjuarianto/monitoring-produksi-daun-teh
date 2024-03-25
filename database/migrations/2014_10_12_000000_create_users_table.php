@@ -6,8 +6,7 @@ use Illuminate\Support\Facades\Schema;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -28,6 +27,7 @@ return new class extends Migration
             $table->string('no_handphone');
             $table->text('alamat');
             $table->timestamps();
+            $table->softDeletes();
         });
 
     }

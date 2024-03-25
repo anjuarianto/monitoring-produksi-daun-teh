@@ -259,109 +259,124 @@
                     </li>
                 @endcan
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{{route('produksi.index')}}">
+                @can('produksi-list')
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('produksi.index')}}">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <i class="fas fa-archive"></i>
                         </span>
-                        <span class="nav-link-title">
+                            <span class="nav-link-title">
                             Produksi
                         </span>
-                    </a>
-                </li>
+                        </a>
+                    </li>
+                @endcan
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{{route('laporan-table.index')}}">
+                @can('laporan-list')
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('laporan-table.index')}}">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <i class="fas fa-archive"></i>
                         </span>
-                        <span class="nav-link-title">
+                            <span class="nav-link-title">
                             Laporan PB58
                         </span>
-                    </a>
-                </li>
+                        </a>
+                    </li>
+                @endcan
 
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{{route('absen-karyawan.index')}}">
+                @can('absen-karyawan-list')
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('absen-karyawan.index')}}">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <i class="fas fa-clock"></i>
                         </span>
-                        <span class="nav-link-title">
+                            <span class="nav-link-title">
                             Absen Karyawan
                         </span>
-                    </a>
-                </li>
+                        </a>
+                    </li>
+                @endcan
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{{route('produksi-hasil.index')}}">
+                @can('hasil-produksi-list')
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('produksi-hasil.index')}}">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <i class="fas fa-clock"></i>
                         </span>
-                        <span class="nav-link-title">
+                            <span class="nav-link-title">
                             Hasil Produksi
                         </span>
-                    </a>
-                </li>
+                        </a>
+                    </li>
+                @endcan
 
                 {{-- Master Menu --}}
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#navbar-help" data-bs-toggle="dropdown"
-                       data-bs-auto-close="false" role="button" aria-expanded="false">
+                @canany(['golongan-list', 'blok-list', 'karyawan-list'])
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#navbar-help" data-bs-toggle="dropdown"
+                           data-bs-auto-close="false" role="button" aria-expanded="false">
                         <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/lifebuoy -->
                             <i class="fas fa-layer-group"></i>
                         </span>
-                        <span class="nav-link-title">
+                            <span class="nav-link-title">
                             Master
                         </span>
-                    </a>
+                        </a>
 
 
-                    <div class="dropdown-menu">
-                        @can('golongan-list')
-                            <a class="dropdown-item" href="{{route('golongan.index')}}">
-                                Golongan
-                            </a>
-                        @endcan
-                        @can('blok-list')
-                            <a class="dropdown-item" href="{{route('blok.index')}}">
-                                Blok
-                            </a>
-                        @endcan
-                        @can('karyawan-list')
-                            <a class="dropdown-item" href="{{route('karyawan.index')}}">
-                                Karyawan
-                            </a>
-                        @endcan
-                    </div>
-                </li>
+                        <div class="dropdown-menu">
+                            @can('golongan-list')
+                                <a class="dropdown-item" href="{{route('golongan.index')}}">
+                                    Golongan
+                                </a>
+                            @endcan
+                            @can('blok-list')
+                                <a class="dropdown-item" href="{{route('blok.index')}}">
+                                    Blok
+                                </a>
+                            @endcan
+                            @can('karyawan-list')
+                                <a class="dropdown-item" href="{{route('karyawan.index')}}">
+                                    Karyawan
+                                </a>
+                            @endcan
+                        </div>
+                    </li>
+                @endcanany
 
                 {{-- User Management Menu --}}
-                @role('Admin')
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#navbar-help" data-bs-toggle="dropdown"
-                       data-bs-auto-close="false" role="button" aria-expanded="false">
+                @canany(['user-list', 'role-list', 'permission-list'])
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#navbar-help" data-bs-toggle="dropdown"
+                           data-bs-auto-close="false" role="button" aria-expanded="false">
                         <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/lifebuoy -->
                             <i class="fas fa-user"></i>
                         </span>
-                        <span class="nav-link-title">
+                            <span class="nav-link-title">
                             User Management
                         </span>
-                    </a>
+                        </a>
 
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{{route('users.index')}}">
-                            Users
-                        </a>
-                        <a class="dropdown-item" href="{{route('roles.index')}}">
-                            Roles
-                        </a>
-                        <a class="dropdown-item" href="{{route('permissions.index')}}">
-                            Permissions
-                        </a>
-                    </div>
-                </li>
-                @endrole
+                        <div class="dropdown-menu">
+                            @can('user-list')
+                                <a class="dropdown-item" href="{{route('users.index')}}">
+                                    Users
+                                </a>
+                            @endcan
+                            @can('role-list')
+                                <a class="dropdown-item" href="{{route('roles.index')}}">
+                                    Roles
+                                </a>
+                            @endcan
+                            @can('permission-list')
+                                <a class="dropdown-item" href="{{route('permissions.index')}}">
+                                    Permissions
+                                </a>
+                            @endcan
+                        </div>
+                    </li>
+                @endcanany
 
 
             </ul>

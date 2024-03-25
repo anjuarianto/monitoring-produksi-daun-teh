@@ -107,7 +107,7 @@
                                         </td>
                                         <td>
                                             <select name="timbangan_3[{{ $loop->index }}]"
-                                                    class="form-control timbangan-select-3">
+                                                    class="form-control timbangan-select-2">
                                                 <option value="" selected>--Pilih Status--</option>
                                                 @foreach (AbsenKaryawan::$status_kehadiran as $status)
                                                     <option value="{{$status}}">{{$status}}</option>
@@ -163,7 +163,7 @@
             </td>
             <td>
                 <select class="form-control timbangan-select-3">
-                    <option value="" disabled selected>--Pilih Status--</option>
+                    <option value="" selected>--Pilih Status--</option>
                     @foreach (AbsenKaryawan::$status_kehadiran as $status)
                         <option value="{{$status}}">{{$status}}</option>
                     @endforeach

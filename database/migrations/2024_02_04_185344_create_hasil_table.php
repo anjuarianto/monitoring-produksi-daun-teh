@@ -31,8 +31,8 @@ return new class extends Migration {
             $table->unsignedBigInteger('mandor_id');
             $table->timestamps();
 
-            $table->foreign('laporan_id')->references('id')->on('laporan');
-            $table->foreign('timbangan_id')->references('id')->on('timbangan');
+            $table->foreign('laporan_id')->references('id')->on('laporan')->cascadeOnDelete();
+            $table->foreign('timbangan_id')->references('id')->on('timbangan')->cascadeOnDelete();
             $table->foreign('blok_id')->references('id')->on('blok');
             $table->foreign('mandor_id')->references('id')->on('users');
         });

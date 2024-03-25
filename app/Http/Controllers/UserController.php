@@ -15,15 +15,14 @@ class UserController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['role:Admin']);
     }
 
     /**
      * Display a listing of the resource.
-    */
+     */
     public function index()
     {
-        if(!Auth::user()->can('user-list')) {
+        if (!Auth::user()->can('user-list')) {
             return abort(403);
         }
 
@@ -37,7 +36,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        if(!Auth::user()->can('user-create')) {
+        if (!Auth::user()->can('user-create')) {
             return abort(403);
         }
 
@@ -53,7 +52,7 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        if(!Auth::user()->can('user-create')) {
+        if (!Auth::user()->can('user-create')) {
             return abort(403);
         }
 
@@ -65,7 +64,7 @@ class UserController extends Controller
             'jenis_pemanen' => $request->jenis_pemanen ? $request->jenis_pemanen : null,
             'golongan_id' => $request->golongan,
             'tempat_lahir' => $request->tempat_lahir,
-            'tanggal_lahir' => $request->tahun.'-'.$request->bulan.'-'.$request->tanggal,
+            'tanggal_lahir' => $request->tahun . '-' . $request->bulan . '-' . $request->tanggal,
             'no_handphone' => $request->no_handphone,
             'alamat' => $request->alamat
         ]);
@@ -80,7 +79,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        if(!Auth::user()->can('user-list')) {
+        if (!Auth::user()->can('user-list')) {
             return abort(403);
         }
 
@@ -92,7 +91,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        if(!Auth::user()->can('user-edit')) {
+        if (!Auth::user()->can('user-edit')) {
             return abort(403);
         }
 
@@ -108,7 +107,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        if(!Auth::user()->can('user-edit')) {
+        if (!Auth::user()->can('user-edit')) {
             return abort(403);
         }
 
@@ -117,7 +116,7 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
             'golongan' => $request->golongan,
             'tempat_lahir' => $request->tempat_lahir,
-            'tanggal_lahir' => $request->tahun.'-'.$request->bulan.'-'.$request->tanggal,
+            'tanggal_lahir' => $request->tahun . '-' . $request->bulan . '-' . $request->tanggal,
             'no_handphone' => $request->no_handphone,
             'alamat' => $request->alamat
         ]);
@@ -134,7 +133,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        if(!Auth::user()->can('user-delete')) {
+        if (!Auth::user()->can('user-delete')) {
             return abort(403);
         }
 

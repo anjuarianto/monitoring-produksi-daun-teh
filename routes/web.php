@@ -45,6 +45,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/laporan-table', [\App\Http\Controllers\LaporanTableController::class, 'index'])->name('laporan-table.index');
     Route::get('/laporan-table/{laporan}', [\App\Http\Controllers\LaporanTableController::class, 'show'])->name('laporan-table.show');
+    Route::get('/laporan-table/{laporan}/export', [\App\Http\Controllers\LaporanTableController::class, 'export'])->name('laporan-table.export');
     Route::resource('laporan', LaporanController::class);
     Route::resource('absen-karyawan', AbsenKaryawanController::class);
     Route::resource('golongan', GolonganController::class);
@@ -73,6 +74,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
     Route::get('/profile/change-password', [PasswordController::class, 'edit'])->name('profile.change-password.edit');
+    Route::put('/profile/change-password', [PasswordController::class, 'update'])->name('profile.change-password.update');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

@@ -15,6 +15,10 @@ class AbsenKaryawanController extends Controller
      */
     public function index(Request $request)
     {
+        if (!Auth::user()->can('absen-karyawan-list')) {
+            abort(403, 'Anda tidak memiliki hak akses untuk melihat data absen karyawan');
+        }
+
         if (in_array('Karyawan', auth()->user()->roles->pluck('name')->toArray())) {
             $listAbsenKaryawan = new KaryawanAbsenListController();
             return $listAbsenKaryawan->__invoke($request);
@@ -34,6 +38,10 @@ class AbsenKaryawanController extends Controller
      */
     public function create()
     {
+        if (!Auth::user()->can('absen-karyawan-create')) {
+            abort(403, 'Anda tidak memiliki hak akses untuk membuat data absen karyawan');
+        }
+
         $karyawans = User::role('Karyawan')->get();
 
         $auth_roles = Auth::user()->roles->pluck('name')->toArray();
@@ -52,6 +60,10 @@ class AbsenKaryawanController extends Controller
      */
     public function store(Request $request)
     {
+        if (!Auth::user()->can('absen-karyawan-create')) {
+            abort(403, 'Anda tidak memiliki hak akses untuk membuat data absen karyawan');
+        }
+
         collect($request->user_id)->each(function ($user, $key) use ($request) {
             AbsenKaryawan::create([
                 'tanggal' => $request->tanggal,
@@ -67,18 +79,14 @@ class AbsenKaryawanController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(AbsenKaryawan $absenKaryawan)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(AbsenKaryawan $absenKaryawan)
     {
+        if (!Auth::user()->can('absen-karyawan-edit')) {
+            abort(403, 'Anda tidak memiliki hak akses untuk mengedit data absen karyawan');
+        }
+
         $absen = $absenKaryawan;
         return view('absen-karyawan.edit', compact('absen'));
     }
@@ -88,6 +96,10 @@ class AbsenKaryawanController extends Controller
      */
     public function update(Request $request, AbsenKaryawan $absenKaryawan)
     {
+        if (!Auth::user()->can('absen-karyawan-edit')) {
+            abort(403, 'Anda tidak memiliki hak akses untuk mengedit data absen karyawan');
+        }
+
         $absenKaryawan->update([
             'timbangan_1' => $request->timbangan_1,
             'timbangan_2' => $request->timbangan_2,
@@ -102,6 +114,10 @@ class AbsenKaryawanController extends Controller
      */
     public function destroy(AbsenKaryawan $absenKaryawan)
     {
+        if (!Auth::user()->can('absen-karyawan-delete')) {
+            abort(403, 'Anda tidak memiliki hak akses untuk menghapus data absen karyawan');
+        }
+        
         $absenKaryawan->delete();
 
         return redirect()->back()->withSuccess('Data berhasil dihapus');

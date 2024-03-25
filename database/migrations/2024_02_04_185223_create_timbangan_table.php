@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -19,7 +18,7 @@ return new class extends Migration
             $table->time('waktu');
             $table->timestamps();
 
-            $table->foreign('laporan_id')->references('id')->on('laporan');
+            $table->foreign('laporan_id')->references('id')->on('laporan')->cascadeOnDelete();
         });
     }
 

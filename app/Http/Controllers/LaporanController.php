@@ -19,6 +19,10 @@ class LaporanController extends Controller
      */
     public function index(Request $request)
     {
+        if (!Auth::user()->can('laporan-list')) {
+            abort(403, 'Anda tidak memiliki hak akses untuk melihat laporan');
+        }
+
         $filter_bulan = $request->get('filter-bulan')
             ? $request->get('filter-bulan')
             : date('m');
@@ -37,6 +41,9 @@ class LaporanController extends Controller
      */
     public function create()
     {
+        if (!Auth::user()->can('laporan-create')) {
+            abort(403, 'Anda tidak memiliki hak akses untuk membuat laporan');
+        }
         $users = User::get();
 
         return view('laporan.create', compact('users'));
@@ -47,6 +54,10 @@ class LaporanController extends Controller
      */
     public function store(StoreLaporanRequest $request)
     {
+        if (!Auth::user()->can('laporan-create')) {
+            abort(403, 'Anda tidak memiliki hak akses untuk membuat laporan');
+        }
+
         $laporan = Laporan::create([
             'tanggal' => $request->tanggal,
             'petugas_id' => Auth::user()->id
@@ -69,6 +80,10 @@ class LaporanController extends Controller
      */
     public function show(Laporan $laporan)
     {
+        if (!Auth::user()->can('laporan-list')) {
+            abort(403, 'Anda tidak memiliki hak akses untuk melihat laporan');
+        }
+
         $users = User::get();
 
         $timbangans = Timbangan::getDataByLaporanId($laporan->id);
@@ -81,6 +96,9 @@ class LaporanController extends Controller
      */
     public function edit(Laporan $laporan)
     {
+        if (!Auth::user()->can('laporan-edit')) {
+            abort(403, 'Anda tidak memiliki hak akses untuk mengedit laporan');
+        }
         $timbangans = Timbangan::getDataByLaporanId($laporan->id);
         $users = User::get();
         return view('laporan.edit', compact('laporan', 'users', 'timbangans'));
@@ -99,6 +117,10 @@ class LaporanController extends Controller
      */
     public function destroy(Laporan $laporan)
     {
+        if (!Auth::user()->can('laporan-delete')) {
+            abort(403, 'Anda tidak memiliki hak akses untuk menghapus laporan');
+        }
+
         $laporan->delete();
         return redirect()->back()->withSuccess('Data berhasil dihapus');
     }
