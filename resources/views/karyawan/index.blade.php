@@ -32,7 +32,7 @@ $data_page = [
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table">
+                <table class="table" id="table-karyawan">
                     <thead>
                         <tr>
                             <th>Nama</th>
@@ -80,6 +80,15 @@ $data_page = [
 @endsection
 
 @section('js')
+<script type="module">
+    $('#table-karyawan').DataTable({
+        responsive: true,
+        columnDefs: [{
+            'targets' : 6,
+            'orderable':false
+        }]
+    });
+</script>
 <script>
     const myDropdown = document.getElementById('myDropdown');
 

@@ -51,13 +51,13 @@ function badgeStatusAbsen($status) {
               <div class="col-md-4">
                 <button type="submit" class="btn btn-primary">Select</button>
               </div>
-            </div>            
+            </div>
           </form>
         </div>
       </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table">
+                <table class="table" id="table-absen-karyawan">
                     <thead>
                         <tr>
                             <th>Tanggal</th>
@@ -130,8 +130,17 @@ function badgeStatusAbsen($status) {
 
 @section('js')
 <script type="module">
+    $('#table-absen-karyawan').DataTable({
+        responsive: true,
+        columnDefs: [{
+            'targets' : 6,
+            'orderable':false
+        }]
+    });
+</script>
+<script type="module">
   $(document).ready(function() {
-    
+
     $('.my-dropdown').on('show.bs.dropdown', function() {
       $('.table-responsive').css( "overflow", "inherit" );
     })
@@ -140,16 +149,16 @@ function badgeStatusAbsen($status) {
         $('.table-responsive').css( "overflow", "auto" );
     });
   });
-  
 
-    
+
+
 
     const modalDelete = document.getElementById('modal-delete');
     if (modalDelete) {
       modalDelete.addEventListener('show.bs.modal', event => {
 
         const button = event.relatedTarget;
-        
+
         const actionUrl = button.getAttribute('data-bs-action-url');
 
         // Update the modal's content.

@@ -21,7 +21,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-striped">
+                <table class="table table-striped" id="table-opsi-mandor">
                     <thead>
                     <tr>
                         <th>Nama</th>
@@ -59,4 +59,12 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script type="module">
+        $(document).ready(function () {
+            $('#table-opsi-mandor').DataTable();
+        });
+    </script>
 @endsection

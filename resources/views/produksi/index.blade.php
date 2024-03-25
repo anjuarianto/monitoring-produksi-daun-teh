@@ -13,7 +13,6 @@
 @endphp
 
 @section('content')
-
     @include('partials.success_message')
     <div class="card">
         <div class="card-header d-flex justify-content-between">
@@ -30,7 +29,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table" id="table-users">
+                <table class="table" id="table-produksi">
                     <thead>
                     <tr>
                         <th>Bulan</th>
@@ -79,7 +78,6 @@
                 </div>
             </div>
         </div>
-    </div>
     </div>
 @endsection
 

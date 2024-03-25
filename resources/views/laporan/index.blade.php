@@ -74,7 +74,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="table-laporan">
                     <thead>
                     <tr>
                         <th>Tanggal</th>
@@ -135,7 +135,7 @@
             </div>
         </div>
     </div>
-    </div>
+
 
     <div class="modal modal-blur fade" id="modal-delete" tabindex="-1" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
@@ -160,7 +160,6 @@
 
 @section('js')
     <script>
-
         const myDropdown = document.getElementById('myDropdown');
 
         myDropdown.addEventListener('show.bs.dropdown', event => {

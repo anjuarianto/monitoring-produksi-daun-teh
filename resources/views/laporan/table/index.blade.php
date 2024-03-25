@@ -14,18 +14,18 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <table class="table">
+            <table class="table" id="table-laporan">
                 <thead>
                 <tr>
                     <th>Tanggal</th>
-                    <th>Action</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($laporans as $laporan)
                     <tr>
                         <td>{{ General::setTanggaltoString(date('N', strtotime($laporan->tanggal))) . ',' . date('d-m-Y', strtotime($laporan->tanggal)) }}</td>
-                        <td>
+                        <td class="text-end">
                             <a href="{{ route('laporan-table.show', $laporan->id) }}"
                                class="btn btn-outline-github btn-sm">Detail</a>
                         </td>
@@ -35,4 +35,16 @@
             </table>
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script type="module">
+        $('#table-laporan').DataTable({
+            responsive: true,
+            columnDefs: [{
+                'targets' : 1,
+                'orderable':false
+            }]
+        });
+    </script>
 @endsection

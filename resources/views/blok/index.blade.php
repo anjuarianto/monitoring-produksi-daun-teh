@@ -25,7 +25,7 @@ $data_page = [
         <div>
           <h4 class="alert-title">Success!</h4>
           <div class="text-secondary">{{$message}}</div>
-        </div>    
+        </div>
       </div>
       <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
     </div>
@@ -34,7 +34,7 @@ $data_page = [
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table">
+                <table class="table" id="table-golongan">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -98,10 +98,19 @@ $data_page = [
 @endsection
 
 @section('js')
+<script type="module">
+    $('#table-golongan').DataTable({
+        responsive: true,
+        columnDefs: [{
+            'targets' : 2,
+            'orderable':false
+        }]
+    });
+</script>
 <script>
-    
+
     const myDropdown = document.getElementById('myDropdown');
-    
+
     myDropdown.addEventListener('show.bs.dropdown', event => {
         $('.table-responsive').css( "overflow", "inherit" );
     })
@@ -115,7 +124,7 @@ $data_page = [
       modalDelete.addEventListener('show.bs.modal', event => {
 
         const button = event.relatedTarget;
-        
+
         const actionUrl = button.getAttribute('data-bs-action-url');
 
         // Update the modal's content.

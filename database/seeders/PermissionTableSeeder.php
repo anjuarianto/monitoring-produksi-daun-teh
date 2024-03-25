@@ -21,10 +21,13 @@ class PermissionTableSeeder extends Seeder
             'blok-list', 'blok-create', 'blok-edit', 'blok-delete',
             'golongan-list', 'golongan-create', 'golongan-edit', 'golongan-delete',
             'karyawan-list', 'karyawan-create', 'karyawan-edit', 'karyawan-delete',
-            'laporan-list', 'laporan-create', 'laporan-edit', 'laporan-delete',
-            'absen-karyawan-list', 'absen-karyawan-create', 'absen-karyawan-edit', 'absen-karyawan-delete',
-            'daun-list', 'daun-edit',
+            'daun-list',
             'opsi-mandor-list', 'opsi-mandor-edit',
+            'timbangan-list', 'timbangan-create', 'timbangan-edit', 'timbangan-delete',
+            'produksi-list', 'produksi-create', 'produksi-edit', 'produksi-delete',
+            'laporan-list',
+            'absen-karyawan-list', 'absen-karyawan-create', 'absen-karyawan-edit', 'absen-karyawan-delete',
+            'hasil-produksi-list'
         ];
 
         foreach ($permissions as $permission) {
