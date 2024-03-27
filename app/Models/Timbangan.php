@@ -13,7 +13,7 @@ class Timbangan extends Model
 
     protected $table = 'timbangan';
 
-    protected $fillable = ['laporan_id', 'order', 'waktu'];
+    protected $fillable = ['laporan_id', 'order', 'waktu', 'timbangan_pabrik'];
 
     public function laporan()
     {

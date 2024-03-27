@@ -69,6 +69,9 @@
             <h3 class="m-0">Data Timbangan {{ $timbangan->order }} - {{ $tanggal_laporan }}</h3>
         </div>
         <div class="card-body">
+            <form action="{{ route('timbangan.update', $timbangan->id) }}" method="post">
+                @csrf
+                @method('PUT')
             <div class="row mb-3">
                 <div class="col-md-4">
                     <div class="mb-3">
@@ -94,9 +97,9 @@
                                placeholder="Jumlah timbangan pabrik...">
                     </div>
                 </div>
-
-
             </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
         </div>
     </div>
 
