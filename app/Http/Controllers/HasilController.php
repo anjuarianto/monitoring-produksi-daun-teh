@@ -35,12 +35,15 @@ class HasilController extends Controller
 
         $hasil = Hasil::create($request->except('karyawan_id'));
 
-        foreach ($request->karyawan_id as $karyawan_id) {
-            HasilHasKaryawan::create([
-                'hasil_id' => $hasil->id,
-                'user_id' => $karyawan_id
-            ]);
+        if($request->karyawan_id) {
+            foreach ($request->karyawan_id as $karyawan_id) {
+                HasilHasKaryawan::create([
+                    'hasil_id' => $hasil->id,
+                    'user_id' => $karyawan_id
+                ]);
+            }
         }
+
 
         return redirect()->back()->withSuccess('Data berhasil ditambah');
 

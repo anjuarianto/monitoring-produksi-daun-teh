@@ -3,6 +3,12 @@
 
 @section('css')
 <style>
+    body {
+        background-image: url('http://localhost/skripsi-debora/public/static/login-background.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+    }
     .btn-show-password {
         padding: 0;
         border: none;

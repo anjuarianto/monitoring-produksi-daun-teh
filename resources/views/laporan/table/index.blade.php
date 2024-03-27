@@ -37,14 +37,3 @@
     </div>
 @endsection
 
-@section('js')
-    <script type="module">
-        $('#table-laporan').DataTable({
-            responsive: true,
-            columnDefs: [{
-                'targets' : 1,
-                'orderable':false
-            }]
-        });
-    </script>
-@endsection

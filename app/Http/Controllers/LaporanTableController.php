@@ -17,7 +17,7 @@ class LaporanTableController extends Controller
             return abort(403, 'Anda tidak memiliki hak akses untuk melihat data laporan');
         }
 
-        $laporans = Laporan::get();
+        $laporans = Laporan::orderBy('tanggal', 'desc')->get();
         return view('laporan.table.index', compact('laporans'));
     }
 

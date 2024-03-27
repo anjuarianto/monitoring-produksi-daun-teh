@@ -57,6 +57,7 @@ class Laporan extends Model
             ])
             ->whereMonth('tanggal', $filter_bulan)
             ->whereYear('tanggal', $filter_tahun)
+            ->orderBy('tanggal', 'desc')
             ->get();
 
     }
@@ -65,6 +66,15 @@ class Laporan extends Model
     {
         return Hasil::where('laporan_id', $laporan_id)
             ->groupBy('blok_id')
+            ->where('luas_areal_pm', '>', 0)
+            ->where('luas_areal_pg', '>', 0)
+            ->where('luas_areal_os', '>', 0)
+            ->where('jumlah_kht_pm', '>', 0)
+            ->where('jumlah_kht_pg', '>', 0)
+            ->where('jumlah_kht_pm', '>', 0)
+            ->where('jumlah_khl_pm', '>', 0)
+            ->where('jumlah_khl_pg', '>', 0)
+            ->where('jumlah_khl_pm', '>', 0)
             ->get()
             ->map(function ($item) {
                 $hasil = Hasil::where('laporan_id', $item->laporan_id)->where('blok_id', $item->blok_id);
