@@ -56,7 +56,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/produksi', [ProduksiController::class, 'index'])->name('produksi.index');
     Route::get('/produksi-hasil', [\App\Http\Controllers\ProduksiHasilController::class, 'index'])->name('produksi-hasil.index');
-
     Route::get('/laporan/timbangan/{timbangan}', [TimbanganController::class, 'show'])->name('timbangan.view');
     Route::get('/laporan/timbangan/{timbangan}/edit', [TimbanganController::class, 'edit'])->name('timbangan.edit');
     Route::put('/laporan/timbangan/{timbangan}', [TimbanganController::class, 'update'])->name('timbangan.update');

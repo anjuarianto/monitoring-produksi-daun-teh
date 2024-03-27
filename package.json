@@ -24,6 +24,8 @@
         "datatables.net-dt": "^1.13.10",
         "jquery": "^3.7.1",
         "nice-select2": "^2.1.0",
+        "puppeteer": "^22.6.1",
+        "puppeteer-core": "^22.6.1",
         "select2": "^4.1.0-rc.0"
     }
 }

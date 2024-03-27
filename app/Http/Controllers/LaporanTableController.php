@@ -52,12 +52,26 @@ class LaporanTableController extends Controller
         $hasilBulanan = $dataLaporan['hasilBulanan'];
         $total_bulanan = $dataLaporan['total_bulanan'];
 
-        $pdf = \PDF::loadView('laporan.table.export', compact(
-            'hasils', 'timbangans', 'hasilTotal',
-            'laporan', 'hasilBulanan', 'total_bulanan'));
+        $view = view('laporan.table.export', compact(
+                'hasils', 'timbangans', 'hasilTotal',
+                'laporan', 'hasilBulanan', 'total_bulanan')
+        )->render();
+        $pdf = \Spatie\Browsershot\Browsershot::html($view)
+            ->userDataDir(storage_path('app/public'))
+            ->setNodeBinary('c:/Program Files/nodejs/node.exe')
+            ->setNpmBinary('c:/Program Files/nodejs/npm.cmd')
+            ->setChromePath('c:/Program Files/Google/Chrome/Application/chrome.exe')
+            ->margins(10, 10, 10, 10)
+            ->windowSize(1920, 1080)
+            ->paperSize(210, 297)
+            ->landscape()
+            ->savePdf('laporan.pdf');
 
-        return $pdf->stream('filename.pdf');
-        return $pdf->download();
+        $headers = array(
+            'Content-Type: application/pdf',
+        );
+
+        return response()->download('laporan.pdf', 'laporan-' . $laporan->tanggal . '.pdf', $headers);
     }
 
     public function _dataExport($id)
