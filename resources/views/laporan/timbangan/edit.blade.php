@@ -72,32 +72,32 @@
             <form action="{{ route('timbangan.update', $timbangan->id) }}" method="post">
                 @csrf
                 @method('PUT')
-            <div class="row mb-3">
-                <div class="col-md-4">
-                    <div class="mb-3">
-                        <label class="form-label">Tanggal Laporan</label>
-                        <input type="text" class="form-control" value="{{ $tanggal_laporan }}" disabled>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label">Tanggal Laporan</label>
+                            <input type="text" class="form-control" value="{{ $tanggal_laporan }}" disabled>
+                        </div>
                     </div>
-                </div>
 
 
-                <div class="col-md-4">
-                    <div class="mb-3">
-                        <label class="form-label">Kerani Timbang Lapangan</label>
-                        <input type="text" class="form-control"
-                               value="{{ $timbangan->laporan->kerani_timbang->name }}" disabled>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label">Kerani Timbang Lapangan</label>
+                            <input type="text" class="form-control"
+                                   value="{{ $timbangan->laporan->kerani_timbang->name }}" disabled>
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-md-4">
-                    <div class="mb-3">
-                        <label class="form-label">Timbangan Pabrik</label>
-                        <input type="text" class="form-control" name="timbangan_pabrik"
-                               value="{{ old('timbangan_pabrik', $timbangan->timbangan_pabrik) }}"
-                               placeholder="Jumlah timbangan pabrik...">
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label">Timbangan Pabrik</label>
+                            <input type="text" class="form-control" name="timbangan_pabrik"
+                                   value="{{ old('timbangan_pabrik', $timbangan->timbangan_pabrik) }}"
+                                   placeholder="Jumlah timbangan pabrik...">
+                        </div>
                     </div>
                 </div>
-            </div>
                 <button type="submit" class="btn btn-primary">Save</button>
             </form>
         </div>
@@ -552,7 +552,7 @@
 
             function callDataHasil(hasil_id) {
                 $.ajax({
-                    url: '/api/hasil/' + hasil_id,
+                    url: '{{ URL::to("/") }}/api/hasil/' + hasil_id,
                     type: 'GET',
                     dataType: 'json',
                     success: function (res) {

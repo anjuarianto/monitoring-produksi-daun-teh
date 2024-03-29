@@ -61,7 +61,7 @@
 
             function callDataDaun(mandor_id) {
                 $.ajax({
-                    url: '/api/daun/', // replace with your route
+                    url: '{{ URL::to("/") }}/api/daun/', // replace with your route
                     type: 'GET',
                     data: {
                         laporan_id: '{{request()->laporan_id}}',
@@ -69,7 +69,7 @@
                     },
                     dataType: 'json',
                     success: function (data) {
-            
+
                         // You can process your data here
                         $('#body-table').html(data.component.body)
                         $('#footer-table').html(data.component.footer)
