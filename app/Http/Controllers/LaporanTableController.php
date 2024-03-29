@@ -192,10 +192,12 @@ class LaporanTableController extends Controller
                     'bulan_ini_total_karyawan' => (int)$bulanan['total_karyawan_kht'] + (int)$bulanan['total_karyawan_khl'],
                     'bulan_ini_jumlah_timbangan_kht' => $bulanan['total_timbangan_kht'],
                     'bulan_ini_jumlah_timbangan_khl' => $bulanan['total_timbangan_khl'],
-                    'bulan_ini_total_timbangan' => $bulanan['total_timbangan_khl'] + $bulanan['total_timbangan_khl']
+                    'bulan_ini_total_timbangan' => $bulanan['total_timbangan_kht'] + $bulanan['total_timbangan_khl']
                 ];
                 array_push($hasils, $array_bulanan);
+
             }
+
         }
 
 
