@@ -127,8 +127,8 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div>
-                        <label class="form-label">Jenis Karyawan</label>
+                    <div class="mb-3">
+                        <label class="form-label">Jenis Pemanen</label>
                         <select name="jenis_pemanen" id="jenis-pemanen"
                                 class="form-control @error('jenis_pemanen') is-invalid @enderror"
                                 required>
