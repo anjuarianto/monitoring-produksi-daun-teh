@@ -113,18 +113,35 @@
                     @enderror
                 </div>
 
-                <div class="mb-3 d-none" id="section-jenis-karyawan">
-                    <label class="form-label">Jenis Karyawan</label>
-                    <select name="jenis_karyawan" id="jenis_karyawan"
-                            class="form-control @error('jenis_karyawan') is-invalid @enderror"
-                            required>
-                        <option value="" disabled selected>--Pilih Jenis Karyawan--</option>
-                        <option value="{{User::KARYAWAN_HARIAN_TETAP}}">{{User::KARYAWAN_HARIAN_TETAP}}</option>
-                        <option value="{{User::KARYAWAN_HARIAN_LEPAS}}">{{User::KARYAWAN_HARIAN_LEPAS}}</option>
-                    </select>
-                    @error('jenis_karyawan')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                <div class="d-none" id="section-jenis-karyawan">
+                    <div class="mb-3">
+                        <label class="form-label">Jenis Karyawan</label>
+                        <select name="jenis_karyawan" id="jenis_karyawan"
+                                class="form-control @error('jenis_karyawan') is-invalid @enderror"
+                                required>
+                            <option value="" disabled selected>--Pilih Jenis Karyawan--</option>
+                            <option value="{{User::KARYAWAN_HARIAN_TETAP}}">{{User::KARYAWAN_HARIAN_TETAP}}</option>
+                            <option value="{{User::KARYAWAN_HARIAN_LEPAS}}">{{User::KARYAWAN_HARIAN_LEPAS}}</option>
+                        </select>
+                        @error('jenis_karyawan')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div>
+                        <label class="form-label">Jenis Karyawan</label>
+                        <select name="jenis_pemanen" id="jenis-pemanen"
+                                class="form-control @error('jenis_pemanen') is-invalid @enderror"
+                                required>
+                            <option value="" disabled selected>--Pilih Jenis Pemanen--</option>
+                            <option value="PM">PM</option>
+                            <option value="PG">PG</option>
+                            <option value="OS">OS</option>
+                            <option value="OS">LT</option>
+                        </select>
+                        @error('jenis_pemanen')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
                 </div>
 
                 <div class="mb-3">

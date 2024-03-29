@@ -37,12 +37,13 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'golongan' => ['required'],
             'role' => ['required'],
             'tempat_lahir' => ['required'],
             'jenis_karyawan' => $request->role == 'Karyawan' ? ['required'] : [],
+            'jenis_pemanen' => $request->role == 'Karyawan' ? ['required'] : [],
             'tanggal' => ['required'],
             'bulan' => ['required'],
             'tahun' => ['required'],
@@ -50,15 +51,16 @@ class RegisteredUserController extends Controller
             'alamat' => ['required', 'max:255']
         ]);
 
-        
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'golongan_id' => $request->golongan,
+            'jenis_karyawan' => $request->role == 'Karyawan' ? $request->jenis_karyawan : null,
+            'jenis_pemanen' => $request->jenis_pemanen ? $request->jenis_pemanen : null,
             'tempat_lahir' => $request->tempat_lahir,
-            'tanggal_lahir' => $request->tahun.'-'.$request->bulan.'-'.$request->tanggal,
+            'tanggal_lahir' => $request->tahun . '-' . $request->bulan . '-' . $request->tanggal,
             'no_handphone' => $request->no_handphone,
             'alamat' => $request->alamat
         ]);
