@@ -18,13 +18,7 @@
     @vite([
         'resources/css/app.css',
         'resources/js/app.js',
-        'resources/tabler/dist/css/tabler.min.css',
-        'resources/tabler/dist/css/tabler-vendors.min.css',
-        'resources/tabler/dist/css/demo.min.css',
-        'resources/tabler/dist/js/tabler.min.js',
-        'resources/tabler/dist/js/demo.min.js',
-        'resources/tabler/dist/js/demo-theme.min.js'
-        ])
+    ])
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css"
           integrity="sha512-q3eWabyZPc1XTCmF+8/LuE1ozpg5xxn7iO89yfSOd5/oKvyqLngoNGsx8jq92Y8eXJ/IRxQbEC+FGSYxtk2oiw=="
