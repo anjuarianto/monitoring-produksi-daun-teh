@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 
 @php
@@ -30,30 +29,26 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @if (count($mandors) > 0)
-                        @foreach ($mandors as $mandor)
-                            <tr style="vertical-align: middle">
-                                <td>{{$mandor->name}}</td>
-                                <td>
-                                    <ol class="m-0">
-                                        @foreach($mandor->karyawan as $karyawan) <li>{{$karyawan->name}}</li> @endforeach
-                                    </ol>
+                    @foreach ($mandors as $mandor)
+                        <tr style="vertical-align: middle">
+                            <td>{{$mandor->name}}</td>
+                            <td>
+                                <ol class="m-0">
+                                    @foreach($mandor->karyawan as $karyawan)
+                                        <li>{{$karyawan->name}}</li>
+                                    @endforeach
+                                </ol>
 
-                                </td>
-                                <td class="text-end">
-                                    @can('opsi-mandor-edit')
-                                        <a class="btn btn-outline btn-sm" href="{{route('opsi-mandor.edit', $mandor->id)}}">
-                                            Edit Karyawan
-                                        </a>
-                                    @endcan
-                                </td>
-                            </tr>
-                        @endforeach
-                    @else
-                        <tr class="text-center">
-                            <td colspan="3"> Tidak ada data</td>
+                            </td>
+                            <td class="text-end">
+                                @can('opsi-mandor-edit')
+                                    <a class="btn btn-outline btn-sm" href="{{route('opsi-mandor.edit', $mandor->id)}}">
+                                        Edit Karyawan
+                                    </a>
+                                @endcan
+                            </td>
                         </tr>
-                    @endif
+                    @endforeach
                     </tbody>
                 </table>
             </div>

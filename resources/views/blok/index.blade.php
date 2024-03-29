@@ -1,138 +1,116 @@
-
 @extends('layouts.app')
 
 @php
-$data_page = [
-    'title' => 'Blok',
-    'sub_title' => 'Daftar Blok',
-    'create_button' => [
-        'is_enabled' => TRUE,
-        'caption' => 'Buat Blok',
-        'redirect' => route('blok.create')
-    ]
-];
+    $data_page = [
+        'title' => 'Blok',
+        'sub_title' => 'Daftar Blok',
+        'create_button' => [
+            'is_enabled' => TRUE,
+            'caption' => 'Buat Blok',
+            'redirect' => route('blok.create')
+        ]
+    ];
 @endphp
 
 @section('content')
-@if ($message = Session::get('success'))
-  <div class="alert alert-success" role="alert">
-    <div class="d-flex justify-content-between">
-      <div class="d-flex">
-        <div>
-          <!-- Download SVG icon from http://tabler-icons.io/i/check -->
-          <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M5 12l5 5l10 -10"></path></svg>
-        </div>
-        <div>
-          <h4 class="alert-title">Success!</h4>
-          <div class="text-secondary">{{$message}}</div>
-        </div>
-      </div>
-      <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
-    </div>
-  </div>
-@endif
+    @include('partials.success_message')
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table" id="table-golongan">
                     <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Luas Areal</th>
-                            <th></th>
-                        </tr>
+                    <tr>
+                        <th>Name</th>
+                        <th>Luas Areal</th>
+                        <th></th>
+                    </tr>
                     </thead>
                     <tbody>
-                        @if (count($bloks) > 0)
-                        @foreach ($bloks as $blok)
+                    @foreach ($bloks as $blok)
                         <tr>
                             <td>{{$blok->name}}</td>
                             <td>{{$blok->luas_areal}} Ha</td>
                             <td class="text-end">
                                 <div class="dropdown" id="myDropdown">
-                                    <button class="btn btn-sm dropdown-toggle align-text-top" data-bs-toggle="dropdown">
-                                      Actions
+                                    <button class="btn btn-sm dropdown-toggle align-text-top"
+                                            data-bs-toggle="dropdown">
+                                        Actions
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end">
-                                      <a class="dropdown-item" href="{{route('blok.edit', $blok->id)}}">
-                                        Edit
-                                      </a>
-                                      <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-delete" data-bs-action-url="{{route('blok.destroy', $blok->id)}}">
-                                        Delete
-                                      </button>
+                                        <a class="dropdown-item" href="{{route('blok.edit', $blok->id)}}">
+                                            Edit
+                                        </a>
+                                        <button class="dropdown-item" data-bs-toggle="modal"
+                                                data-bs-target="#modal-delete"
+                                                data-bs-action-url="{{route('blok.destroy', $blok->id)}}">
+                                            Delete
+                                        </button>
                                     </div>
-                                  </div>
+                                </div>
                             </td>
                         </tr>
-                        @endforeach
-                        @else
-                        <tr class="text-center">
-                          <td colspan="2"> Tidak ada data</td>
-                        </tr>
-                        @endif
+                    @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-</div>
 
-<div class="modal modal-blur fade" id="modal-delete" tabindex="-1" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-body">
-          <div class="modal-title">Delete Blok</div>
-          <div>Apakah anda yakin ingin menghapus data ini?</div>
+    <div class="modal modal-blur fade" id="modal-delete" tabindex="-1" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="modal-title">Delete Blok</div>
+                    <div>Apakah anda yakin ingin menghapus data ini?</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link link-secondary me-auto" data-bs-dismiss="modal">Kembali
+                    </button>
+                    <form method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Ya, Hapus data</button>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-link link-secondary me-auto" data-bs-dismiss="modal">Kembali</button>
-          <form method="POST">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Ya, Hapus data</button>
-          </form>
-        </div>
-      </div>
     </div>
-  </div>
 @endsection
 
 @section('js')
-<script type="module">
-    $('#table-golongan').DataTable({
-        responsive: true,
-        columnDefs: [{
-            'targets' : 2,
-            'orderable':false
-        }]
-    });
-</script>
-<script>
+    <script type="module">
+        $('#table-golongan').DataTable({
+            responsive: true,
+            columnDefs: [{
+                'targets': 2,
+                'orderable': false
+            }]
+        });
+    </script>
+    <script type="module">
 
-    const myDropdown = document.getElementById('myDropdown');
+        $('#myDropdown').on('show.bs.dropdown', function () {
+            $('.table-responsive').css("overflow", "inherit");
+        })
 
-    myDropdown.addEventListener('show.bs.dropdown', event => {
-        $('.table-responsive').css( "overflow", "inherit" );
-    })
+        $('#myDropdown').on('hide.bs.dropdown', function () {
+            $('.table-responsive').css("overflow", "auto");
+        })
 
-    myDropdown.addEventListener('hide.bs.dropdown', event => {
-        $('.table-responsive').css( "overflow", "auto" );
-    });
+        const modalDelete = document.getElementById('modal-delete');
+        if (modalDelete) {
+            modalDelete.addEventListener('show.bs.modal', event => {
 
-    const modalDelete = document.getElementById('modal-delete');
-    if (modalDelete) {
-      modalDelete.addEventListener('show.bs.modal', event => {
+                const button = event.relatedTarget;
 
-        const button = event.relatedTarget;
+                const actionUrl = button.getAttribute('data-bs-action-url');
 
-        const actionUrl = button.getAttribute('data-bs-action-url');
+                // Update the modal's content.
+                const modalForm = modalDelete.querySelector('form')
 
-        // Update the modal's content.
-        const modalForm = modalDelete.querySelector('form')
+                modalForm.action = actionUrl;
+            });
+        }
 
-        modalForm.action = actionUrl;
-      });
-    }
-
-</script>
+    </script>
 @endsection

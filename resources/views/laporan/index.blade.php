@@ -19,27 +19,7 @@
 @endphp
 
 @section('content')
-    @if ($message = Session::get('success'))
-        <div class="alert alert-success" role="alert">
-            <div class="d-flex justify-content-between">
-                <div class="d-flex">
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24"
-                             viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                             stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                            <path d="M5 12l5 5l10 -10"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <h4 class="alert-title">Success!</h4>
-                        <div class="text-secondary">{{ $message }}</div>
-                    </div>
-                </div>
-                <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
-            </div>
-        </div>
-    @endif
+    
     <div class="card">
         <div class="card-header justify-content-between align-items-center">
             <h3 class="m-0">Tabel Laporan - {{ General::setBulanToString($filter_bulan) }}, {{$filter_bulan}}
@@ -164,15 +144,14 @@
 @endsection
 
 @section('js')
-    <script>
-        const myDropdown = document.getElementById('myDropdown');
+    <script type="module">
 
-        myDropdown.addEventListener('show.bs.dropdown', event => {
-            $('.table-responsive').css("overflow", "inherit");
-        })
-
-        myDropdown.addEventListener('hide.bs.dropdown', event => {
+        $('#myDropdown').on('hide.bs.dropdown', event => {
             $('.table-responsive').css("overflow", "auto");
+        });
+
+        $('#myDropdown').on('show.bs.dropdown', event => {
+            $('.table-responsive').css("overflow", "inherit");
         });
 
         const modalDelete = document.getElementById('modal-delete');
