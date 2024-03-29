@@ -7,6 +7,7 @@ use App\Models\HasilHasKaryawan;
 use App\Models\Laporan;
 use App\Models\Timbangan;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class LaporanTableController extends Controller
@@ -55,7 +56,12 @@ class LaporanTableController extends Controller
         $view = view('laporan.table.export', compact(
                 'hasils', 'timbangans', 'hasilTotal',
                 'laporan', 'hasilBulanan', 'total_bulanan')
-        )->render();
+        );
+
+//        echo $view;
+//        die;
+
+
         $pdf = \Spatie\Browsershot\Browsershot::html($view)
             ->userDataDir(storage_path('app/public'))
             ->setNodeBinary('c:/Program Files/nodejs/node.exe')
@@ -65,13 +71,17 @@ class LaporanTableController extends Controller
             ->windowSize(1920, 1080)
             ->paperSize(210, 297)
             ->landscape()
-            ->savePdf('laporan.pdf');
+            ->waitUntilNetworkIdle()
+            ->savePdf('cuk.pdf');
 
         $headers = array(
-            'Content-Type: application/pdf',
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="cuk-' . $laporan->tanggal . '.pdf"',
         );
 
-        return response()->download('laporan.pdf', 'laporan-' . $laporan->tanggal . '.pdf', $headers);
+//        return new Response($pdf, 200, $headers);
+
+        return response()->download('cuk.pdf', 'laporan-' . $laporan->tanggal . '.pdf', $headers);
     }
 
     public function _dataExport($id)
