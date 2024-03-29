@@ -15,9 +15,11 @@ export default defineConfig({
                 'resources/tabler/dist/js/demo.min.js',
                 'resources/tabler/dist/js/tabler.min.js',
                 'resources/tabler/dist/js/demo-theme.min.js'
-                
             ],
             refresh: true,
         }),
     ],
+    server: {
+        https: true,
+    },
 });

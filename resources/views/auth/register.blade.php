@@ -144,9 +144,11 @@
                 <div class="mb-3">
                     <label class="form-label">Tempat Lahir</label>
                     <select name="tempat_lahir" id="tempat-lahir"
-                            class="form-control @error('tempat_lahir') is-invalid @enderror" required>
+                            class="form-control select2 @error('tempat_lahir') is-invalid @enderror" required>
                         <option value="" disabled selected>--Pilih Tempat Lahir--</option>
-                        <option value="Jakarta">Jakarta</option>
+                        @foreach(General::getListTempatLahir() as $item)
+                            <option value="{{ $item }}">{{ $item }}</option>
+                        @endforeach
                     </select>
                     @error('tempat_lahir')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -223,7 +225,7 @@
     <script type="module">
 
         $(document).ready(function () {
-            $('#list-tahun').select2();
+            $('#list-tahun, #tempat-lahir').select2();
 
             $('#button-show-password, #button-show-confirmation').on('click', function (element) {
                 var input = $(this).parent().prev();
