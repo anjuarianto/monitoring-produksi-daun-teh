@@ -13,7 +13,7 @@
     </td>
     <td colspan="6" class="fw-bold text-center">Kilogram Daun Basah</td>
     <td colspan="1" class="fw-bold" rowspan="2">Jumlah kg s/d hari ini</td>
-    <td rowspan="3" colspan=2" class="fw-bold" style="vertical-align: bottom">Mutu Daun</td>
+    <td rowspan="3" colspan="2" class="fw-bold" style="vertical-align: bottom">Mutu Daun</td>
     <td colspan="5" class="fw-bold text-center">TIMBANG KE:</td>
 </tr>
 <tr class="text-center fw-bold">
