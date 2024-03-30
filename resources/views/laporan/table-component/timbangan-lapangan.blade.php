@@ -1,11 +1,11 @@
 @php
     foreach($timbangans as $key => $timbangan) {
-        $total_timbangans[$key] = $timbangan->total_kht_pm +  $timbangan->total_kht_pg + $timbangan->total_kht_os +
-                    $timbangan->total_khl_pm + $timbangan->total_khl_pg + $timbangan->total_khl_os;
+        $total_timbangans[$key] = $timbangan->total_kht_pm +  $timbangan->total_kht_pg + $timbangan->total_kht_os + $timbangan->total_kht_lt +
+                    $timbangan->total_khl_pm + $timbangan->total_khl_pg + $timbangan->total_khl_os + $timbangan->total_khl_lt;
     }
 
-    $total_sum_timbangan = $timbangans->sum('total_kht_pm') +  $timbangans->sum('total_kht_pg') + $timbangans->sum('total_kht_os') +
-                $timbangans->sum('total_khl_pm') + $timbangans->sum('total_khl_pg') + $timbangans->sum('total_khl_os');
+    $total_sum_timbangan = $timbangans->sum('total_kht_pm') +  $timbangans->sum('total_kht_pg') + $timbangans->sum('total_kht_os') + $timbangans->sum('total_kht_lt') +
+                $timbangans->sum('total_khl_pm') + $timbangans->sum('total_khl_pg') + $timbangans->sum('total_khl_os') + $timbangans->sum('total_khl_lt');
 @endphp
 <tr>
     <td colspan="4" rowspan="3" class="fw-bold" style="vertical-align: bottom">
