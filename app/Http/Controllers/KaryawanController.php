@@ -20,13 +20,13 @@ class KaryawanController extends Controller
 
     public function show($user_id)
     {
-        if(!Auth::user()->can('karyawan-list')) {
+        if (!Auth::user()->can('karyawan-list')) {
             return abort(403);
         }
 
         $user = User::find($user_id);
 
-        if(!$user) {
+        if (!$user) {
             return abort(404);
         }
 
@@ -42,13 +42,13 @@ class KaryawanController extends Controller
      */
     public function edit($user_id)
     {
-        if(!Auth::user()->can('karyawan-list')) {
+        if (!Auth::user()->can('karyawan-list')) {
             return abort(403);
         }
 
         $user = User::find($user_id);
 
-        if(!$user) {
+        if (!$user) {
             return abort(404);
         }
 
@@ -82,6 +82,6 @@ class KaryawanController extends Controller
 
         $user->delete();
 
-        return redirect()->route('Data berhasil dihapus');
+        return redirect()->route('karyawan.index')->withSuccess('Data berhasil dihapus');
     }
 }

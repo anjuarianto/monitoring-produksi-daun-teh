@@ -87,13 +87,15 @@
             }]
         });
     </script>
-    <script type="module">
+    <script>
 
-        $('#myDropdown').on('show.bs.dropdown', function () {
+        const myDropdown = document.getElementById('myDropdown');
+
+        myDropdown.addEventListener('show.bs.dropdown', event => {
             $('.table-responsive').css("overflow", "inherit");
         })
 
-        $('#myDropdown').on('hide.bs.dropdown', function () {
+        myDropdown.addEventListener('hide.bs.dropdown', event => {
             $('.table-responsive').css("overflow", "auto");
         })
 

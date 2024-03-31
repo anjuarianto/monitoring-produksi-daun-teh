@@ -33,7 +33,7 @@ return new class extends Migration {
 
             $table->foreign('laporan_id')->references('id')->on('laporan')->cascadeOnDelete();
             $table->foreign('timbangan_id')->references('id')->on('timbangan')->cascadeOnDelete();
-            $table->foreign('blok_id')->references('id')->on('blok');
+            $table->foreign('blok_id')->references('id')->on('blok')->cascadeOnDelete();
             $table->foreign('mandor_id')->references('id')->on('users');
         });
     }

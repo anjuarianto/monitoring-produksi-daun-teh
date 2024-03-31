@@ -19,8 +19,4 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    base: '/public/',
-    server: {
-        https: true,
-    },
 });

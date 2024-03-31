@@ -69,6 +69,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/show/{karyawan}', [KaryawanController::class, 'show'])->name('show');
         Route::get('/edit/{karyawan}', [KaryawanController::class, 'edit'])->name('edit');
         Route::put('/update/{karyawan}', [KaryawanController::class, 'update'])->name('update');
+        Route::delete('{karyawan}', [KaryawanController::class, 'destroy'])->name('destroy');
     });
 
 

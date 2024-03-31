@@ -107,15 +107,32 @@
             }]
         });
     </script>
-    <script type="module">
+    <script>
 
-        $('#myDropdown').on('show.bs.dropdown', function () {
+        const myDropdown = document.getElementById('myDropdown');
+
+        myDropdown.addEventListener('show.bs.dropdown', event => {
             $('.table-responsive').css("overflow", "inherit");
-        });
+        })
 
-        $('#myDropdown').on('hide.bs.dropdown', function () {
+        myDropdown.addEventListener('hide.bs.dropdown', event => {
             $('.table-responsive').css("overflow", "auto");
-        });
+        })
+
+        const modalDelete = document.getElementById('modal-delete');
+        if (modalDelete) {
+            modalDelete.addEventListener('show.bs.modal', event => {
+
+                const button = event.relatedTarget;
+
+                const actionUrl = button.getAttribute('data-bs-action-url');
+
+                // Update the modal's content.
+                const modalForm = modalDelete.querySelector('form')
+
+                modalForm.action = actionUrl;
+            });
+        }
 
     </script>
 @endsection
