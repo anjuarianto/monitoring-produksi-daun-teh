@@ -31,7 +31,7 @@
 
         body {
             font-feature-settings: "cv03", "cv04", "cv11";
-            background-image: url('http://localhost/skripsi-debora/public/static/login-background.png');
+            background-image: url('{{ URL::to('/static/login-background.png') }}');
             background-repeat: no-repeat;
             background-size: cover;
             background-attachment: fixed;
