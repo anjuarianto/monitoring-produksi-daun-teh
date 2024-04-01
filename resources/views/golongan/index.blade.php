@@ -1,5 +1,3 @@
-@extends('layouts.app')
-
 @php
     $data_page = [
         'title' => 'Golongan',
@@ -11,6 +9,10 @@
         ]
     ];
 @endphp
+
+@extends('layouts.app')
+
+
 
 @section('content')
     @if ($message = Session::get('success'))
