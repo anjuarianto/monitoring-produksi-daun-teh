@@ -16,7 +16,7 @@
                     <input type="email" name="email" class="form-control" placeholder="Masukkan Email">
                 </div>
                 <div class="form-footer">
-                    <a href="#" class="btn btn-primary w-100">
+                    <button type="submit" class="btn btn-primary w-100">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
                              stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                              stroke-linejoin="round">
@@ -25,7 +25,7 @@
                             <path d="M3 7l9 6l9 -6"/>
                         </svg>
                         Kirim link reset password
-                    </a>
+                    </button>
                 </div>
             </div>
         </form>
