@@ -37,14 +37,18 @@
                                         Actions
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item" href="{{route('blok.edit', $blok->id)}}">
-                                            Edit
-                                        </a>
-                                        <button class="dropdown-item" data-bs-toggle="modal"
-                                                data-bs-target="#modal-delete"
-                                                data-bs-action-url="{{route('blok.destroy', $blok->id)}}">
-                                            Delete
-                                        </button>
+                                        @can('blok-edit')
+                                            <a class="dropdown-item" href="{{route('blok.edit', $blok->id)}}">
+                                                Edit
+                                            </a>
+                                        @endcan
+                                        @can('blok-delete')
+                                            <button class="dropdown-item" data-bs-toggle="modal"
+                                                    data-bs-target="#modal-delete"
+                                                    data-bs-action-url="{{route('blok.destroy', $blok->id)}}">
+                                                Delete
+                                            </button>
+                                        @endcan
                                     </div>
                                 </div>
                             </td>
