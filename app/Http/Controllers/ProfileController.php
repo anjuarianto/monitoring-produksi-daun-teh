@@ -18,7 +18,7 @@ class ProfileController extends Controller
     public function edit(Request $request): View
     {
         $golongans = Golongan::all();
-        
+
         return view('profile.edit', [
             'golongans' => $golongans,
             'user' => $request->user(),
@@ -28,15 +28,28 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(Request $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
-
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
 
-        $request->user()->save();
+        $request->user()->update([
+            'name' => $request->name,
+            'golongan_id' => $request->golongan_id,
+            'jenis_karyawan' => $request->jenis_karyawan,
+            'jenis_pemanen' => $request->jenis_pemanen,
+            'tempat_lahir' => $request->tempat_lahir,
+            'tanggal_lahir' => $request->tahun .'-'. $request->bulan .'-'. $request->tanggal,
+            'no_handphone' => $request->no_handphone,
+            'alamat' => $request->alamat
+        ]);
+
+        if ($request->hasFile('profile_picture')) {
+            $request->user()->update([
+                'profile_picture' => $request->file('profile_picture')->store('profile-pictures', 'public'),
+            ]);
+        }
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }

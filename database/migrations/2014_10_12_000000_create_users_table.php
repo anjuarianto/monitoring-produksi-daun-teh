@@ -26,6 +26,7 @@ return new class extends Migration {
             $table->date('tanggal_lahir');
             $table->string('no_handphone');
             $table->text('alamat');
+            $table->text('profile_picture')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
