@@ -35,7 +35,8 @@
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown"
                    aria-label="Open user menu" aria-expanded="false">
-                    <span class="avatar avatar-sm" style="background-image: url({{'/static/avatars/000m.jpg'}})"></span>
+                    <span class="avatar avatar-sm"
+                          style="background-image: url({{ Auth::user()->profile_picture ? asset('storage/' . Auth::user()->profile_picture) : 'https://w7.pngwing.com/pngs/141/425/png-transparent-user-profile-computer-icons-avatar-profile-s-free-angle-rectangle-profile-cliparts-free.png' }})"></span>
                     <div class="d-none d-xl-block ps-2">
                         <div>{{Auth::user()->name}}</div>
                         <div class="mt-1 small text-secondary">
