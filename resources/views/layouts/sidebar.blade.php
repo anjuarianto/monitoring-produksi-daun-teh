@@ -271,7 +271,7 @@
                     </li>
                 @endcan
 
-                @can('laporan-list')
+                @can('laporan-report-list')
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('laporan-table.index')}}">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">

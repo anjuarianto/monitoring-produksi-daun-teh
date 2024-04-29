@@ -14,7 +14,7 @@ class LaporanTableController extends Controller
 {
     public function index()
     {
-        if (!Auth::user()->can('laporan-list')) {
+        if (!Auth::user()->can('laporan-report-list')) {
             return abort(403, 'Anda tidak memiliki hak akses untuk melihat data laporan');
         }
 
@@ -24,7 +24,7 @@ class LaporanTableController extends Controller
 
     public function show($id)
     {
-        if (!Auth::user()->can('laporan-list')) {
+        if (!Auth::user()->can('laporan-report-list')) {
             return abort(403, 'Anda tidak memiliki hak akses untuk melihat data laporan');
         }
 
