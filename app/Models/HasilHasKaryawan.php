@@ -15,4 +15,9 @@ class HasilHasKaryawan extends Pivot
     protected $fillable = ['hasil_id', 'user_id'];
 
     public $timestamps = false;
+
+    public function hasil()
+    {
+        return $this->belongsTo(Hasil::class, 'hasil_id');
+    }
 }

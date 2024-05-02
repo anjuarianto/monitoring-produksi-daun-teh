@@ -8,6 +8,7 @@ use App\Models\Blok;
 use App\Models\Hasil;
 use App\Models\HasilHasKaryawan;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class TimbanganController extends Controller
 {
@@ -40,11 +41,15 @@ class TimbanganController extends Controller
      */
     public function show(Timbangan $timbangan)
     {
+        if (!Auth::user()->can('laporan-list')) {
+            abort(403, 'Anda tidak memiliki hak akses untuk melihat laporan');
+        }
+
         $hasils = Hasil::where('timbangan_id', $timbangan->id)->get();
         $bloks = Blok::get();
         $karyawans = User::role('karyawan')->get();
 
-        return view('laporan.timbangan.view', compact('timbangan', 'hasils', 'bloks', 'karyawans'));
+        return view('laporan.timbangan.show', compact('timbangan', 'hasils', 'bloks', 'karyawans'));
     }
 
     /**
@@ -52,12 +57,16 @@ class TimbanganController extends Controller
      */
     public function edit(Timbangan $timbangan)
     {
+        if (!Auth::user()->can('laporan-edit')) {
+            abort(403, 'Anda tidak memiliki hak akses untuk mengubah laporan');
+        }
+
         $karyawans = User::role('Karyawan')->get();
         $mandors = User::role('Mandor')->get();
         $bloks = Blok::get();
-        $hasils = Hasil::with('karyawan')->where('timbangan_id', $timbangan->id)->get();
+        $hasils = Hasil::with('karyawans', 'blok')->where('timbangan_id', $timbangan->id)->get();
 
-        return view('laporan.timbangan.edit', compact('timbangan', 'bloks', 'karyawans', 'hasils', 'mandors'));   
+        return view('laporan.timbangan.edit', compact('timbangan', 'bloks', 'karyawans', 'hasils', 'mandors'));
     }
 
     /**
@@ -65,38 +74,15 @@ class TimbanganController extends Controller
      */
     public function update(Request $request, Timbangan $timbangan)
     {
-        // Remove old record by timbangan id
-        Hasil::where('timbangan_id', $timbangan->id)->delete();
-        
-        // set blok
-        if(!$request->blok_id) {
-            return redirect()->back()->withErrors('Data tidak boleh kosong');
+        if (!Auth::user()->can('laporan-edit')) {
+            abort(403, 'Anda tidak memiliki hak akses untuk mengubah laporan');
         }
 
-        if(!$request->karyawan_id) {
-            return redirect()->back()->withErrors('Data karyawan tidak boleh kosong');
-        }
+        $timbangan->update([
+            'timbangan_pabrik' => $request->timbangan_pabrik,
+        ]);
 
-
-        foreach($request->blok_id as $key => $blok) {
-
-            $hasil = Hasil::create([
-                'timbangan_id' => $timbangan->id,
-                'blok_id' => $request->blok_id[$key],
-                'mandor_id' => $request->mandor_id[$key],
-                'jumlah' => $request->jumlah[$key],
-                'luas_areal' => $request->luas_areal[$key]
-            ]);
-
-            foreach ($request->karyawan_id[$key] as $key => $karyawan) {
-                HasilHasKaryawan::create([
-                    'hasil_id' => $hasil->id,
-                    'user_id' => $karyawan
-                ]);
-            }
-        }
-        
-        return redirect()->route('laporan.edit', $timbangan->laporan_id)->withSuccess('Data berhasil diubah');
+        return redirect()->route('timbangan.edit', $timbangan->id)->withSuccess('Data berhasil diubah');
 
     }
 

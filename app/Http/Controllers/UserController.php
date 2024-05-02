@@ -15,20 +15,19 @@ class UserController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['role:Admin']);
     }
 
     /**
      * Display a listing of the resource.
-    */
+     */
     public function index()
     {
-        if(!Auth::user()->can('user-list')) {
+        if (!Auth::user()->can('user-list')) {
             return abort(403);
         }
-        
+
         $users = User::with('golongan')->get();
-        
+
         return view('users.index', compact('users'));
     }
 
@@ -37,13 +36,15 @@ class UserController extends Controller
      */
     public function create()
     {
-        if(!Auth::user()->can('user-create')) {
+        if (!Auth::user()->can('user-create')) {
             return abort(403);
         }
 
         $golongans = Golongan::get();
         $roles = Role::get();
-        return view('users.create', compact('golongans', 'roles'));
+        $jenis_pemanens = User::jenis_pemanen();
+
+        return view('users.create', compact('golongans', 'roles', 'jenis_pemanens'));
     }
 
     /**
@@ -51,7 +52,7 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        if(!Auth::user()->can('user-create')) {
+        if (!Auth::user()->can('user-create')) {
             return abort(403);
         }
 
@@ -59,16 +60,16 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'jenis_karyawan' => $request->role == 'Karyawan' ? $request->jenis_karyawan : null,
+            'jenis_pemanen' => $request->jenis_pemanen ? $request->jenis_pemanen : null,
             'golongan_id' => $request->golongan,
             'tempat_lahir' => $request->tempat_lahir,
-            'tanggal_lahir' => $request->tahun.'-'.$request->bulan.'-'.$request->tanggal,
+            'tanggal_lahir' => $request->tahun . '-' . $request->bulan . '-' . $request->tanggal,
             'no_handphone' => $request->no_handphone,
             'alamat' => $request->alamat
         ]);
 
-        $role = Role::find($request->role);
-
-        $user->assignRole($role->name);
+        $user->assignRole([$request->role]);
 
         return redirect()->route('users.index')->withSuccess('Data berhasil ditambah');
     }
@@ -78,7 +79,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        if(!Auth::user()->can('user-list')) {
+        if (!Auth::user()->can('user-list')) {
             return abort(403);
         }
 
@@ -90,13 +91,15 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        if(!Auth::user()->can('user-edit')) {
+        if (!Auth::user()->can('user-edit')) {
             return abort(403);
         }
 
         $roles = Role::get();
         $golongans = Golongan::get();
-        return view('users.edit', compact('user', 'golongans', 'roles'));
+        $jenis_pemanens = User::jenis_pemanen();
+
+        return view('users.edit', compact('user', 'golongans', 'roles', 'jenis_pemanens'));
     }
 
     /**
@@ -104,25 +107,23 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        if(!Auth::user()->can('user-edit')) {
+        if (!Auth::user()->can('user-edit')) {
             return abort(403);
         }
-        
+
         $user->update([
             'name' => $request->name,
             'password' => Hash::make($request->password),
             'golongan' => $request->golongan,
             'tempat_lahir' => $request->tempat_lahir,
-            'tanggal_lahir' => $request->tahun.'-'.$request->bulan.'-'.$request->tanggal,
+            'tanggal_lahir' => $request->tahun . '-' . $request->bulan . '-' . $request->tanggal,
             'no_handphone' => $request->no_handphone,
             'alamat' => $request->alamat
         ]);
 
         $user->roles()->detach();
 
-        $role = Role::find($request->role);
-
-        $user->assignRole([$role->id]);
+        $user->assignRole([$request->role]);
 
         return redirect()->route('users.index')->withSuccess('Data berhasil diubah');
     }
@@ -132,7 +133,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        if(!Auth::user()->can('user-delete')) {
+        if (!Auth::user()->can('user-delete')) {
             return abort(403);
         }
 

@@ -13,27 +13,42 @@ class Timbangan extends Model
 
     protected $table = 'timbangan';
 
-    protected $fillable = ['laporan_id', 'order', 'waktu'];
+    protected $fillable = ['laporan_id', 'order', 'waktu', 'timbangan_pabrik'];
 
-    public function laporan() {
+    public function laporan()
+    {
         return $this->belongsTo(Laporan::class, 'laporan_id', 'id');
     }
 
-    public static function getDataTimbangan($laporan_id) {
-        
-
-        return DB::table((new self())->table.' as t')
-                        ->select(
-                            DB::raw("t.*, 
-                                    IF(SUM(h.jumlah) IS NULL, 0, SUM(h.jumlah)) AS total_timbangan, 
-                                    IF(SUM(h.luas_areal) IS NULL, 0, SUM(h.luas_areal)) AS total_luas,
-                                    COUNT(user_id) AS total_karyawan,
-                                    (SELECT COUNT(*) from hasil as hasil_select WHERE hasil_select.timbangan_id = t.id) as total_blok"
-                        ))
-                        ->leftJoin('hasil as h', 'h.timbangan_id', '=', 't.id')
-                        ->leftJoin('hasil_has_karyawan as hhk', 'h.id', '=', 'hhk.hasil_id')
-                        ->where('t.laporan_id', $laporan_id)
-                        ->groupBy('t.id')
-                        ->get();
+    public function hasil()
+    {
+        return $this->hasMany(Hasil::class, 'timbangan_id');
     }
+
+    public function karyawans()
+    {
+        return $this->hasManyThrough(HasilHasKaryawan::class, Hasil::class, 'timbangan_id', 'hasil_id');
+    }
+
+
+    public static function getDataByLaporanId($laporan_id)
+    {
+        return self::withSum('hasil as total_kht_pg', 'jumlah_kht_pg')
+            ->withSum('hasil as total_kht_pm', 'jumlah_kht_pm')
+            ->withSum('hasil as total_kht_os', 'jumlah_kht_os')
+            ->withSum('hasil as total_kht_lt', 'jumlah_kht_lt')
+            ->withSum('hasil as total_khl_pg', 'jumlah_khl_pg')
+            ->withSum('hasil as total_khl_pm', 'jumlah_khl_pm')
+            ->withSum('hasil as total_khl_os', 'jumlah_khl_os')
+            ->withSum('hasil as total_khl_lt', 'jumlah_khl_lt')
+            ->withSum('hasil as total_areal_pm', 'luas_areal_pm')
+            ->withSum('hasil as total_areal_pg', 'luas_areal_pg')
+            ->withSum('hasil as total_areal_os', 'luas_areal_os')
+            ->withSum('hasil as total_areal_lt', 'luas_areal_lt')
+            ->withCount(['karyawans as total_karyawan'])
+            ->withCount('hasil as total_blok')
+            ->where('laporan_id', $laporan_id)
+            ->get();
+    }
+
 }

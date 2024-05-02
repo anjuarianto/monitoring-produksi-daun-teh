@@ -14,7 +14,11 @@ class PermissionsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
+    {
+        if(!auth()->user()->can('permission-list')) {
+            abort(403);
+        }
+
         $permissions = Permission::all();
 
         return view('permissions.index', [
@@ -24,11 +28,15 @@ class PermissionsController extends Controller
 
     /**
      * Show form for creating permissions
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
-    public function create() 
-    {   
+    public function create()
+    {
+        if(!auth()->user()->can('permission-create')) {
+            abort(403);
+        }
+
         return view('permissions.create');
     }
 
@@ -39,14 +47,17 @@ class PermissionsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
+    {
+        if(!auth()->user()->can('permission-create')) {
+            abort(403);
+        }
 
         $request->validate([
             'name' => 'required|unique:permissions,name'
         ]);
 
         Permission::create($request->only('name'));
-        
+
         return redirect()->route('permissions.index')
             ->withSuccess(__('Permission created successfully.'));
     }
@@ -59,6 +70,10 @@ class PermissionsController extends Controller
      */
     public function edit(Permission $permission)
     {
+        if(!auth()->user()->can('permission-edit')) {
+            abort(403);
+        }
+
         return view('permissions.edit', [
             'permission' => $permission
         ]);
@@ -73,6 +88,10 @@ class PermissionsController extends Controller
      */
     public function update(Request $request, Permission $permission)
     {
+        if(!auth()->user()->can('permission-edit')) {
+            abort(403);
+        }
+
         $request->validate([
             'name' => 'required|unique:permissions,name,'.$permission->id
         ]);
@@ -91,6 +110,10 @@ class PermissionsController extends Controller
      */
     public function destroy(Permission $permission)
     {
+        if(!auth()->user()->can('permission-delete')) {
+            abort(403);
+        }
+
         $permission->delete();
 
         return redirect()->route('permissions.index')

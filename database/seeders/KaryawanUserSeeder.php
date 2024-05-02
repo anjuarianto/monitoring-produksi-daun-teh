@@ -28,22 +28,23 @@ class KaryawanUserSeeder extends Seeder
         $role = Role::where('name', 'Karyawan')->first();
 
         for ($i=0; $i < $this->jumlah; $i++) {
-
+            $jenis_pemanen = User::jenis_pemanen()[rand(0,2)];
             $jenis_karyawan = rand(1,2) % 2 == 0 ? User::KARYAWAN_HARIAN_TETAP : User::KARYAWAN_HARIAN_LEPAS;
 
             $user = User::create([
                 'name' => $faker->name(),
-                'email' => $faker->safeEmail(),
+                'email' => $faker->unique()->safeEmail(),
                 'email_verified_at' => date('Y-m-d H:i:s'),
                 'password' => Hash::make('password'),
                 'golongan_id' => Golongan::all()->random()->id,
                 'tempat_lahir' => 'Jakarta',
                 'jenis_karyawan' => $jenis_karyawan,
+                'jenis_pemanen' => $jenis_pemanen,
                 'tanggal_lahir' => '1996-10-12',
                 'no_handphone' => '081299126614',
                 'alamat' => 'Jakarta'
             ]);
-     
+
             $user->assignRole([$role->id]);
         }
     }

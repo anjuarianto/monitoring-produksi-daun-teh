@@ -27,10 +27,12 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'golongan_id',
         'jenis_karyawan',
+        'jenis_pemanen',
         'tempat_lahir',
         'tanggal_lahir',
         'no_handphone',
-        'alamat'
+        'alamat',
+        'profile_picture'
     ];
 
     /**
@@ -57,4 +59,20 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(Golongan::class, 'golongan_id', 'id');
     }
 
+    public function karyawan() {
+        return $this->belongsToMany(User::class, 'mandor_has_karyawan', 'mandor_id', 'karyawan_id');
+    }
+
+    public function mandor() {
+        return $this->belongsToMany(User::class, 'mandor_has_karyawan', 'karyawan_id', 'mandor_id');
+    }
+
+    public static function jenis_pemanen()
+    {
+        return [
+            'PM',
+            'PG',
+            'OS'
+        ];
+    }
 }

@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import {defineConfig} from 'vite';
 import laravel from 'laravel-vite-plugin';
 
 export default defineConfig({
@@ -15,7 +15,6 @@ export default defineConfig({
                 'resources/tabler/dist/js/demo.min.js',
                 'resources/tabler/dist/js/tabler.min.js',
                 'resources/tabler/dist/js/demo-theme.min.js'
-                
             ],
             refresh: true,
         }),

@@ -14,10 +14,11 @@
             <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
                     @if ($data_page['create_button']['is_enabled'])
-                    <a href="{{$data_page['create_button']['redirect']}}" class="btn btn-primary d-none d-sm-inline-block"><i class="fas fa-plus"></i>&nbsp;&nbsp;{{$data_page['create_button']['caption']}}
-                    </a>
+                        <a href="{{$data_page['create_button']['redirect']}}" class="btn btn-primary d-sm-inline-block"><i
+                                class="fas fa-plus"></i>&nbsp;&nbsp;{{$data_page['create_button']['caption']}}
+                        </a>
                     @endif
-                   
+
                 </div>
             </div>
         </div>

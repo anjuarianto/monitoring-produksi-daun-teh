@@ -31,11 +31,19 @@
         </div>
 
         <div class="mb-3">
+            <label class="form-label">Jenis Pemanen</label>
+            <select class="form-control" id="jenis-karyawan" disabled>
+                @foreach($jenis_pemanens as $jenis_pemanen)
+                    <option value="{{$jenis_pemanen}}" {{$user->jenis_pemanen == $jenis_pemanen ? 'selected' : ''}}>{{$jenis_pemanen}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="mb-3">
             <label class="form-label">Golongan</label>
             <select name="golongan" id="golongan" class="form-control" disabled>
                 @foreach($golongans as $golongan)
                     <option value="{{ $golongan->id }}"
-                        {{ $user->golongan == $golongan->id ?  'selected' : '' }}>
+                        {{ $user->golongan->id == $golongan->id ?  'selected' : '' }}>
                         {{ $golongan->name }}</option>
                 @endforeach
             </select>
@@ -56,9 +64,9 @@
                     <input type="text" value="{{date('d-m-Y', strtotime($user->tanggal_lahir))}}" class="form-control" disabled>
                 </div>
             </div>
-            
+
         </div>
-        
+
         <div class="mb-3">
             <label class="form-label">No. Handphone</label>
             <input type="text" name="no_handphone" id="no-handphone"

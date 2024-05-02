@@ -8,13 +8,18 @@ use Illuminate\Database\Seeder;
 
 class GolonganSeeder extends Seeder
 {
+
+    protected $count;
+
+    public function __construct($count = 10)
+    {
+        $this->count = $count;
+    }
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Golongan::create([
-            'name' => 'A-1'
-        ]);
+        \App\Models\Golongan::factory()->count($this->count)->create();
     }
 }

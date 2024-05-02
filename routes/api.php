@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\DaunController;
+use App\Http\Controllers\Api\HasilController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +19,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/daun', [DaunController::class, 'get'])->name('daun.data_daun_by_mandor');
+Route::get('/hasil/{hasil}', [HasilController::class, 'show'])->name('api.hasil.show');

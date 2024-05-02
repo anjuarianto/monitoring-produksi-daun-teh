@@ -9,7 +9,7 @@
         <div>
           <h4 class="alert-title">Success!</h4>
           <div class="text-secondary">{{$message}}</div>
-        </div>    
+        </div>
       </div>
       <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
     </div>

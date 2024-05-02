@@ -20,19 +20,20 @@ class KaryawanController extends Controller
 
     public function show($user_id)
     {
-        if(!Auth::user()->can('karyawan-list')) {
+        if (!Auth::user()->can('karyawan-list')) {
             return abort(403);
         }
 
         $user = User::find($user_id);
 
-        if(!$user) {
+        if (!$user) {
             return abort(404);
         }
 
         $golongans = Golongan::get();
+        $jenis_pemanens = User::jenis_pemanen();
 
-        return view('karyawan.show', compact('user', 'golongans'));
+        return view('karyawan.show', compact('user', 'golongans', 'jenis_pemanens'));
 
     }
 
@@ -41,19 +42,20 @@ class KaryawanController extends Controller
      */
     public function edit($user_id)
     {
-        if(!Auth::user()->can('karyawan-list')) {
+        if (!Auth::user()->can('karyawan-list')) {
             return abort(403);
         }
 
         $user = User::find($user_id);
 
-        if(!$user) {
+        if (!$user) {
             return abort(404);
         }
 
         $golongans = Golongan::get();
+        $jenis_pemanens = User::jenis_pemanen();
 
-        return view('karyawan.edit', compact('user', 'golongans'));
+        return view('karyawan.edit', compact('user', 'golongans', 'jenis_pemanens'));
     }
 
     /**
@@ -62,9 +64,10 @@ class KaryawanController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::find($id);
-        
+
         $user->update([
-            'jenis_karyawan' => $request->jenis_karyawan
+            'jenis_karyawan' => $request->jenis_karyawan,
+            'jenis_pemanen' => $request->jenis_pemanen
         ]);
 
         return redirect()->route('karyawan.index')->withSuccess('Data berhasil diubah');
@@ -79,6 +82,6 @@ class KaryawanController extends Controller
 
         $user->delete();
 
-        return redirect()->route('Data berhasil dihapus');
+        return redirect()->route('karyawan.index')->withSuccess('Data berhasil dihapus');
     }
 }

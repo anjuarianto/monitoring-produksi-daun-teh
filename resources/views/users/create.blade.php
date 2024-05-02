@@ -2,7 +2,7 @@
 
 @php
 use App\Models\General;
-
+use App\Models\User;
 
 
 $data_page = [
@@ -27,7 +27,7 @@ $data_page = [
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
-            
+
             <div class="mb-3">
                 <label class="form-label">Email</label>
                 <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{old('email')}}"
@@ -69,7 +69,7 @@ $data_page = [
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
-    
+
             </div>
             <div class="mb-3">
                 <label class="form-label">Role</label>
@@ -77,14 +77,39 @@ $data_page = [
                     required>
                     <option value="" disabled selected>--Pilih Golongan--</option>
                     @foreach ($roles as $role)
-                    <option value="{{$role->id}}" {{old('role') == $role->id ?  'selected' : ''}}>{{$role->name}}</option>
+                    <option value="{{$role->name}}" {{old('role') == $role->id ?  'selected' : ''}}>{{$role->name}}</option>
                     @endforeach
-                   
+
                 </select>
                 @error('golongan')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
+
+            <div class="d-none" id="section-jenis-karyawan">
+                <div class="mb-3">
+                    <label class="form-label">Jenis Karyawan</label>
+                    <select name="jenis_karyawan" id="jenis_karyawan" class="form-control @error('jenis_karyawan') is-invalid @enderror"
+                            required>
+                        <option value="" disabled selected>--Pilih Jenis Karyawan--</option>
+                        <option value="{{User::KARYAWAN_HARIAN_TETAP}}">{{User::KARYAWAN_HARIAN_TETAP}}</option>
+                        <option value="{{User::KARYAWAN_HARIAN_LEPAS}}">{{User::KARYAWAN_HARIAN_LEPAS}}</option>
+                    </select>
+                    @error('jenis_karyawan')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Jenis Pemanen</label>
+                    <select class="form-control" name="jenis_pemanen" id="jenis-karyawan">
+                        @foreach($jenis_pemanens as $jenis_pemanen)
+                            <option value="{{$jenis_pemanen}}">{{$jenis_pemanen}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
 
 
             <div class="mb-3">
@@ -95,7 +120,7 @@ $data_page = [
                     @foreach ($golongans as $golongan)
                     <option value="{{$golongan->id}}" {{old('golongan') == $golongan->id ?  'selected' : ''}}>{{$golongan->name}}</option>
                     @endforeach
-                   
+
                 </select>
                 @error('golongan')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -172,4 +197,23 @@ $data_page = [
         </form>
     </div>
 </div>
+@endsection
+
+@section('js')
+    <script type="module">
+        $(document).ready(function() {
+            function onChangeKaryawan() {
+                $('#role').val() == 'Karyawan'
+                    ? $('#section-jenis-karyawan').removeClass('d-none')
+                    : $('#section-jenis-karyawan').addClass('d-none');
+            }
+
+            onChangeKaryawan();
+
+            $('#role').on('change', function() {
+                onChangeKaryawan();
+
+            })
+        });
+    </script>
 @endsection

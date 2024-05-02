@@ -20,8 +20,8 @@
             @csrf
             @method('PUT')
         <div class="mb-3">
-            <label class="form-label">Nama</label>
-            <input type="text" name="name" class="form-control"
+            <label class="form-label" for="name">Nama</label>
+            <input type="text" name="name" id="name" class="form-control"
                 value="{{ old('name', $user->name) }}" placeholder="Masukkan nama..."
                 disabled>
         </div>
@@ -29,8 +29,17 @@
         <div class="mb-3">
             <label class="form-label">Jenis Karyawan</label>
             <select class="form-control" name="jenis_karyawan" id="jenis-karyawan">
-                <option value="{{User::KARYAWAN_HARIAN_TETAP}}" {{$user->jenis_karyawan == {{User::KARYAWAN_HARIAN_TETAP}} ? '' : ''}}>{{User::KARYAWAN_HARIAN_TETAP}}</option>
-                <option value="{{User::KARYAWAN_HARIAN_LEPAS}}" {{$user->jenis_karyawan == {{User::KARYAWAN_HARIAN_LEPAS}} ? '' : ''}}>{{User::KARYAWAN_HARIAN_LEPAS}}</option>
+                <option value="{{User::KARYAWAN_HARIAN_TETAP}}" {{$user->jenis_karyawan == User::KARYAWAN_HARIAN_TETAP ? '' : ''}}>{{User::KARYAWAN_HARIAN_TETAP}}</option>
+                <option value="{{User::KARYAWAN_HARIAN_LEPAS}}" {{$user->jenis_karyawan == User::KARYAWAN_HARIAN_LEPAS ? '' : ''}}>{{User::KARYAWAN_HARIAN_LEPAS}}</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Jenis Pemanen</label>
+            <select class="form-control" name="jenis_pemanen" id="jenis-karyawan">
+                @foreach($jenis_pemanens as $jenis_pemanen)
+                    <option value="{{$jenis_pemanen}}" {{$user->jenis_pemanen == $jenis_pemanen ? 'selected' : ''}}>{{$jenis_pemanen}}</option>
+                @endforeach
             </select>
         </div>
 
@@ -44,7 +53,7 @@
                 @endforeach
             </select>
         </div>
-        
+
         <div class="mb-3">
             <div class="row">
                 <div class="col-md-6">
@@ -61,9 +70,9 @@
                     <input type="text" value="{{date('d-m-Y', strtotime($user->tanggal_lahir))}}" class="form-control" disabled>
                 </div>
             </div>
-            
+
         </div>
-        
+
         <div class="mb-3">
             <label class="form-label">No. Handphone</label>
             <input type="text" name="no_handphone" id="no-handphone"

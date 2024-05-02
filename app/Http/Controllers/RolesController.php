@@ -20,14 +20,14 @@ class RolesController extends Controller
     {
 
     }
-    
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {   
+    {
         if(!auth()->user()->can('role-list')) {
             return abort(403);
         }
@@ -36,7 +36,7 @@ class RolesController extends Controller
         return view('roles.index',compact('roles'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
-    
+
     /**
      * Show the form for creating a new resource.
      *
@@ -51,7 +51,7 @@ class RolesController extends Controller
         $permissions = Permission::get();
         return view('roles.create', compact('permissions'));
     }
-    
+
     /**
      * Store a newly created resource in storage.
      *
@@ -68,10 +68,10 @@ class RolesController extends Controller
             'name' => 'required|unique:roles,name',
             'permission' => 'required',
         ]);
-    
+
         $role = Role::create(['name' => $request->get('name')]);
         $role->syncPermissions($request->get('permission'));
-    
+
         return redirect()->route('roles.index')
                         ->with('success','Data berhasil ditambah');
     }
@@ -90,10 +90,10 @@ class RolesController extends Controller
 
         $role = $role;
         $rolePermissions = $role->permissions;
-    
+
         return view('roles.show', compact('role', 'rolePermissions'));
     }
-    
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -109,10 +109,10 @@ class RolesController extends Controller
         $role = $role;
         $rolePermissions = $role->permissions->pluck('name')->toArray();
         $permissions = Permission::get();
-        
+
         return view('roles.edit', compact('role', 'rolePermissions', 'permissions'));
     }
-    
+
     /**
      * Update the specified resource in storage.
      *
@@ -130,11 +130,11 @@ class RolesController extends Controller
             'name' => 'required',
             'permission' => 'required',
         ]);
-        
+
         $role->update($request->only('name'));
-    
+
         $role->syncPermissions($request->get('permission'));
-    
+
         return redirect()->route('roles.index')
                         ->with('success','Data berhasil diubah');
     }
@@ -150,7 +150,7 @@ class RolesController extends Controller
         if(!auth()->user()->can('role-delete')) {
             return abort(403);
         }
-        
+
         $role->delete();
 
         return redirect()->route('roles.index')
